@@ -12,7 +12,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CANBusIDs;
 import frc.robot.Constants.SwerveDriveModuleConstants;
@@ -36,6 +38,14 @@ public class DriveSubsystem extends SubsystemBase
       new SwerveModule(new LazyTalonFX(CANBusIDs.k_RightFront_DriveMotor), new LazyTalonFX(CANBusIDs.k_RightFront_SteeringMotor), new CANCoder(CANBusIDs.rightFrontCANCoderId), Rotation2d.fromDegrees(SwerveDriveModuleConstants.rightFrontOffset)), // Right Front
       new SwerveModule(new LazyTalonFX(CANBusIDs.k_LeftRear_DriveMotor), new LazyTalonFX(CANBusIDs.k_LeftRear_SteeringMotor), new CANCoder(CANBusIDs.leftRearCANCoderId), Rotation2d.fromDegrees(SwerveDriveModuleConstants.leftRearOffset)), // Left Rear
       new SwerveModule(new LazyTalonFX(CANBusIDs.k_RightRear_DriveMotor), new LazyTalonFX(CANBusIDs.k_RightRear_SteeringMotor), new CANCoder(CANBusIDs.rightRearCANCoderId), Rotation2d.fromDegrees(SwerveDriveModuleConstants.rightRearOffset)), // Right Rear
+  };
+
+  private SwerveModulePosition[] swerveModulePosition = new SwerveModulePosition[]
+  {
+    new SwerveModulePosition(),
+    new SwerveModulePosition(),
+    new SwerveModulePosition(),
+    new SwerveModulePosition()
   };
    
  public DriveSubsystem(boolean calibrateGyro) 
@@ -82,10 +92,22 @@ public class DriveSubsystem extends SubsystemBase
   }
 
   private final SwerveDriveOdometry m_odometry = 
-      new SwerveDriveOdometry(SwerveDriveModuleConstants.kinematics, Rotation2d.fromDegrees(m_imu.getYaw()));
+      new SwerveDriveOdometry(SwerveDriveModuleConstants.kinematics, Rotation2d.fromDegrees(m_imu.getYaw()), swerveModulePosition);
 
   @Override
   public void periodic() 
   {
+    m_odometry.update(
+      Rotation2d.fromDegrees(m_imu.getYaw()),
+      new SwerveModulePosition[] {
+        modules[0].getPosition(),
+        modules[1].getPosition(),
+        modules[2].getPosition(),
+        modules[3].getPosition()
+      });
+      SmartDashboard.putString("Module 0", modules[0].getPosition().toString());
+      SmartDashboard.putString("Module 1", modules[1].getPosition().toString());
+      SmartDashboard.putString("Module 2", modules[2].getPosition().toString());
+      SmartDashboard.putString("Module 3", modules[3].getPosition().toString());
   }
 }

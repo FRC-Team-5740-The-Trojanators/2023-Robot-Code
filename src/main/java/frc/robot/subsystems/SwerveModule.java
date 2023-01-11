@@ -5,11 +5,11 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants.DriveModulePIDValues;
 import frc.robot.Constants.SteerModulePIDValues;
 import frc.robot.Constants.SwerveDriveModuleConstants;
-//import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 import lib.LazyTalonFX;
 
@@ -19,6 +19,7 @@ import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.CANCoderStatusFrame;
@@ -165,8 +166,8 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
         return m_moduleSteeringEncoder.getPosition();
     }
 
-    //public SwerveModulePosition getPosition() {
-        //return new SwerveModulePosition(m_driveEncoder.getDistance(), new Rotation2d(m_turningEncoder.getDistance()));
-    //}
-
+    public SwerveModulePosition getPosition() {
+        return new SwerveModulePosition(m_driveMotor.getSelectedSensorPosition() * Math.PI * SwerveDriveModuleConstants.k_wheelDiameter / (SwerveDriveModuleConstants.k_gearRatio * 2048), new Rotation2d(m_moduleSteeringEncoder.getPosition() * Math.PI / 180));
+    }
+    
 }
