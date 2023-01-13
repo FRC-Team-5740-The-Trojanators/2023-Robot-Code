@@ -8,6 +8,7 @@ import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -63,6 +64,15 @@ public class DriveSubsystem extends SubsystemBase
     m_imu.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_1_General, 20);
   }
 
+  public void setSwerveModuleStates(SwerveModuleState[] desiredStates) {
+    SwerveDriveKinematics.desaturateWheelSpeeds(
+        desiredStates, SwerveDriveModuleConstants.k_MaxTeleSpeed);
+        modules[0].setDesiredState(desiredStates[0]);
+        modules[1].setDesiredState(desiredStates[1]);
+        modules[2].setDesiredState(desiredStates[2]);
+        modules[3].setDesiredState(desiredStates[3]);
+  }
+
   public void teleDrive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) 
   {       
     m_states =
@@ -70,12 +80,8 @@ public class DriveSubsystem extends SubsystemBase
           fieldRelative
               ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, Rotation2d.fromDegrees(-m_imu.getYaw()))
               : new ChassisSpeeds(xSpeed, ySpeed, rot));
-      SwerveDriveKinematics.desaturateWheelSpeeds(m_states, SwerveDriveModuleConstants.k_MaxTeleSpeed);
-      for (int i = 0; i < 4; i++) 
-      {
-          SwerveModule module = modules[i];
-          module.setDesiredState(m_states[i]);
-      } 
+      //SwerveDriveKinematics.desaturateWheelSpeeds(m_states, SwerveDriveModuleConstants.k_MaxTeleSpeed);
+      setSwerveModuleStates(m_states);
   }
     
   public void resetEncoders()
@@ -94,6 +100,23 @@ public class DriveSubsystem extends SubsystemBase
   private final SwerveDriveOdometry m_odometry = 
       new SwerveDriveOdometry(SwerveDriveModuleConstants.kinematics, Rotation2d.fromDegrees(m_imu.getYaw()), swerveModulePosition);
 
+  public Pose2d getPose() {
+      SmartDashboard.putString("pose", m_odometry.getPoseMeters().toString());
+      return m_odometry.getPoseMeters();
+  }
+
+  public void resetOdometry(Pose2d pose) {
+    m_odometry.resetPosition(
+      Rotation2d.fromDegrees(m_imu.getYaw()),
+        new SwerveModulePosition[] {
+          modules[0].getPosition(),
+          modules[1].getPosition(),
+          modules[2].getPosition(),
+          modules[3].getPosition()
+        },
+        pose);
+  }
+
   @Override
   public void periodic() 
   {
@@ -105,9 +128,14 @@ public class DriveSubsystem extends SubsystemBase
         modules[2].getPosition(),
         modules[3].getPosition()
       });
-      SmartDashboard.putString("Module 0", modules[0].getPosition().toString());
-      SmartDashboard.putString("Module 1", modules[1].getPosition().toString());
-      SmartDashboard.putString("Module 2", modules[2].getPosition().toString());
-      SmartDashboard.putString("Module 3", modules[3].getPosition().toString());
+      SmartDashboard.putString("Position 0", modules[0].getPosition().toString());
+      SmartDashboard.putString("Position 1", modules[1].getPosition().toString());
+      SmartDashboard.putString("Position 2", modules[2].getPosition().toString());
+      SmartDashboard.putString("Position 3", modules[3].getPosition().toString());
+
+      SmartDashboard.putString("Vel 0", modules[0].getState().toString());
+      SmartDashboard.putString("Vel 1", modules[1].getState().toString());
+      SmartDashboard.putString("Vel 2", modules[2].getState().toString());
+      SmartDashboard.putString("Vel 3", modules[3].getState().toString());
   }
 }

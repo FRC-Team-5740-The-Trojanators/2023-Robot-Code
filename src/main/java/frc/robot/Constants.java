@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -71,7 +72,7 @@ public final class Constants
         /*TODO for all of these change when robot is characterized*/
         public static final double k_MaxTeleSpeed = Units.feetToMeters(16.3); //m/s checked :)
         public static final double k_MaxAutoSpeed = Units.feetToMeters(16.3); //m/s
-        public static final double k_MaxAcceleration = 10; //m/s/s 
+        public static final double k_MaxAcceleration = 1; //m/s/s 
         
         public static final double k_XYjoystickCoefficient = 1; //speed limiter
         public static final double k_MaxAngularSpeed = Units.feetToMeters(16.3) / k_RobotRadius; // 628; //rad/s TODO confirm
@@ -93,11 +94,17 @@ public final class Constants
     
         public static final SwerveDriveKinematics kinematics =
         new SwerveDriveKinematics(
-            new Translation2d(k_WheelBase / 2, -k_WheelBase / 2),    // Left Front
-            new Translation2d(k_WheelBase / 2, k_WheelBase / 2),   // Right Front
-            new Translation2d(-k_WheelBase / 2, -k_WheelBase / 2),   // Left Rear
-            new Translation2d(-k_WheelBase / 2, k_WheelBase / 2)); // Right Rear
-
+            new Translation2d(k_WheelBase / 2, k_WheelBase / 2),
+            new Translation2d(k_WheelBase / 2, -k_WheelBase / 2),   
+            new Translation2d(-k_WheelBase / 2, k_WheelBase / 2),   
+            new Translation2d(-k_WheelBase / 2, -k_WheelBase / 2)); 
+            
+            public static final double k_pThetaController = 1;
+            public static final double k_MaxAngularSpeedRadiansPerSecond = Math.PI;
+            public static final double k_MaxAngularSpeedRadiansPerSecondSquared = Math.PI;
+            public static final TrapezoidProfile.Constraints k_ThetaControllerConstraints =
+            new TrapezoidProfile.Constraints(
+                k_MaxAngularSpeedRadiansPerSecond, k_MaxAngularSpeedRadiansPerSecondSquared);
     }
 
     /**
@@ -127,11 +134,11 @@ public final class Constants
 
     public static class DriveModulePIDValues
     {
-        public static double k_driveP = 3.0;
-        public static double k_driveI = 0.0;
+        public static double k_driveP = 3;
+        public static double k_driveI = 0;
         public static double k_driveD = 0.0; 
-        public static double k_driveFF = 1 / Units.feetToMeters(10); 
-        public static final int k_ToleranceInTicks = 15; 
+        public static double k_driveFF = 1 / Units.feetToMeters(SwerveDriveModuleConstants.k_MaxTeleSpeed); 
+        public static final int k_ToleranceInTicks = 5; 
     }
     public static class SteerModulePIDValues
     {

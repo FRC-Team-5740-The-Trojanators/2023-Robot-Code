@@ -158,7 +158,7 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
     public double getDriveVelocity()
     {
-        return m_driveMotor.getMotorOutputPercent() * SwerveDriveModuleConstants.k_MaxTeleSpeed;
+        return (m_driveMotor.getSelectedSensorVelocity() * (10.0 / 2048) * Math.PI * SwerveDriveModuleConstants.k_wheelDiameter) / SwerveDriveModuleConstants.k_gearRatio;
     }
 
     public double getRotationDegrees()
