@@ -21,9 +21,12 @@ import frc.robot.Constants.HIDConstants;
 import frc.robot.Constants.SwerveDriveModuleConstants;
 import frc.robot.commands.DefaultTaxi;
 import frc.robot.commands.SwerveDriveCommand;
+import frc.robot.commands.TargetCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.VisionTargeting;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -34,10 +37,14 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveSubsystem m_driveSubsystem = new DriveSubsystem(false);
+  public final VisionTargeting m_visionTargeting = new VisionTargeting();
 
   XboxController m_driverController = new XboxController(HIDConstants.k_DriverControllerPort);
   private final DefaultTaxi m_autoDefault = new DefaultTaxi(m_driveSubsystem);
   private final SwerveDriveCommand m_driveCommand = new SwerveDriveCommand(m_driveSubsystem, m_driverController);
+  private final TargetCommand m_targetCommand = new TargetCommand(m_driveSubsystem, m_visionTargeting, 0);
+
+  public static JoystickButton coneTarget;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -54,7 +61,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() 
+  {
+    coneTarget = new JoystickButton(m_driverController , HIDConstants.kA);
+    coneTarget.whileTrue(m_targetCommand);
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

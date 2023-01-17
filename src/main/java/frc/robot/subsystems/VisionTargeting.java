@@ -11,46 +11,46 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class VisionTargeting extends SubsystemBase {
-  /** Creates a new VisionTargeting. */
-  public VisionTargeting() {}
+    private double m_tx;
+    private double m_tv;
+
+/** Creates a new VisionTargeting. */
+  public VisionTargeting() {
+
+  }
 
   @Override
   public void periodic() {
          //limelight code to be put onto shuffleboard
-NetworkTableEntry limelight = NetworkTableInstance.getDefault().getTable("").getEntry("limelight");
-NetworkTable table;
-NetworkTableEntry tx = table.getEntry("tx");
-NetworkTableEntry ty = table.getEntry("ty");
-NetworkTableEntry ta = table.getEntry("ta");
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    NetworkTableEntry tx = table.getEntry("tx");
+    NetworkTableEntry tv = table.getEntry("tv");
+   
+    //read values periodically
+    double x = tx.getDouble(0.0);
+    double v = tv.getDouble(0.0);
+ 
+    
+    //post to smart dashboard periodically
+    SmartDashboard.putNumber("LimelightX", x);
+    SmartDashboard.putNumber("LimelightV", v);
 
-//read values periodically
-double x = tx.getDouble(0.0);
-double y = ty.getDouble(0.0);
-double area = ta.getDouble(0.0);
-
-//post to smart dashboard periodically
-SmartDashboard.putNumber("Limelight Y", tx);
-SmartDashboard.putNumber("Limelight Y", ty);
-SmartDashboard.putNumber("LimelightArea", ta);
-
-m_ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
-m_txRad = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0) * (Math.PI/180);
 }
 
-public double getAimPID()
+/*public double getAimPID()
 {
 return m_aimPID.calculate(m_txRad, 0);
 }
+*/
 
-public double getLimelightTY()
+public double getLimelightTX()
 {
-return m_ty;
+return m_tx;
 }
 
 public boolean seesTarget() 
-{
-double seesTarget = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
-if (seesTarget == 1.0) 
+{;
+if (m_tv == 1.0) 
 {
 return true;
 } 
@@ -60,13 +60,16 @@ return false;
 }
 }
 
+public double getSkew() 
+{
+    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ts").getDouble(0);
+}
+
 public double getHeadingToTarget() 
 {
-double seesTarget = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
-if (seesTarget == 1.0) 
+if (seesTarget()) 
 {
-    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0)
-        + NetworkTableInstance.getDefault().getTable("limelight").getEntry("ts").getDouble(0);
+    return m_tx + getSkew();
 } 
 else 
 {
@@ -74,30 +77,11 @@ else
 }
 }
 
-public boolean aimEnd()
-{
-    return m_aimPID.atSetpoint();
-}
+//public boolean aimEnd()
+//{
+//    return m_aimPID.atSetpoint();
+//}
 
-public double getSkew() 
-{
-    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ts").getDouble(0);
-}
-
-public double getHeight()
-{
-    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
-}
-
-public double getX()
-{
-    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-}
-
-public double getY()
-{
-    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
-}
 
 public void ledOn()
 {
@@ -108,6 +92,5 @@ public void ledOff()
 {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
 }
-    // This method will be called once per scheduler run
-  }
+  
 }
