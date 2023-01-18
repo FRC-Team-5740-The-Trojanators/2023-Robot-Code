@@ -81,7 +81,7 @@ public class DriveSubsystem extends SubsystemBase
     m_states =
       SwerveDriveModuleConstants.kinematics.toSwerveModuleStates(
           fieldRelative
-              ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, Rotation2d.fromDegrees(-m_imu.getYaw()))
+              ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getHeading(false))
               : new ChassisSpeeds(xSpeed, ySpeed, rot));
       //SwerveDriveKinematics.desaturateWheelSpeeds(m_states, SwerveDriveModuleConstants.k_MaxTeleSpeed);
       setSwerveModuleStates(m_states);
@@ -101,16 +101,51 @@ public class DriveSubsystem extends SubsystemBase
   }
 
   private final SwerveDriveOdometry m_odometry = 
-      new SwerveDriveOdometry(SwerveDriveModuleConstants.kinematics, Rotation2d.fromDegrees(m_imu.getYaw()), swerveModulePosition);
+      new SwerveDriveOdometry(SwerveDriveModuleConstants.kinematics, getHeading(true), swerveModulePosition);
 
-  public Pose2d getPose() {
+  public Pose2d getPose() 
+  {
       SmartDashboard.putString("pose", m_odometry.getPoseMeters().toString());
       return m_odometry.getPoseMeters();
   }
 
-  public void resetOdometry(Pose2d pose) {
+  public Rotation2d getHeading(boolean positive)
+  { if(positive)
+    {
+      return Rotation2d.fromDegrees(m_imu.getYaw());
+    }
+    else
+    {
+      return Rotation2d.fromDegrees(-m_imu.getYaw());
+    }
+  }
+
+  public Rotation2d getPitch(boolean positive)
+  { if(positive)
+    {
+      return Rotation2d.fromDegrees(m_imu.getPitch());
+    }
+    else
+    {
+      return Rotation2d.fromDegrees(-m_imu.getPitch());
+    }
+  }
+
+  public Rotation2d getRoll(boolean positive)
+  { if(positive)
+    {
+      return Rotation2d.fromDegrees(m_imu.getRoll());
+    }
+    else
+    {
+      return Rotation2d.fromDegrees(-m_imu.getRoll());
+    }
+  }
+
+  public void resetOdometry(Pose2d pose) 
+  {
     m_odometry.resetPosition(
-      Rotation2d.fromDegrees(m_imu.getYaw()),
+      getHeading(true),
         new SwerveModulePosition[] {
           modules[0].getPosition(),
           modules[1].getPosition(),
@@ -124,13 +159,16 @@ public class DriveSubsystem extends SubsystemBase
   public void periodic() 
   {
     m_odometry.update(
-      Rotation2d.fromDegrees(m_imu.getYaw()),
-      new SwerveModulePosition[] {
+      getHeading(true),
+      new SwerveModulePosition[] 
+      {
         modules[0].getPosition(),
         modules[1].getPosition(),
         modules[2].getPosition(),
         modules[3].getPosition()
       });
+      SmartDashboard.putString("Pitch", getPitch(true).toString());
+      SmartDashboard.putString("Roll", getRoll(true).toString());
       SmartDashboard.putString("Position 0", modules[0].getPosition().toString());
       SmartDashboard.putString("Position 1", modules[1].getPosition().toString());
       SmartDashboard.putString("Position 2", modules[2].getPosition().toString());

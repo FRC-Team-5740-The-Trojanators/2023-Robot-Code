@@ -42,12 +42,13 @@ public class RobotContainer {
   XboxController m_driverController = new XboxController(HIDConstants.k_DriverControllerPort);
   private final DefaultTaxi m_autoDefault = new DefaultTaxi(m_driveSubsystem);
   private final SwerveDriveCommand m_driveCommand = new SwerveDriveCommand(m_driveSubsystem, m_driverController);
-  private final TargetCommand m_targetCommand = new TargetCommand(m_driveSubsystem, m_visionTargeting, 0);
+  //private final TargetCommand m_targetCommand = new TargetCommand(m_driveSubsystem, m_visionTargeting, 0);
 
-  public static JoystickButton coneTarget;
+  public static JoystickButton coneTarget, cubeTarget;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
+  public RobotContainer() 
+  {
     // Configure the button bindings
     configureButtonBindings();
 
@@ -64,7 +65,10 @@ public class RobotContainer {
   private void configureButtonBindings() 
   {
     coneTarget = new JoystickButton(m_driverController , HIDConstants.kA);
-    coneTarget.whileTrue(m_targetCommand);
+    cubeTarget = new JoystickButton(m_driverController , HIDConstants.kB);
+    coneTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 0));
+    cubeTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 1));
+    
   }
 
   /**
@@ -72,7 +76,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+  public Command getAutonomousCommand() 
+  {
     // Create config for trajectory
     TrajectoryConfig config =
         new TrajectoryConfig(

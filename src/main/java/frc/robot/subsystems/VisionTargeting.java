@@ -10,30 +10,33 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class VisionTargeting extends SubsystemBase {
+public class VisionTargeting extends SubsystemBase 
+{
     private double m_tx;
     private double m_tv;
 
 /** Creates a new VisionTargeting. */
-  public VisionTargeting() {
+  public VisionTargeting() 
+  {
 
   }
 
   @Override
-  public void periodic() {
+  public void periodic() 
+  {
          //limelight code to be put onto shuffleboard
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry tx = table.getEntry("tx");
     NetworkTableEntry tv = table.getEntry("tv");
    
     //read values periodically
-    double x = tx.getDouble(0.0);
-    double v = tv.getDouble(0.0);
+    m_tx = tx.getDouble(0.0);
+    m_tv = tv.getDouble(0.0);
  
     
     //post to smart dashboard periodically
-    SmartDashboard.putNumber("LimelightX", x);
-    SmartDashboard.putNumber("LimelightV", v);
+    SmartDashboard.putNumber("LimelightX", m_tx);
+    SmartDashboard.putNumber("LimelightV", m_tv);
 
 }
 
@@ -45,19 +48,20 @@ return m_aimPID.calculate(m_txRad, 0);
 
 public double getLimelightTX()
 {
-return m_tx;
+    return m_tx;
 }
 
 public boolean seesTarget() 
-{;
-if (m_tv == 1.0) 
 {
-return true;
-} 
-else 
-{
-return false;
-}
+    if (m_tv == 1.0) 
+    {
+        SmartDashboard.putNumber("sees target", m_tv);
+        return true;
+    } 
+    else 
+    {
+        return false;
+    }
 }
 
 public double getSkew() 
