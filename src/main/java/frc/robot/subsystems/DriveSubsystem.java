@@ -23,10 +23,10 @@ import frc.robot.Constants.SwerveDriveModuleConstants;
 import lib.LazyTalonFX;
 
 
-
 public class DriveSubsystem extends SubsystemBase
 {
   public PigeonIMU m_imu = new PigeonIMU(CANBusIDs.k_pigeonID);
+  DriveSubsystem m_drivetrain;
 
   private SwerveModuleState[] m_states = new SwerveModuleState[]
   {
@@ -179,6 +179,27 @@ public class DriveSubsystem extends SubsystemBase
       SmartDashboard.putString("Vel 2", modules[2].getState().toString());
       SmartDashboard.putString("Vel 3", modules[3].getState().toString());
   }
-
-
 }
+
+
+
+/*checkAngle()
+ * 
+ * 
+ * 
+ * if (pose2d.getDegrees() > 0.5){
+ *  m_drivetrain -= 1 <- (distance)
+ * }
+ *  
+ * 
+ * if (pose2d.getDegrees() < 0.5){
+ *  m_drivetrain += 1
+ * }
+ *  
+ * 
+ * else:{
+ * }
+ * 
+ * 
+ */
+

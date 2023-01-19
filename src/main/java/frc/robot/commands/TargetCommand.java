@@ -13,7 +13,7 @@ import frc.robot.subsystems.VisionTargeting;
 public class TargetCommand extends CommandBase 
 {
     /** Creates a new TargetCommand. */
-  DriveSubsystem m_drivetrain;
+  DriveSubsystem m_drivetrain;  
   boolean m_isFinished;
   int m_pipeline;
   VisionTargeting m_visionTargeting; 

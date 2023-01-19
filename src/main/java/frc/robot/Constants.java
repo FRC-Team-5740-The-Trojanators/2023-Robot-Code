@@ -84,6 +84,8 @@ public final class Constants
 
         public static final double k_steerFeedbackCoefficient = 0.087890625;
 
+        public static final double k_balanceDeadband = 1;
+
         //public static double fieldCalibration = 0;
 
         //Angle offsets

@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.HIDConstants;
 import frc.robot.Constants.SwerveDriveModuleConstants;
+import frc.robot.commands.Balance;
 import frc.robot.commands.DefaultTaxi;
 import frc.robot.commands.SwerveDriveCommand;
 import frc.robot.commands.TargetCommand;
@@ -38,13 +39,12 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveSubsystem m_driveSubsystem = new DriveSubsystem(false);
   public final VisionTargeting m_visionTargeting = new VisionTargeting();
-
   XboxController m_driverController = new XboxController(HIDConstants.k_DriverControllerPort);
+
   private final DefaultTaxi m_autoDefault = new DefaultTaxi(m_driveSubsystem);
   private final SwerveDriveCommand m_driveCommand = new SwerveDriveCommand(m_driveSubsystem, m_driverController);
-  //private final TargetCommand m_targetCommand = new TargetCommand(m_driveSubsystem, m_visionTargeting, 0);
 
-  public static JoystickButton coneTarget, cubeTarget;
+  public static JoystickButton coneTarget, cubeTarget,xBalance,yBalance;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() 
@@ -66,9 +66,12 @@ public class RobotContainer {
   {
     coneTarget = new JoystickButton(m_driverController , HIDConstants.kA);
     cubeTarget = new JoystickButton(m_driverController , HIDConstants.kB);
+    xBalance = new JoystickButton(m_driverController, HIDConstants.kX);
+    yBalance = new JoystickButton(m_driverController, HIDConstants.kY);
     coneTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 0));
     cubeTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 1));
-    
+    xBalance.whileTrue(new Balance(m_driveSubsystem, true));
+    yBalance.whileTrue(new Balance(m_driveSubsystem, false));
   }
 
   /**
