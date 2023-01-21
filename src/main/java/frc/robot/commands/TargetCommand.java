@@ -34,13 +34,17 @@ public class TargetCommand extends CommandBase
     //set correct camera pipeline
     if(m_pipeline == 0)
     {
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
+      NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
     }
     if(m_pipeline == 1)
     {
       NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
     }
-    SmartDashboard.putBoolean("Target Sees", false);
+   if(m_pipeline == 2)
+    {
+      NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(2);
+    }
+      SmartDashboard.putBoolean("Target Sees", false);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -52,12 +56,12 @@ public class TargetCommand extends CommandBase
       SmartDashboard.putBoolean("Target Sees",true);
       if(m_visionTargeting.getLimelightTX() < 0)
       {
-        m_drivetrain.teleDrive(0, 0, 1, true);
+        m_drivetrain.teleDrive(0, 0, -1, true);
       } 
       else
         if(m_visionTargeting.getLimelightTX() > 0)
         {
-          m_drivetrain.teleDrive(0, 0, -1, true);
+          m_drivetrain.teleDrive(0, 0, 1, true);
         } 
         else 
         {
@@ -77,7 +81,7 @@ public class TargetCommand extends CommandBase
   @Override
   public void end(boolean interrupted) 
   {
-    m_isFinished = true;
+    //m_isFinished = true;
   }
 
   // Returns true when the command should end.

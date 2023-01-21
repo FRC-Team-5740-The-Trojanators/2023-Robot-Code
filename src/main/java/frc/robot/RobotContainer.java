@@ -44,7 +44,7 @@ public class RobotContainer {
   private final DefaultTaxi m_autoDefault = new DefaultTaxi(m_driveSubsystem);
   private final SwerveDriveCommand m_driveCommand = new SwerveDriveCommand(m_driveSubsystem, m_driverController);
 
-  public static JoystickButton coneTarget, cubeTarget,xBalance,yBalance;
+  public static JoystickButton coneTarget, cubeTarget, xBalance, yBalance, aprilTag;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() 
@@ -68,8 +68,10 @@ public class RobotContainer {
     cubeTarget = new JoystickButton(m_driverController , HIDConstants.kB);
     xBalance = new JoystickButton(m_driverController, HIDConstants.kX);
     yBalance = new JoystickButton(m_driverController, HIDConstants.kY);
+    aprilTag = new JoystickButton(m_driverController , HIDConstants.kBack);
     coneTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 0));
     cubeTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 1));
+    aprilTag.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 2));
     xBalance.whileTrue(new Balance(m_driveSubsystem, true));
     yBalance.whileTrue(new Balance(m_driveSubsystem, false));
   }

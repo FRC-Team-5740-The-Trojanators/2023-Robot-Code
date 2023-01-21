@@ -96,10 +96,10 @@ public final class Constants
     
         public static final SwerveDriveKinematics kinematics =
         new SwerveDriveKinematics(
-            new Translation2d(k_WheelBase / 2, k_WheelBase / 2),
-            new Translation2d(k_WheelBase / 2, -k_WheelBase / 2),   
-            new Translation2d(-k_WheelBase / 2, k_WheelBase / 2),   
-            new Translation2d(-k_WheelBase / 2, -k_WheelBase / 2)); 
+            new Translation2d(k_WheelBase / 2, -k_WheelBase / 2),
+            new Translation2d(k_WheelBase / 2, k_WheelBase / 2),   
+            new Translation2d(-k_WheelBase / 2, -k_WheelBase / 2),   
+            new Translation2d(-k_WheelBase / 2, k_WheelBase / 2)); 
             
             public static final double k_pThetaController = 1;
             public static final double k_MaxAngularSpeedRadiansPerSecond = Math.PI;
