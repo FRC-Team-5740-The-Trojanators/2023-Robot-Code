@@ -71,7 +71,7 @@ public final class Constants
 
         /*TODO for all of these change when robot is characterized*/
         public static final double k_MaxTeleSpeed = Units.feetToMeters(16.3); //m/s checked :)
-        public static final double k_MaxAutoSpeed = Units.feetToMeters(16.3); //m/s
+        public static final double k_MaxAutoSpeed = Units.feetToMeters(7); //m/s
         public static final double k_MaxAcceleration = 1; //m/s/s 
         
         public static final double k_XYjoystickCoefficient = 1; //speed limiter
@@ -99,7 +99,11 @@ public final class Constants
             new Translation2d(k_WheelBase / 2, -k_WheelBase / 2),
             new Translation2d(k_WheelBase / 2, k_WheelBase / 2),   
             new Translation2d(-k_WheelBase / 2, -k_WheelBase / 2),   
-            new Translation2d(-k_WheelBase / 2, k_WheelBase / 2)); 
+            new Translation2d(-k_WheelBase / 2, k_WheelBase / 2));
+  //          new Translation2d(k_WheelBase / 2, k_WheelBase / 2),
+    //        new Translation2d(k_WheelBase / 2, -k_WheelBase / 2),   
+     //       new Translation2d(-k_WheelBase / 2, k_WheelBase / 2),   
+      //      new Translation2d(-k_WheelBase / 2, -k_WheelBase / 2)); 
             
             public static final double k_pThetaController = 1;
             public static final double k_MaxAngularSpeedRadiansPerSecond = Math.PI;

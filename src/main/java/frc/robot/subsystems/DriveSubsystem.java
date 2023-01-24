@@ -180,26 +180,3 @@ public class DriveSubsystem extends SubsystemBase
       SmartDashboard.putString("Vel 3", modules[3].getState().toString());
   }
 }
-
-
-
-/*checkAngle()
- * 
- * 
- * 
- * if (pose2d.getDegrees() > 0.5){
- *  m_drivetrain -= 1 <- (distance)
- * }
- *  
- * 
- * if (pose2d.getDegrees() < 0.5){
- *  m_drivetrain += 1
- * }
- *  
- * 
- * else:{
- * }
- * 
- * 
- */
-

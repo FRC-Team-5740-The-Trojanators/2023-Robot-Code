@@ -41,7 +41,7 @@ public class RobotContainer {
   public final VisionTargeting m_visionTargeting = new VisionTargeting();
   XboxController m_driverController = new XboxController(HIDConstants.k_DriverControllerPort);
 
-  private final DefaultTaxi m_autoDefault = new DefaultTaxi(m_driveSubsystem);
+  //private final DefaultTaxi m_autoDefault = new DefaultTaxi(m_driveSubsystem);
   private final SwerveDriveCommand m_driveCommand = new SwerveDriveCommand(m_driveSubsystem, m_driverController);
 
   public static JoystickButton coneTarget, cubeTarget, xBalance, yBalance, aprilTag;
@@ -99,7 +99,7 @@ public class RobotContainer {
             // Pass through these two interior waypoints, making an 's' curve path
             List.of(new Translation2d(1, 0), new Translation2d(1.5, 0)),
             // End 3 meters straight ahead of where we started, facing forward
-            new Pose2d(2, 0, new Rotation2d(0)),
+            new Pose2d(2.0, 0, new Rotation2d(0)),
             config);
 
     var thetaController =
@@ -114,8 +114,8 @@ public class RobotContainer {
             SwerveDriveModuleConstants.kinematics,
 
             // Position controllers
-            new PIDController(3, 0, 0),
-            new PIDController(3, 0, 0),
+            new PIDController(.01, 0, 0),
+            new PIDController(.01, 0, 0),
             thetaController,
             m_driveSubsystem::setSwerveModuleStates,
             m_driveSubsystem);
