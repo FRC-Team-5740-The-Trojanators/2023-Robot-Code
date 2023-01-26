@@ -134,7 +134,7 @@ public final class Constants
         public static final int rightRearCANCoderId = 12; 
         public static final int k_RightRear_SteeringMotor = 8; 
 
-        public static final int k_pigeonID = 13;
+        public static final int k_pigeon2ID = 0;
         
     }
 

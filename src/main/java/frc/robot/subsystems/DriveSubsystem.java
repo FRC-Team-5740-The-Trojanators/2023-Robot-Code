@@ -5,7 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.CANCoder;
-import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -25,7 +25,7 @@ import lib.LazyTalonFX;
 
 public class DriveSubsystem extends SubsystemBase
 {
-  public PigeonIMU m_imu = new PigeonIMU(CANBusIDs.k_pigeonID);
+  public Pigeon2 m_imu = new Pigeon2(CANBusIDs.k_pigeon2ID);
   DriveSubsystem m_drivetrain;
 
   private SwerveModuleState[] m_states = new SwerveModuleState[]
@@ -67,13 +67,22 @@ public class DriveSubsystem extends SubsystemBase
     m_imu.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_1_General, 20);
   }
 
-  public void setSwerveModuleStates(SwerveModuleState[] desiredStates) {
+  public void setSwerveModuleStatesTele(SwerveModuleState[] desiredStates) {
     SwerveDriveKinematics.desaturateWheelSpeeds(
         desiredStates, SwerveDriveModuleConstants.k_MaxTeleSpeed);
-        modules[0].setDesiredState(desiredStates[0]);
-        modules[1].setDesiredState(desiredStates[1]);
-        modules[2].setDesiredState(desiredStates[2]);
-        modules[3].setDesiredState(desiredStates[3]);
+        modules[0].setDesiredState(desiredStates[0], true);
+        modules[1].setDesiredState(desiredStates[1], true);
+        modules[2].setDesiredState(desiredStates[2], true);
+        modules[3].setDesiredState(desiredStates[3], true);
+  }
+
+  public void setSwerveModuleStatesAuto(SwerveModuleState[] desiredStates) {
+    SwerveDriveKinematics.desaturateWheelSpeeds(
+        desiredStates, SwerveDriveModuleConstants.k_MaxAutoSpeed);
+        modules[0].setDesiredState(desiredStates[0], false);
+        modules[1].setDesiredState(desiredStates[1], false);
+        modules[2].setDesiredState(desiredStates[2], false);
+        modules[3].setDesiredState(desiredStates[3], false);
   }
 
   public void teleDrive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) 
@@ -83,8 +92,7 @@ public class DriveSubsystem extends SubsystemBase
           fieldRelative
               ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getHeading(false))
               : new ChassisSpeeds(xSpeed, ySpeed, rot));
-      //SwerveDriveKinematics.desaturateWheelSpeeds(m_states, SwerveDriveModuleConstants.k_MaxTeleSpeed);
-      setSwerveModuleStates(m_states);
+      setSwerveModuleStatesTele(m_states);
   }
     
   public void resetEncoders()
@@ -173,7 +181,7 @@ public class DriveSubsystem extends SubsystemBase
       SmartDashboard.putString("Position 1", modules[1].getPosition().toString());
       SmartDashboard.putString("Position 2", modules[2].getPosition().toString());
       SmartDashboard.putString("Position 3", modules[3].getPosition().toString());
-
+      SmartDashboard.putNumber("encoder 3", modules[3].getDriveEncoder());
       SmartDashboard.putString("Vel 0", modules[0].getState().toString());
       SmartDashboard.putString("Vel 1", modules[1].getState().toString());
       SmartDashboard.putString("Vel 2", modules[2].getState().toString());

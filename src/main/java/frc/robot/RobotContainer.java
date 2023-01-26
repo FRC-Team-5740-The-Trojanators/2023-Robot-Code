@@ -45,6 +45,8 @@ public class RobotContainer {
   private final SwerveDriveCommand m_driveCommand = new SwerveDriveCommand(m_driveSubsystem, m_driverController);
 
   public static JoystickButton coneTarget, cubeTarget, xBalance, yBalance, aprilTag;
+  public static PIDController xController = new PIDController(8, 0, 0);
+  public static PIDController yController = new PIDController(8, 0, 0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() 
@@ -97,15 +99,18 @@ public class RobotContainer {
             // Start at the origin facing the +X direction
             new Pose2d(0, 0, new Rotation2d(0)),
             // Pass through these two interior waypoints, making an 's' curve path
-            List.of(new Translation2d(1, 0), new Translation2d(1.5, 0)),
+            List.of(new Translation2d(10, 0), new Translation2d(15, 0)),
             // End 3 meters straight ahead of where we started, facing forward
-            new Pose2d(2.0, 0, new Rotation2d(0)),
+            new Pose2d(20, 0, new Rotation2d(0)),
             config);
 
     var thetaController =
         new ProfiledPIDController(
           SwerveDriveModuleConstants.k_pThetaController, 0, 0, SwerveDriveModuleConstants.k_ThetaControllerConstraints);
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+    SmartDashboard.putData("xController", xController);
+    SmartDashboard.putData("yController", yController);
 
     SwerveControllerCommand swerveControllerCommand =
         new SwerveControllerCommand(
@@ -114,10 +119,10 @@ public class RobotContainer {
             SwerveDriveModuleConstants.kinematics,
 
             // Position controllers
-            new PIDController(.01, 0, 0),
-            new PIDController(.01, 0, 0),
+            xController,
+            yController,
             thetaController,
-            m_driveSubsystem::setSwerveModuleStates,
+            m_driveSubsystem::setSwerveModuleStatesAuto,
             m_driveSubsystem);
 
     // Reset odometry to the starting pose of the trajectory.

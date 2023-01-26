@@ -94,11 +94,19 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
         m_driveMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
     }
 
-    public void setDesiredState(SwerveModuleState desiredState)
+    public void setDesiredState(SwerveModuleState desiredState, boolean optimize)
     {      
        //Steering Motor Calc
+        SwerveModuleState state;
         Rotation2d currentRotation = getAngle();
-        SwerveModuleState state = SwerveModuleState.optimize(desiredState, currentRotation);
+        if(optimize)
+        {
+           state = SwerveModuleState.optimize(desiredState, currentRotation);
+        } 
+        else 
+        {
+            state = desiredState;
+        }
         Rotation2d rotationDelta = state.angle.minus(currentRotation); //takes our current rotatation and subtracts the last state rotation
        
         double deltaTicks = calculateDeltaTicks(rotationDelta);
@@ -163,6 +171,10 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
     public double getRotationDegrees()
     {
         return m_moduleSteeringEncoder.getPosition();
+    }
+
+    public double getDriveEncoder() {
+        return m_driveMotor.getSelectedSensorPosition();
     }
 
     public SwerveModulePosition getPosition() {
