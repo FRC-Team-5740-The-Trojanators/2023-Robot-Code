@@ -51,52 +51,70 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() 
+  {
+
+  }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() 
+  {
+
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
-  public void autonomousInit() {
+  public void autonomousInit() 
+  {
     //m_autonomousCommand = null ;
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
+    if (m_autonomousCommand != null) 
+    {
       m_autonomousCommand.schedule();
     }
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {
+  public void autonomousPeriodic() 
+  {
     SmartDashboard.putNumber("xControllerError", RobotContainer.xController.getPositionError());
     SmartDashboard.putNumber("yControllerError", RobotContainer.yController.getPositionError());
   }
 
   @Override
-  public void teleopInit() {
+  public void teleopInit() 
+  {
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
+    if (m_autonomousCommand != null) 
+    {
       m_autonomousCommand.cancel();
     }
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() 
+  {
+
+  }
 
   @Override
-  public void testInit() {
+  public void testInit() 
+  {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
   }
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() 
+  {
+    
+  }
 }

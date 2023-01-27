@@ -45,8 +45,8 @@ public class RobotContainer {
   private final SwerveDriveCommand m_driveCommand = new SwerveDriveCommand(m_driveSubsystem, m_driverController);
 
   public static JoystickButton coneTarget, cubeTarget, xBalance, yBalance, aprilTag;
-  public static PIDController xController = new PIDController(8, 0, 0);
-  public static PIDController yController = new PIDController(8, 0, 0);
+  public static PIDController xController = new PIDController(5, 0, 0);
+  public static PIDController yController = new PIDController(5, 0, 0);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() 
@@ -99,9 +99,9 @@ public class RobotContainer {
             // Start at the origin facing the +X direction
             new Pose2d(0, 0, new Rotation2d(0)),
             // Pass through these two interior waypoints, making an 's' curve path
-            List.of(new Translation2d(10, 0), new Translation2d(15, 0)),
+            List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
             // End 3 meters straight ahead of where we started, facing forward
-            new Pose2d(20, 0, new Rotation2d(0)),
+            new Pose2d(3, 0, new Rotation2d(0)),
             config);
 
     var thetaController =

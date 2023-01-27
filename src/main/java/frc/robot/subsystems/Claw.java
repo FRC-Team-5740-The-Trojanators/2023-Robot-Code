@@ -10,6 +10,7 @@ public class Claw extends SubsystemBase {
   /** Creates a new Claw. */
   public Claw() {}
 
+  // sparkmax w/ Neo550, distance sensor
   @Override
   public void periodic() { 
     

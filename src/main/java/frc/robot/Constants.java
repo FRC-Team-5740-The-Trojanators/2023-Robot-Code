@@ -135,7 +135,10 @@ public final class Constants
         public static final int k_RightRear_SteeringMotor = 8; 
 
         public static final int k_pigeon2ID = 0;
-        
+
+        public static final int k_masterShoulderMotorID = 13;
+        public static final int k_followerShoulderMotorID = 14;
+        public static final int k_wristMotorID = 15;
     }
 
     public static class DriveModulePIDValues
@@ -154,6 +157,12 @@ public final class Constants
 
         public static final double k_steerDeadband = 0.02; // Deadband on the motor controller
         public static final int k_ToleranceInDegrees = 1;
+    }
+    
+    public static class DigitalInputPort
+    {
+        public static final int k_shoulderEncoderPort = 0;
+        public static final int k_wristEncoderPort = 1;
     }
 } 
     
