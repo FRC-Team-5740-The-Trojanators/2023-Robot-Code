@@ -164,6 +164,25 @@ public final class Constants
         public static final int k_shoulderEncoderPort = 0;
         public static final int k_wristEncoderPort = 1;
     }
+
+    public static class MotorPIDValues
+    {
+        public static final double k_masterShoulderMotorP = 0; 
+        public static final double k_masterShoulderMotorI = 0; 
+        public static final double k_masterShoulderMotorD = 0; 
+        public static final double k_masterShoulderMotorFF = 0; 
+
+        public static final double k_followerShoulderMotorP = 0; 
+        public static final double k_followerShoulderMotorI = 0; 
+        public static final double k_followerShoulderMotorD = 0; 
+        public static final double k_followerShoulderMotorFF = 0; 
+
+        public static final double k_wristMotorP = 0; 
+        public static final double k_wristMotorI = 0; 
+        public static final double k_wristMotorD = 0; 
+        public static final double k_wristMotorFF = 0; 
+    }
+
 } 
     
     
