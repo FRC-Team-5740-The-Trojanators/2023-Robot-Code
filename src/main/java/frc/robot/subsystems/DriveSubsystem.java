@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
@@ -15,18 +16,18 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CANBusIDs;
 import frc.robot.Constants.SwerveDriveModuleConstants;
-import lib.LazyTalonFX;
 
 
 public class DriveSubsystem extends SubsystemBase
 {
-  public Pigeon2 m_imu = new Pigeon2(CANBusIDs.k_pigeon2ID);
+  public Pigeon2 m_imu = new Pigeon2(CANBusIDs.k_pigeon2ID, "CANivorous_Rex");
   DriveSubsystem m_drivetrain;
+  Field2d m_field2d = new Field2d();
 
   private SwerveModuleState[] m_states = new SwerveModuleState[]
   {
@@ -38,10 +39,10 @@ public class DriveSubsystem extends SubsystemBase
 
   public SwerveModule[] modules = new SwerveModule[]
   {
-      new SwerveModule(new LazyTalonFX(CANBusIDs.k_LeftFront_DriveMotor), new LazyTalonFX(CANBusIDs.k_LeftFront_SteeringMotor), new CANCoder(CANBusIDs.leftFrontCANCoderId), Rotation2d.fromDegrees(SwerveDriveModuleConstants.leftFrontOffset)), // Left Front
-      new SwerveModule(new LazyTalonFX(CANBusIDs.k_RightFront_DriveMotor), new LazyTalonFX(CANBusIDs.k_RightFront_SteeringMotor), new CANCoder(CANBusIDs.rightFrontCANCoderId), Rotation2d.fromDegrees(SwerveDriveModuleConstants.rightFrontOffset)), // Right Front
-      new SwerveModule(new LazyTalonFX(CANBusIDs.k_LeftRear_DriveMotor), new LazyTalonFX(CANBusIDs.k_LeftRear_SteeringMotor), new CANCoder(CANBusIDs.leftRearCANCoderId), Rotation2d.fromDegrees(SwerveDriveModuleConstants.leftRearOffset)), // Left Rear
-      new SwerveModule(new LazyTalonFX(CANBusIDs.k_RightRear_DriveMotor), new LazyTalonFX(CANBusIDs.k_RightRear_SteeringMotor), new CANCoder(CANBusIDs.rightRearCANCoderId), Rotation2d.fromDegrees(SwerveDriveModuleConstants.rightRearOffset)), // Right Rear
+      new SwerveModule(new TalonFX(CANBusIDs.k_LeftFront_DriveMotor,"CANivorous_Rex"), new TalonFX(CANBusIDs.k_LeftFront_SteeringMotor,"CANivorous_Rex"), new CANCoder(CANBusIDs.leftFrontCANCoderId, "CANivorous_Rex"), Rotation2d.fromDegrees(SwerveDriveModuleConstants.leftFrontOffset)), // Left Front
+      new SwerveModule(new TalonFX(CANBusIDs.k_RightFront_DriveMotor, "CANivorous_Rex"), new TalonFX(CANBusIDs.k_RightFront_SteeringMotor, "CANivorous_Rex"), new CANCoder(CANBusIDs.rightFrontCANCoderId, "CANivorous_Rex"), Rotation2d.fromDegrees(SwerveDriveModuleConstants.rightFrontOffset)), // Right Front
+      new SwerveModule(new TalonFX(CANBusIDs.k_LeftRear_DriveMotor, "CANivorous_Rex"), new TalonFX(CANBusIDs.k_LeftRear_SteeringMotor, "CANivorous_Rex"), new CANCoder(CANBusIDs.leftRearCANCoderId, "CANivorous_Rex"), Rotation2d.fromDegrees(SwerveDriveModuleConstants.leftRearOffset)), // Left Rear
+      new SwerveModule(new TalonFX(CANBusIDs.k_RightRear_DriveMotor, "CANivorous_Rex"), new TalonFX(CANBusIDs.k_RightRear_SteeringMotor, "CANivorous_Rex"), new CANCoder(CANBusIDs.rightRearCANCoderId, "CANivorous_Rex"), Rotation2d.fromDegrees(SwerveDriveModuleConstants.rightRearOffset)), // Right Rear
   };
 
   private SwerveModulePosition[] swerveModulePosition = new SwerveModulePosition[]
@@ -67,6 +68,14 @@ public class DriveSubsystem extends SubsystemBase
     m_imu.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_1_General, 20);
   }
 
+  public void setZeroState()
+  {
+    modules[0].setZeroState();
+    modules[1].setZeroState();
+    modules[2].setZeroState();
+    modules[3].setZeroState();
+  }
+    
   public void setSwerveModuleStatesTele(SwerveModuleState[] desiredStates) {
     SwerveDriveKinematics.desaturateWheelSpeeds(
         desiredStates, SwerveDriveModuleConstants.k_MaxTeleSpeed);
@@ -175,6 +184,7 @@ public class DriveSubsystem extends SubsystemBase
         modules[2].getPosition(),
         modules[3].getPosition()
       });
+      m_field2d.setRobotPose(getPose());
       SmartDashboard.putString("Pitch", getPitch(true).toString());
       SmartDashboard.putString("Roll", getRoll(true).toString());
       SmartDashboard.putString("Position 0", modules[0].getPosition().toString());
@@ -186,5 +196,6 @@ public class DriveSubsystem extends SubsystemBase
       SmartDashboard.putString("Vel 1", modules[1].getState().toString());
       SmartDashboard.putString("Vel 2", modules[2].getState().toString());
       SmartDashboard.putString("Vel 3", modules[3].getState().toString());
+      SmartDashboard.putData("field2d", m_field2d);
   }
 }

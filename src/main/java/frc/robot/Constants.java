@@ -105,7 +105,7 @@ public final class Constants
      //       new Translation2d(-k_WheelBase / 2, k_WheelBase / 2),   
       //      new Translation2d(-k_WheelBase / 2, -k_WheelBase / 2)); 
             
-            public static final double k_pThetaController = 1;
+            public static final double k_pThetaController = .5;
             public static final double k_MaxAngularSpeedRadiansPerSecond = Math.PI;
             public static final double k_MaxAngularSpeedRadiansPerSecondSquared = Math.PI;
             public static final TrapezoidProfile.Constraints k_ThetaControllerConstraints =

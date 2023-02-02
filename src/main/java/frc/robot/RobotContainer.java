@@ -23,6 +23,7 @@ import frc.robot.commands.Balance;
 import frc.robot.commands.DefaultTaxi;
 import frc.robot.commands.SwerveDriveCommand;
 import frc.robot.commands.TargetCommand;
+import frc.robot.commands.ZeroSwerveCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionTargeting;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -44,7 +45,7 @@ public class RobotContainer {
   //private final DefaultTaxi m_autoDefault = new DefaultTaxi(m_driveSubsystem);
   private final SwerveDriveCommand m_driveCommand = new SwerveDriveCommand(m_driveSubsystem, m_driverController);
 
-  public static JoystickButton coneTarget, cubeTarget, xBalance, yBalance, aprilTag;
+  public static JoystickButton coneTarget, cubeTarget, xBalance, yBalance, aprilTag, zeroDrive;
   public static PIDController xController = new PIDController(5, 0, 0);
   public static PIDController yController = new PIDController(5, 0, 0);
 
@@ -71,11 +72,13 @@ public class RobotContainer {
     xBalance = new JoystickButton(m_driverController, HIDConstants.kX);
     yBalance = new JoystickButton(m_driverController, HIDConstants.kY);
     aprilTag = new JoystickButton(m_driverController , HIDConstants.kBack);
+    zeroDrive = new JoystickButton(m_driverController, HIDConstants.kLB);
     coneTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 0));
     cubeTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 1));
     aprilTag.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 2));
     xBalance.whileTrue(new Balance(m_driveSubsystem, true));
     yBalance.whileTrue(new Balance(m_driveSubsystem, false));
+    zeroDrive.whileTrue(new ZeroSwerveCommand(m_driveSubsystem));
   }
 
   /**
@@ -85,6 +88,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() 
   {
+
+    //(here 1)
     // Create config for trajectory
     TrajectoryConfig config =
         new TrajectoryConfig(
@@ -99,9 +104,9 @@ public class RobotContainer {
             // Start at the origin facing the +X direction
             new Pose2d(0, 0, new Rotation2d(0)),
             // Pass through these two interior waypoints, making an 's' curve path
-            List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+            List.of(new Translation2d(0.5, 0), new Translation2d(1.5, 0)),
             // End 3 meters straight ahead of where we started, facing forward
-            new Pose2d(3, 0, new Rotation2d(0)),
+            new Pose2d(2,0, new Rotation2d(0)),
             config);
 
     var thetaController =
@@ -111,7 +116,7 @@ public class RobotContainer {
 
     SmartDashboard.putData("xController", xController);
     SmartDashboard.putData("yController", yController);
-
+    m_driveSubsystem.resetOdometry( new Pose2d(0, 0, new Rotation2d(0)));
     SwerveControllerCommand swerveControllerCommand =
         new SwerveControllerCommand(
             exampleTrajectory,

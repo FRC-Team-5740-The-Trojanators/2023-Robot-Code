@@ -15,7 +15,17 @@
     },
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/SmartDashboard/SendableChooser[0]": "String Chooser"
+      "/SmartDashboard/SendableChooser[0]": "String Chooser",
+      "/SmartDashboard/field2d": "Field2d",
+      "/SmartDashboard/xController": "PIDController",
+      "/SmartDashboard/yController": "PIDController"
+    },
+    "windows": {
+      "/SmartDashboard/field2d": {
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables Settings": {

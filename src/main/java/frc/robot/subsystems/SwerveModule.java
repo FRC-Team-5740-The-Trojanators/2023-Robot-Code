@@ -18,6 +18,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
@@ -28,8 +29,8 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
   public class SwerveModule
   { 
     
-    private LazyTalonFX m_driveMotor;
-    private LazyTalonFX m_angleMotor;
+    private TalonFX m_driveMotor;
+    private TalonFX m_angleMotor;
     private Rotation2d m_offset;
     private CANCoder m_moduleSteeringEncoder;
 
@@ -39,7 +40,7 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
      * @param driveMotorChannel ID for the drive motor.
      * @param steeringMotorChannel ID for the turning motor.
      */
-    public SwerveModule(LazyTalonFX driveMotor, LazyTalonFX angleMotor, CANCoder canCoder, Rotation2d offset)
+    public SwerveModule(TalonFX driveMotor, TalonFX angleMotor, CANCoder canCoder, Rotation2d offset)
     {
         m_driveMotor = driveMotor;
         m_angleMotor = angleMotor;
@@ -125,6 +126,10 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
         m_angleMotor.set(TalonFXControlMode.Position, filterAngleMotorDeadband(desiredTicks));
         
         m_driveMotor.set(TalonFXControlMode.PercentOutput, state.speedMetersPerSecond / SwerveDriveModuleConstants.k_MaxTeleSpeed);
+    }
+    public void setZeroState()
+    {
+        m_angleMotor.set(TalonFXControlMode.Position, 0);   
     }
 
     public Rotation2d getAngle()
