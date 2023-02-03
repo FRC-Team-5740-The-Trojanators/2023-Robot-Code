@@ -129,7 +129,14 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
     }
     public void setZeroState()
     {
-        m_angleMotor.set(TalonFXControlMode.Position, 0);   
+        SwerveModuleState state = new SwerveModuleState(0, new Rotation2d(0));
+        Rotation2d currentRotation = getAngle();
+        Rotation2d rotationDelta = state.angle.minus(currentRotation);
+        double deltaTicks = calculateDeltaTicks(rotationDelta);
+        double currentTicks = calculateCurrentTicks();
+        double desiredTicks = currentTicks + deltaTicks;
+        
+        m_angleMotor.set(TalonFXControlMode.Position, desiredTicks);   
     }
 
     public Rotation2d getAngle()
