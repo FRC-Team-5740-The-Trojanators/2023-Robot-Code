@@ -105,7 +105,7 @@ public final class Constants
      //       new Translation2d(-k_WheelBase / 2, k_WheelBase / 2),   
       //      new Translation2d(-k_WheelBase / 2, -k_WheelBase / 2)); 
             
-            public static final double k_pThetaController = .5;
+            public static final double k_pThetaController = 1;
             public static final double k_MaxAngularSpeedRadiansPerSecond = Math.PI;
             public static final double k_MaxAngularSpeedRadiansPerSecondSquared = Math.PI;
             public static final TrapezoidProfile.Constraints k_ThetaControllerConstraints =
@@ -139,6 +139,7 @@ public final class Constants
         public static final int k_masterShoulderMotorID = 13;
         public static final int k_followerShoulderMotorID = 14;
         public static final int k_wristMotorID = 15;
+        public static final int k_clawMotorID = 16;
     }
 
     public static class DriveModulePIDValues
@@ -181,6 +182,11 @@ public final class Constants
         public static final double k_wristMotorI = 0; 
         public static final double k_wristMotorD = 0; 
         public static final double k_wristMotorFF = 0; 
+
+        public static final double k_clawMotorP = 0; 
+        public static final double k_clawMotorI = 0; 
+        public static final double k_clawMotorD = 0; 
+        public static final double k_clawMotorFF = 0; 
     }
 
 } 

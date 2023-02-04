@@ -16,6 +16,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.HIDConstants;
 import frc.robot.Constants.SwerveDriveModuleConstants;
@@ -23,10 +24,12 @@ import frc.robot.commands.Balance;
 import frc.robot.commands.DefaultTaxi;
 import frc.robot.commands.SwerveDriveCommand;
 import frc.robot.commands.TargetCommand;
+import frc.robot.commands.TestAuto;
 import frc.robot.commands.ZeroSwerveCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionTargeting;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -43,10 +46,12 @@ public class RobotContainer {
   public final DriveSubsystem m_driveSubsystem = new DriveSubsystem(false);
   public final VisionTargeting m_visionTargeting = new VisionTargeting();
   XboxController m_driverController = new XboxController(HIDConstants.k_DriverControllerPort);
+  //TestAuto m_testAuto; 
+  
 
   //private final DefaultTaxi m_autoDefault = new DefaultTaxi(m_driveSubsystem);
   WaitCommand wait1second = new WaitCommand(1);
-  private final SequentialCommandGroup auto1 = new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem), wait1second);
+  private final TestAuto m_testAuto = new TestAuto(m_driveSubsystem);
   private final SwerveDriveCommand m_driveCommand = new SwerveDriveCommand(m_driveSubsystem, m_driverController);
 
   public static JoystickButton coneTarget, cubeTarget, xBalance, yBalance, aprilTag, zeroDrive;
@@ -56,12 +61,16 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() 
   {
-    // Configure the button bindings
     configureButtonBindings();
 
     m_driveSubsystem.setDefaultCommand(m_driveCommand);
     m_driveSubsystem.resetIMU();
+
+    SendableChooser<CommandBase> auto = new SendableChooser<CommandBase>();
+    //configChooser();
   }
+
+
 
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
@@ -92,6 +101,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() 
   {
-return null;
+    return m_testAuto; 
+    //return auto.getSelected();
   }
 }
+

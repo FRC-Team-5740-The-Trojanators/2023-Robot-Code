@@ -11,7 +11,8 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants.HIDConstants;
 import frc.robot.Constants.SwerveDriveModuleConstants;
 
-public class SwerveDriveCommand extends CommandBase {
+public class SwerveDriveCommand extends CommandBase 
+{
   /** Creates a new SwerveDriveCommand. */
     private final DriveSubsystem drivetrain;
     private final XboxController controller;
@@ -48,7 +49,10 @@ public class SwerveDriveCommand extends CommandBase {
   
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() 
+  {
+
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -71,18 +75,24 @@ public class SwerveDriveCommand extends CommandBase {
     if(controller.getRightTriggerAxis() >= 0.1)
     {
       drivetrain.teleDrive(xSpeed * (trigger), ySpeed * (trigger), rot * (trigger), true);
-    } else {
+    } 
+    else 
+    {
       drivetrain.teleDrive(xSpeed, ySpeed, rot, true);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) 
+  {
+
+  }
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
+  public boolean isFinished() 
+  {
     return false;
   }
 }
