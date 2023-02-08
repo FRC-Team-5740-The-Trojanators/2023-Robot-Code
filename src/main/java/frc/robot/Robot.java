@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.server.PathPlannerServer;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -31,7 +33,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    m_robotContainer.m_driveSubsystem.setZeroState();
+    PathPlannerServer.startServer(5811); // 5811 = port number. adjust this according to your needs
   }
 
   /**
@@ -42,7 +44,8 @@ public class Robot extends TimedRobot {
    * SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {
+  public void robotPeriodic() 
+  {
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
@@ -60,7 +63,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() 
   {
-    
+     //m_robotContainer.m_driveSubsystem.setZeroState();
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
@@ -81,8 +84,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() 
   {
-    SmartDashboard.putNumber("xControllerError", RobotContainer.xController.getPositionError());
-    SmartDashboard.putNumber("yControllerError", RobotContainer.yController.getPositionError());
+    
   }
 
   @Override

@@ -10,9 +10,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.Constants.DriveModulePIDValues;
 import frc.robot.Constants.SteerModulePIDValues;
 import frc.robot.Constants.SwerveDriveModuleConstants;
-
-import lib.LazyTalonFX;
-
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
