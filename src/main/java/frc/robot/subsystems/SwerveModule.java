@@ -71,7 +71,7 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
         m_angleMotor.configAllSettings(angleTalonConfig);
         m_angleMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
-        
+
         m_driveMotor.configFactoryDefault();
         m_driveMotor.setNeutralMode(NeutralMode.Brake);
 

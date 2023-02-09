@@ -94,18 +94,21 @@ public final class Constants
         public static double leftRearOffset = 239.06 - 180;
         public static double rightRearOffset = 103.01;
     
-        public static final SwerveDriveKinematics kinematics =
+        public static final SwerveDriveKinematics k_TeleKinematics =
         new SwerveDriveKinematics(
             new Translation2d(k_WheelBase / 2, -k_WheelBase / 2),
             new Translation2d(k_WheelBase / 2, k_WheelBase / 2),   
             new Translation2d(-k_WheelBase / 2, -k_WheelBase / 2),   
             new Translation2d(-k_WheelBase / 2, k_WheelBase / 2));
-  //          new Translation2d(k_WheelBase / 2, k_WheelBase / 2),
-    //        new Translation2d(k_WheelBase / 2, -k_WheelBase / 2),   
-     //       new Translation2d(-k_WheelBase / 2, k_WheelBase / 2),   
-      //      new Translation2d(-k_WheelBase / 2, -k_WheelBase / 2)); 
             
-            public static final double k_pThetaController = 1;
+        public static final SwerveDriveKinematics k_AutoKinematics =
+        new SwerveDriveKinematics(
+            new Translation2d(k_WheelBase / 2, k_WheelBase / 2),
+            new Translation2d(k_WheelBase / 2, -k_WheelBase / 2),   
+            new Translation2d(-k_WheelBase / 2, k_WheelBase / 2),   
+            new Translation2d(-k_WheelBase / 2, -k_WheelBase / 2)); 
+            
+            public static final double k_pThetaController = 0;
             public static final double k_pTransController = 1;
             public static final double k_MaxAngularSpeedRadiansPerSecond = Math.PI;
             public static final double k_MaxAngularSpeedRadiansPerSecondSquared = Math.PI;

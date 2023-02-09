@@ -74,11 +74,11 @@ public class SwerveDriveCommand extends CommandBase
 
     if(controller.getRightTriggerAxis() >= 0.1)
     {
-      drivetrain.teleDrive(xSpeed * (trigger), ySpeed * (trigger), rot * (trigger), true);
+      drivetrain.teleDrive(xSpeed * (trigger), ySpeed * (trigger), rot * (trigger), false);
     } 
     else 
     {
-      drivetrain.teleDrive(xSpeed, ySpeed, rot, true);
+      drivetrain.teleDrive(xSpeed, ySpeed, rot, false);
     }
   }
 

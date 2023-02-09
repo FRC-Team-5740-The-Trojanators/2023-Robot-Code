@@ -55,7 +55,7 @@ public class RobotContainer {
 
     m_driveSubsystem.setDefaultCommand(m_driveCommand);
     m_driveSubsystem.resetIMU();
-
+  
     //TODO: SendableChooser<CommandBase> auto = new SendableChooser<CommandBase>();
   
   }
@@ -93,7 +93,8 @@ public class RobotContainer {
   {
     // This will load the file "FullAuto.path" and generate it with a max velocity of 4 m/s and a max acceleration of 3 m/s^2
 // for every path in the group
-     List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("FullAuto", new PathConstraints(4, 3));
+     //List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("FullAuto", new PathConstraints(1, 1));
+     List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("Schwab", new PathConstraints(4, 3));
 
 // This is just an example event map. It would be better to have a constant, global event map
 // in your code that will be used by all path following commands.
@@ -105,7 +106,7 @@ public class RobotContainer {
     SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
       m_driveSubsystem::getPose, // Pose2d supplier
       m_driveSubsystem::resetOdometry, // Pose2d consumer, used to reset odometry at the beginning of auto
-      SwerveDriveModuleConstants.kinematics, // SwerveDriveKinematics
+      SwerveDriveModuleConstants.k_AutoKinematics, // SwerveDriveKinematics
       new PIDConstants(SwerveDriveModuleConstants.k_pTransController, 0.0, 0.0), // PID constants to correct for translation error (used to create the X and Y PID controllers)
       new PIDConstants(SwerveDriveModuleConstants.k_pThetaController, 0.0, 0.0), // PID constants to correct for rotation error (used to create the rotation controller)
       m_driveSubsystem::setSwerveModuleStatesAuto, // Module states consumer used to output to the drive subsystem
