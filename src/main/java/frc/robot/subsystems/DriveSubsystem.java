@@ -97,7 +97,7 @@ public class DriveSubsystem extends SubsystemBase
   public void teleDrive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) 
   {       
     m_states =
-      SwerveDriveModuleConstants.k_TeleKinematics.toSwerveModuleStates(
+      SwerveDriveModuleConstants.k_AutoKinematics.toSwerveModuleStates(
           fieldRelative
               ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getHeading(false))
               : new ChassisSpeeds(xSpeed, ySpeed, rot));

@@ -89,18 +89,18 @@ public final class Constants
         //public static double fieldCalibration = 0;
 
         //Angle offsets
-        public static double leftFrontOffset =  14.85;
-        public static double rightFrontOffset = 239.59;
-        public static double leftRearOffset = 239.06 - 180;
-        public static double rightRearOffset = 103.01;
+        public static double leftFrontOffset =  14.85 + 180;
+        public static double rightFrontOffset = 239.59 - 180;
+        public static double leftRearOffset = 239.06;
+        public static double rightRearOffset = 103.01 + 180;
     
-        public static final SwerveDriveKinematics k_TeleKinematics =
+        /*public static final SwerveDriveKinematics k_TeleKinematics =
         new SwerveDriveKinematics(
             new Translation2d(k_WheelBase / 2, -k_WheelBase / 2),
             new Translation2d(k_WheelBase / 2, k_WheelBase / 2),   
             new Translation2d(-k_WheelBase / 2, -k_WheelBase / 2),   
             new Translation2d(-k_WheelBase / 2, k_WheelBase / 2));
-            
+            */
         public static final SwerveDriveKinematics k_AutoKinematics =
         new SwerveDriveKinematics(
             new Translation2d(k_WheelBase / 2, k_WheelBase / 2),

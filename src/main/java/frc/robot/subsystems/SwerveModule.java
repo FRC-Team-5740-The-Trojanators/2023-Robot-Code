@@ -17,6 +17,7 @@ import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.CANCoderStatusFrame;
@@ -47,9 +48,10 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
         CANCoderConfiguration canCoderConfiguration = new CANCoderConfiguration();
         canCoderConfiguration.magnetOffsetDegrees = m_offset.getDegrees();
         canCoderConfiguration.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
-        canCoderConfiguration.sensorDirection = true;
+        canCoderConfiguration.sensorDirection = false;
+        canCoderConfiguration.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
         canCoder.configAllSettings(canCoderConfiguration);
-        canCoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 10);
+        canCoder.setStatusFramePeriod(CANCoderStatusFrame.SensorData, 5);
 
         m_angleMotor.configFactoryDefault();
         m_angleMotor.setNeutralMode(NeutralMode.Brake);
@@ -71,6 +73,8 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
         m_angleMotor.configAllSettings(angleTalonConfig);
         m_angleMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
+        m_angleMotor.setSensorPhase(true);
+        m_angleMotor.setInverted(true);
 
         m_driveMotor.configFactoryDefault();
         m_driveMotor.setNeutralMode(NeutralMode.Brake);
@@ -90,6 +94,7 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
         driveTalonConfig.supplyCurrLimit.currentLimit = 35;
         m_driveMotor.configAllSettings(driveTalonConfig);
         m_driveMotor.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 20);
+        m_driveMotor.setInverted(true);
     }
 
     public void setDesiredState(SwerveModuleState desiredState, boolean optimize)
