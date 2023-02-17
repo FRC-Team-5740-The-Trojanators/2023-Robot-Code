@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.pathplanner.lib.server.PathPlannerServer;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -63,7 +64,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() 
   {
-     //m_robotContainer.m_driveSubsystem.setZeroState();
+    
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
@@ -94,12 +95,11 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    
+
     if (m_autonomousCommand != null) 
     {
       m_autonomousCommand.cancel();
     }
-    
   }
 
   /** This function is called periodically during operator control. */
