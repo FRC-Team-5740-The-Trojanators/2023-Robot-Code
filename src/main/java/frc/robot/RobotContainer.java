@@ -29,6 +29,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionTargeting;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -93,8 +94,10 @@ public class RobotContainer {
     // auto.addOption("Position 2", m_position2Sequential);
     // auto.addOption("Position 3", m_position3Sequential);
     // auto.addOption("Position 4", m_position4Sequential);
-    auto.addOption("Full Auto", autoBuilder.fullAuto( PathPlanner.loadPathGroup("FullAuto", new PathConstraints(4, 3))));
-    auto.addOption("Schwab", autoBuilder.fullAuto( PathPlanner.loadPathGroup("Schwab", new PathConstraints(4, 3))));
+    auto.addOption("Position1Cone2Chrg", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part1", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part2Cone", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part3ConeBalance", new PathConstraints(4, 3))) ));
+    auto.addOption("Position1Cube2Chrg", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part1", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part2Cube", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part3CubeBalance", new PathConstraints(4, 3))) ));
+    auto.addOption("Position1Cone2PckUp", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part1", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part2Cone", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part3ConePickup2", new PathConstraints(4, 3))) ));
+    auto.addOption("Position1Cube2PckUp", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part1", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part2Cube", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part3CubePickup2", new PathConstraints(4, 3))) ));
    // auto.addOption("2 Ball R", m_twoBallSeq);
     //auto.addOption("2 Ball L", m_twoBallLeftSeq);
 
