@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import frc.robot.commands.SetColor.LEDColor;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -52,6 +53,7 @@ public final class Constants
         public static final int kDR = 90;
         public static final int kDD = 180;
         public static final int kDU = 0;
+        public static final int kOff = 0;
     }
 
     public static final class SwerveDriveModuleConstants

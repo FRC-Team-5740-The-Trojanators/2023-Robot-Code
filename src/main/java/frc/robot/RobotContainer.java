@@ -26,9 +26,9 @@ import frc.robot.commands.DefaultTaxi;
 import frc.robot.commands.SwerveDriveCommand;
 import frc.robot.commands.TargetCommand;
 import frc.robot.commands.ZeroSwerveCommand;
-import frc.robot.commands.LEDs.LEDColor;
+import frc.robot.commands.SetColor.LEDColor;
 import frc.robot.subsystems.DriveSubsystem;
-//import frc.robot.subsystems.LEDs;
+import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.VisionTargeting;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -46,8 +46,9 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveSubsystem m_driveSubsystem = new DriveSubsystem(false);
   public final VisionTargeting m_visionTargeting = new VisionTargeting();
-  //public final LEDs m_leds = new LEDs();
+  public final static LEDs m_leds = new LEDs();
   XboxController m_driverController = new XboxController(HIDConstants.k_DriverControllerPort);
+  XboxController m_operatorController = new XboxController(HIDConstants.k_OperatorControllerPort);
 
    // This will load the file "FullAuto.path" and generate it with a max velocity of 4 m/s and a max acceleration of 3 m/s^2
 // for every path in the group
@@ -75,7 +76,7 @@ public class RobotContainer {
   //private final DefaultTaxi m_autoDefault = new DefaultTaxi(m_driveSubsystem);
   private final SwerveDriveCommand m_driveCommand = new SwerveDriveCommand(m_driveSubsystem, m_driverController);
   
-  public static JoystickButton coneTarget, cubeTarget, xBalance, yBalance, aprilTag, zeroDrive, LEDButton;
+  public static JoystickButton coneTarget, cubeTarget, xBalance, yBalance, aprilTag, zeroDrive, purpleButton, yellowButton;
 
   SendableChooser<CommandBase> auto = new SendableChooser<CommandBase>();
 
@@ -126,7 +127,8 @@ public class RobotContainer {
     yBalance = new JoystickButton(m_driverController, HIDConstants.kY);
     aprilTag = new JoystickButton(m_driverController , HIDConstants.kBack);
     zeroDrive = new JoystickButton(m_driverController, HIDConstants.kLB);
-    LEDButton = new JoystickButton(m_driverController, HIDConstants.kLT);
+    purpleButton = new JoystickButton(m_operatorController, HIDConstants.kLT);
+    yellowButton = new JoystickButton(m_operatorController, HIDConstants.kRT);
 
     coneTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 0));
     cubeTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 1));
@@ -134,7 +136,8 @@ public class RobotContainer {
     xBalance.whileTrue(new Balance(m_driveSubsystem, true));
     yBalance.whileTrue(new Balance(m_driveSubsystem, false));
     zeroDrive.onTrue(new ZeroSwerveCommand(m_driveSubsystem));
-   // LEDButton.whileTrue(new LEDs(m_));
+    //purpleButton.whileTrue(new LEDs(m_));
+    //yellowButton.whileTrue
   }
 
   /**

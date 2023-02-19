@@ -7,12 +7,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 
-public class LEDs extends CommandBase 
+public class SetColor extends CommandBase 
 {
   LEDColor m_red; 
   AddressableLED m_led;
   AddressableLEDBuffer m_ledBuffer;
+  LEDColor color;
 
   public class LEDColor 
   {
@@ -28,34 +30,25 @@ public class LEDs extends CommandBase
         m_red = new LEDColor(255, 0, 0);
     }
 
-    public int getR(){
+    public int getR()
+    {
         return r;
     }
-    public int getG(){
+    public int getG()
+    {
         return g;
     }
-    public int getB(){
+    public int getB()
+    {
         return b;
     }
   }
   /** Creates a new LEDs. */
-  public LEDs() 
+  public SetColor() 
   {
-    m_led = new AddressableLED(4);
-   
-    m_ledBuffer = new  AddressableLEDBuffer(300);
+    this.color = color;
+    addRequirements(RobotContainer.m_leds);
     
-    m_led.setLength(m_ledBuffer.getLength());
-    //m_led.setBitTiming(0, 1, 0, 1);
-
-    for(int i = 0; i<m_ledBuffer.getLength(); i++)
-    {
-    m_ledBuffer.setRGB(i, 0, 0, 255);
-    }
-
-    m_led.setData(m_ledBuffer);
-    m_led.start();
-
     //public static final LEDColor m_red = new LEDColor(255, 0, 0);
     /*public static final LEDColor kGreen = new LEDColor(0, 255, 0);
     public static final LEDColor kBlue = new LEDColor(0, 0, 255);
@@ -73,14 +66,20 @@ public class LEDs extends CommandBase
   @Override
   public void initialize() 
   {
+    public static SetColor(LEDColor color)
+    {
+      for(int i = 0; i < m_ledBuffer.getLength(); i++){
+        m_ledBuffer.setRGB(i, color.getR(), color.getG(), color.getB()); 
+      }
 
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() 
   {
-
+    RobotContainer.m_leds.setColor(color);
   }
 
   // Called once the command ends or is interrupted.
@@ -94,7 +93,7 @@ public class LEDs extends CommandBase
   @Override
   public boolean isFinished() 
   {
-    return false;
+    return true;
   }
   
 }

@@ -10,54 +10,20 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-//import frc.robot.Constants.LEDColor;
+import frc.robot.Constants;
+import frc.robot.commands.SetColor.LEDColor;
 
-
-/*
 
 public class LEDs extends SubsystemBase 
 {
-  /** Creates a new LEDs. 
-  LEDColor m_red; 
+  //Creates a new LEDs. 
   AddressableLED m_led;
   AddressableLEDBuffer m_ledBuffer;
-
-  public class LEDColor 
-  {
-    private int r;
-    private int g;
-    private int b;
-
-    public LEDColor(int r, int g, int b)
-    {
-        this.r = r;
-        this.g = g;
-        this.b = b;
-        m_red = new LEDColor(255, 0, 0);
-    }
-
-    public int getR(){
-        return r;
-    }
-    public int getG(){
-        return g;
-    }
-    public int getB(){
-        return b;
-    }
-
-    
-    //public static final LEDColor m_red = new LEDColor(255, 0, 0);
-    public static final LEDColor kGreen = new LEDColor(0, 255, 0);
-    public static final LEDColor kBlue = new LEDColor(0, 0, 255);
-    public static final LEDColor kYellow = new LEDColor(255, 255, 0);
-    public static final LEDColor kPurple = new LEDColor(127, 0, 255);
-    public static final LEDColor kOrange = new LEDColor(255, 95, 31);
-
-    //public static final LEDColor kOff = new LEDColor(0, 0, 0);
-    }
-
+  private boolean isOn;
+  private double lastChange; 
 
   public LEDs()
   {    
@@ -75,21 +41,46 @@ public class LEDs extends SubsystemBase
 
     m_led.setData(m_ledBuffer);
     m_led.start();
+  }
 
+  public void setColor(LEDColor color)
+  {
+    for(int i = 0; i < m_ledBuffer.getLength(); i++){
+      m_ledBuffer.setRGB(i, color.getR(), color.getG(), color.getB()); 
+    }
+    m_led.setData(m_ledBuffer);
+  }
+
+  public void pulse(LEDColor color, double interval)
+  {
+    double timestamp = Timer.getFPGATimestamp();
+    if(timestamp -lastChange > interval)
+    {
+      lastChange = timestamp;
+      isOn = !isOn;
+    }
+    if(isOn)
+    {
+      stop();
+    }
+    else
+    {
+      setColor(color);
+    }
+  }
+
+  public void stop()
+  {
+    setColor(Color.kOff);
   }
 
   @Override
   public void periodic() 
   {
     // This method will be called once per scheduler run\
-    //m_led.setData(m_ledBuffer);
-    //m_led.start();
-
-
   }
 }
 
 
 
 
-*/
