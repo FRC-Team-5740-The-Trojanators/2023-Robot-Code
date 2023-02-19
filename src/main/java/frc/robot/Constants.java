@@ -46,6 +46,8 @@ public final class Constants
         public static final int kRB = 6;
         public static final int kBack = 7;
         public static final int kStart = 8;
+        public static final int kLT = 9;
+        public static final int kRT = 10;
         public static final int kDL = 270;
         public static final int kDR = 90;
         public static final int kDD = 180;
@@ -192,7 +194,6 @@ public final class Constants
         public static final double k_clawMotorD = 0; 
         public static final double k_clawMotorFF = 0; 
     }
-
 } 
     
     
