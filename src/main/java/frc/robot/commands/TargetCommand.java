@@ -44,7 +44,14 @@ public class TargetCommand extends CommandBase
     {
       NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(2);
     }
-      SmartDashboard.putBoolean("Target Sees", false);
+    if(m_pipeline == 3)
+      {
+        NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(3);
+      }
+        SmartDashboard.putBoolean("Target Sees", false);
+  
+
+  
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -56,12 +63,12 @@ public class TargetCommand extends CommandBase
       SmartDashboard.putBoolean("Target Sees",true);
       if(m_visionTargeting.getLimelightTX() < 0)
       {
-        m_drivetrain.teleDrive(0, 0, -1, true);
+        m_drivetrain.teleDrive(0, 0, 1, true);
       } 
       else
         if(m_visionTargeting.getLimelightTX() > 0)
         {
-          m_drivetrain.teleDrive(0, 0, 1, true);
+          m_drivetrain.teleDrive(0, 0, -1, true);
         } 
         else 
         {

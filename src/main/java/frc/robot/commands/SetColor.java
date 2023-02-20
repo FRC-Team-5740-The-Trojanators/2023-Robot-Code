@@ -4,59 +4,25 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
+import frc.robot.Constants;
+import frc.robot.Constants.SetColorValues;
+import frc.robot.subsystems.LEDs;
+import lib.LEDColor;
 
 public class SetColor extends CommandBase 
 {
-  LEDColor m_red; 
-  AddressableLED m_led;
-  AddressableLEDBuffer m_ledBuffer;
-  LEDColor color;
-
-  public class LEDColor 
-  {
-    private int r;
-    private int g;
-    private int b;
-
-    public LEDColor(int r, int g, int b)
-    {
-        this.r = r;
-        this.g = g;
-        this.b = b;
-        m_red = new LEDColor(255, 0, 0);
-    }
-
-    public int getR()
-    {
-        return r;
-    }
-    public int getG()
-    {
-        return g;
-    }
-    public int getB()
-    {
-        return b;
-    }
-  }
+  private String m_color;
+  private LEDs m_leds;
+  /* private SetColorValues kPurple; 
+  private SetColorValues kYellow; */
   /** Creates a new LEDs. */
-  public SetColor() 
+  public SetColor(LEDs led, String color) 
   {
-    this.color = color;
-    addRequirements(RobotContainer.m_leds);
-    
-    //public static final LEDColor m_red = new LEDColor(255, 0, 0);
-    /*public static final LEDColor kGreen = new LEDColor(0, 255, 0);
-    public static final LEDColor kBlue = new LEDColor(0, 0, 255);
-    public static final LEDColor kYellow = new LEDColor(255, 255, 0);
-    public static final LEDColor kPurple = new LEDColor(127, 0, 255);
-    public static final LEDColor kOrange = new LEDColor(255, 95, 31);*/
-
-    //public static final LEDColor kOff = new LEDColor(0, 0, 0);
+    m_leds = led;
+    m_color = color;
+    addRequirements(m_leds);
     }
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -66,20 +32,36 @@ public class SetColor extends CommandBase
   @Override
   public void initialize() 
   {
-    public static SetColor(LEDColor color)
+    if(m_color.contentEquals("purple"))
     {
-      for(int i = 0; i < m_ledBuffer.getLength(); i++){
-        m_ledBuffer.setRGB(i, color.getR(), color.getG(), color.getB()); 
-      }
-
-    }
+      SmartDashboard.putString("PURPLE", "ON");
+        for(int i = 0; i < Constants.LEDsSubsystemConstants.k_numLeds; i++)
+        {
+        m_leds.setRGBColor(new LEDColor(153,  51, 255));
+        }
+    } 
+    else
+    { SmartDashboard.putString("PURPLE", "Off");
   }
-
+    if(m_color.contentEquals("yellow"))
+    {
+      SmartDashboard.putString("YELLOW", "ON");
+      for(int i = 0; i < Constants.LEDsSubsystemConstants.k_numLeds; i++)
+        {
+        m_leds.setRGBColor(new LEDColor(255, 255, 0));
+        }
+    } 
+    else
+    {
+      SmartDashboard.putString("YELLOW", "OFF");
+    }
+    
+  }
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() 
   {
-    RobotContainer.m_leds.setColor(color);
+    
   }
 
   // Called once the command ends or is interrupted.
@@ -95,5 +77,5 @@ public class SetColor extends CommandBase
   {
     return true;
   }
-  
 }
+

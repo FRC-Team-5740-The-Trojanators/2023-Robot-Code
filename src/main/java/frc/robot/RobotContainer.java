@@ -20,13 +20,14 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.HIDConstants;
+import frc.robot.Constants.LEDsSubsystemConstants;
 import frc.robot.Constants.SwerveDriveModuleConstants;
 import frc.robot.commands.Balance;
 import frc.robot.commands.DefaultTaxi;
 import frc.robot.commands.SwerveDriveCommand;
 import frc.robot.commands.TargetCommand;
 import frc.robot.commands.ZeroSwerveCommand;
-import frc.robot.commands.SetColor.LEDColor;
+import frc.robot.commands.SetColor;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.VisionTargeting;
@@ -46,7 +47,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveSubsystem m_driveSubsystem = new DriveSubsystem(false);
   public final VisionTargeting m_visionTargeting = new VisionTargeting();
-  public final static LEDs m_leds = new LEDs();
+  public final static LEDs m_leds = new LEDs(LEDsSubsystemConstants.k_port, LEDsSubsystemConstants.k_numLeds);
   XboxController m_driverController = new XboxController(HIDConstants.k_DriverControllerPort);
   XboxController m_operatorController = new XboxController(HIDConstants.k_OperatorControllerPort);
 
@@ -76,7 +77,7 @@ public class RobotContainer {
   //private final DefaultTaxi m_autoDefault = new DefaultTaxi(m_driveSubsystem);
   private final SwerveDriveCommand m_driveCommand = new SwerveDriveCommand(m_driveSubsystem, m_driverController);
   
-  public static JoystickButton coneTarget, cubeTarget, xBalance, yBalance, aprilTag, zeroDrive, purpleButton, yellowButton;
+  public static JoystickButton coneTarget, cubeTarget, xBalance, yBalance, aprilTag, zeroDrive, purpleLED, yellowLED, tapeTarget;
 
   SendableChooser<CommandBase> auto = new SendableChooser<CommandBase>();
 
@@ -123,21 +124,25 @@ public class RobotContainer {
   {
     coneTarget = new JoystickButton(m_driverController , HIDConstants.kA);
     cubeTarget = new JoystickButton(m_driverController , HIDConstants.kB);
-    xBalance = new JoystickButton(m_driverController, HIDConstants.kX);
+    tapeTarget = new JoystickButton(m_driverController, HIDConstants.kX);
+   // xBalance = new JoystickButton(m_driverController, HIDConstants.kX);
     yBalance = new JoystickButton(m_driverController, HIDConstants.kY);
     aprilTag = new JoystickButton(m_driverController , HIDConstants.kBack);
-    zeroDrive = new JoystickButton(m_driverController, HIDConstants.kLB);
-    purpleButton = new JoystickButton(m_operatorController, HIDConstants.kLT);
-    yellowButton = new JoystickButton(m_operatorController, HIDConstants.kRT);
+    zeroDrive = new JoystickButton(m_driverController, HIDConstants.kStart);
+    purpleLED = new JoystickButton(m_driverController, HIDConstants.kLB);
+    yellowLED = new JoystickButton(m_driverController, HIDConstants.kRB);
+    //orangeLED = new JoystickButton(m_driverController, HIDConstants.kY);
 
     coneTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 0));
     cubeTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 1));
+    tapeTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 3));
     aprilTag.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 2));
-    xBalance.whileTrue(new Balance(m_driveSubsystem, true));
+    //xBalance.whileTrue(new Balance(m_driveSubsystem, true));
     yBalance.whileTrue(new Balance(m_driveSubsystem, false));
-    zeroDrive.onTrue(new ZeroSwerveCommand(m_driveSubsystem));
-    //purpleButton.whileTrue(new LEDs(m_));
-    //yellowButton.whileTrue
+    zeroDrive.whileTrue(new ZeroSwerveCommand(m_driveSubsystem));
+    purpleLED.whileTrue(new SetColor(m_leds, "purple"));
+    yellowLED.whileTrue(new SetColor(m_leds, "yellow"));
+    //orangeLED.whileTrue(new SetColor(m_leds, "orange"));
   }
 
   /**

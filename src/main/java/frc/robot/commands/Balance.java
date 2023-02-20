@@ -33,12 +33,12 @@ public class Balance extends CommandBase {
     {
       if(m_drivetrain.getPitch(true).getDegrees() < -SwerveDriveModuleConstants.k_balanceDeadband)
       {
-        m_drivetrain.teleDrive(1, 0, 0, false);
+        m_drivetrain.teleDrive(0, 1, 0, false);
       } 
       else
       if(m_drivetrain.getPitch(true).getDegrees() > SwerveDriveModuleConstants.k_balanceDeadband)
         {
-          m_drivetrain.teleDrive(-1, 0, 0, false);
+          m_drivetrain.teleDrive(0, -1, 0, false);
         } 
         else 
         {
@@ -49,12 +49,12 @@ public class Balance extends CommandBase {
     {
       if(m_drivetrain.getRoll(true).getDegrees() < -SwerveDriveModuleConstants.k_balanceDeadband)
       {
-        m_drivetrain.teleDrive(0, -1, 0, false);
+        m_drivetrain.teleDrive(1, 0, 0, false);
       } 
       else
       if(m_drivetrain.getRoll(true).getDegrees() > SwerveDriveModuleConstants.k_balanceDeadband)
         {
-          m_drivetrain.teleDrive(0, 1, 0, false);
+          m_drivetrain.teleDrive(-1, 0, 0, false);
         } 
         else 
         {

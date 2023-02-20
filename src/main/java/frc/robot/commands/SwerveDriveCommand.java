@@ -67,7 +67,7 @@ public class SwerveDriveCommand extends CommandBase
         -yspeedLimiter.calculate(getJoystickWithDeadBand(controller.getLeftX())
         * SwerveDriveModuleConstants.k_MaxTeleSpeed * SwerveDriveModuleConstants.k_XYjoystickCoefficient);
      
-      final var rot = getJoystickWithDeadBand(controller.getRightX()) * 
+      final var rot = -getJoystickWithDeadBand(controller.getRightX()) * 
         SwerveDriveModuleConstants.k_MaxAngularSpeed * SwerveDriveModuleConstants.k_RotCoefficient;
 
     double trigger = .5;

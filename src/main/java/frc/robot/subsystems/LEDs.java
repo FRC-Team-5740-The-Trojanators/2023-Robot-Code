@@ -11,41 +11,46 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.commands.SetColor.LEDColor;
+import frc.robot.commands.SetColor;
+import lib.LEDColor;
 
 
 public class LEDs extends SubsystemBase 
 {
   //Creates a new LEDs. 
-  AddressableLED m_led;
-  AddressableLEDBuffer m_ledBuffer;
+  private AddressableLED m_led;
+  private AddressableLEDBuffer m_ledBuffer;
   private boolean isOn;
-  private double lastChange; 
+  private double lastChange;
+  private int m_port;
+  private int m_numLeds;
 
-  public LEDs()
+  public LEDs(int port, int numLeds)
   {    
-    m_led = new AddressableLED(4);
+    m_port = port;
+    m_numLeds = numLeds;
+    m_led = new AddressableLED(m_port);
    
-    m_ledBuffer = new  AddressableLEDBuffer(300);
+    m_ledBuffer = new AddressableLEDBuffer(m_numLeds);
     
-    m_led.setLength(m_ledBuffer.getLength());
+    m_led.setLength(Constants.LEDsSubsystemConstants.k_numLeds);
     //m_led.setBitTiming(0, 1, 0, 1);
 
-    for(int i = 0; i<m_ledBuffer.getLength(); i++)
+    for(int i = 0; i< m_ledBuffer.getLength() ; i++)
     {
-    m_ledBuffer.setRGB(i, 0, 0, 255);
+    m_ledBuffer.setRGB(i, 127, 0, 255);
     }
 
     m_led.setData(m_ledBuffer);
     m_led.start();
   }
 
-  public void setColor(LEDColor color)
+   public void setRGBColor(LEDColor color)
   {
-    for(int i = 0; i < m_ledBuffer.getLength(); i++){
+    for(int i = 0; i < m_ledBuffer.getLength(); i++)
+    {
       m_ledBuffer.setRGB(i, color.getR(), color.getG(), color.getB()); 
     }
     m_led.setData(m_ledBuffer);
@@ -65,13 +70,13 @@ public class LEDs extends SubsystemBase
     }
     else
     {
-      setColor(color);
+      setRGBColor(color);
     }
   }
 
   public void stop()
   {
-    setColor(Color.kOff);
+    setRGBColor(Constants.SetColorValues.kOff);
   }
 
   @Override

@@ -8,7 +8,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
-import frc.robot.commands.SetColor.LEDColor;
+import frc.robot.subsystems.LEDs;
+import lib.LEDColor;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -47,13 +48,10 @@ public final class Constants
         public static final int kRB = 6;
         public static final int kBack = 7;
         public static final int kStart = 8;
-        public static final int kLT = 9;
-        public static final int kRT = 10;
         public static final int kDL = 270;
         public static final int kDR = 90;
         public static final int kDD = 180;
         public static final int kDU = 0;
-        public static final int kOff = 0;
     }
 
     public static final class SwerveDriveModuleConstants
@@ -158,6 +156,7 @@ public final class Constants
         public static double k_driveFF = 1 / Units.feetToMeters(SwerveDriveModuleConstants.k_MaxTeleSpeed); 
         public static final int k_ToleranceInTicks = 5; 
     }
+
     public static class SteerModulePIDValues
     {
         public static double k_steerP = 3;
@@ -166,6 +165,17 @@ public final class Constants
 
         public static final double k_steerDeadband = 0.02; // Deadband on the motor controller
         public static final int k_ToleranceInDegrees = 1;
+    }
+
+    public static class ClawSubsystemConstants
+    {
+        public static final double k_clawMotorSpeed = 0.6;
+        public static final double k_clawReverseMotorSpeed = -0.6;
+        public static final double k_clawStopMotorSpeed = 0.0;
+        
+        public static final double k_holdMotorSpeed = -0.5;
+        public static final double k_holdReverseMotorSpeed = 0.75;
+        public static final double k_holdStopMotorSpeed = 0.0;
     }
     
     public static class DigitalInputPort
@@ -196,6 +206,23 @@ public final class Constants
         public static final double k_clawMotorD = 0; 
         public static final double k_clawMotorFF = 0; 
     }
+    public static class SetColorValues
+    {
+        public static final LEDColor kRed = new LEDColor(255, 0, 0);
+        public static final LEDColor kGreen = new LEDColor(0, 255, 0);
+        public static final LEDColor kBlue = new LEDColor(0, 0, 255);
+        public static final LEDColor kYellow = new LEDColor(255, 255, 0);
+        public static final LEDColor kPurple = new LEDColor(153, 51, 255);
+        public static final LEDColor kOrange = new LEDColor(255, 128, 0);
+        public static final LEDColor kOff = new LEDColor(0, 0, 0);
+    }
+
+    public static class LEDsSubsystemConstants
+    {
+        public static final int k_port = 4;
+        public static final int k_numLeds = 300;
+    }
+
 } 
     
     
