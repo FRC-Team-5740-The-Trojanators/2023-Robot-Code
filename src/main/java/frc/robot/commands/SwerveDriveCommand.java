@@ -61,20 +61,18 @@ public class SwerveDriveCommand extends CommandBase
       // Get the x speed.
       final var xSpeed =
          -xspeedLimiter.calculate(getJoystickWithDeadBand(controller.getLeftY())
-          * SwerveDriveModuleConstants.k_MaxTeleSpeed * SwerveDriveModuleConstants.k_XYjoystickCoefficient);
+          * SwerveDriveModuleConstants.k_MaxTeleSpeed);
 
       final var ySpeed =
         -yspeedLimiter.calculate(getJoystickWithDeadBand(controller.getLeftX())
-        * SwerveDriveModuleConstants.k_MaxTeleSpeed * SwerveDriveModuleConstants.k_XYjoystickCoefficient);
+        * SwerveDriveModuleConstants.k_MaxTeleSpeed);
      
-      final var rot = -getJoystickWithDeadBand(controller.getRightX()) * 
-        SwerveDriveModuleConstants.k_MaxAngularSpeed * SwerveDriveModuleConstants.k_RotCoefficient;
-
-    double trigger = .5;
+      final var rot = -getJoystickWithDeadBand(controller.getRightX()) 
+      * SwerveDriveModuleConstants.k_MaxAngularSpeed;
 
     if(controller.getRightTriggerAxis() >= 0.1)
     {
-      drivetrain.teleDrive(xSpeed * (trigger), ySpeed * (trigger), rot * (trigger), false);
+      drivetrain.teleDrive(xSpeed * (SwerveDriveModuleConstants.k_XYjoystickCoefficient), ySpeed * (SwerveDriveModuleConstants.k_XYjoystickCoefficient), rot * (SwerveDriveModuleConstants.k_RotCoefficient), false);
     } 
     else 
     {

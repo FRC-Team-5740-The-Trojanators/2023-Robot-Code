@@ -76,9 +76,9 @@ public final class Constants
         public static final double k_MaxAutoSpeed = Units.feetToMeters(7); //m/s
         public static final double k_MaxAcceleration = 1; //m/s/s 
         
-        public static final double k_XYjoystickCoefficient = 1; //speed limiter
+        public static final double k_XYjoystickCoefficient = .5; //speed limiter
         public static final double k_MaxAngularSpeed = Units.feetToMeters(16.3) / k_RobotRadius; // 628; //rad/s TODO confirm
-        public static final double k_RotCoefficient = 1; //speed limiter
+        public static final double k_RotCoefficient = .5; //speed limiter
 
         public static final double k_driveEncoderTicksPerRotation = 2048; 
         public static final double k_gearRatio = 6.75;
