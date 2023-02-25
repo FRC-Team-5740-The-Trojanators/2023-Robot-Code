@@ -185,7 +185,7 @@ public class DriveSubsystem extends SubsystemBase
         modules[3].getPosition()
       });
       m_field2d.setRobotPose(getPose());
-      SmartDashboard.putString("Pitch", getPitch(true).toString());
+      /*SmartDashboard.putString("Pitch", getPitch(true).toString());
       SmartDashboard.putString("Roll", getRoll(true).toString());
       SmartDashboard.putString("Position 0", modules[0].getPosition().toString());
       SmartDashboard.putString("Position 1", modules[1].getPosition().toString());
@@ -196,6 +196,6 @@ public class DriveSubsystem extends SubsystemBase
       SmartDashboard.putString("Vel 1", modules[1].getState().toString());
       SmartDashboard.putString("Vel 2", modules[2].getState().toString());
       SmartDashboard.putString("Vel 3", modules[3].getState().toString());
-      SmartDashboard.putData("field2d", m_field2d);
+      SmartDashboard.putData("field2d", m_field2d);*/
   }
 }

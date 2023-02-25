@@ -7,31 +7,40 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Claw;
 
-public class RetractClawCommand extends CommandBase 
-{
-  /** Creates a new RetractClawCommand. */
-  public Claw m_claw;
-  private boolean m_isFinished = false;
+public class RunClawCommand extends CommandBase 
+{ 
+  private final Claw m_claw; 
+  private boolean m_isFinished;
+  private String m_function;
 
-  public RetractClawCommand(Claw claw) 
+  /** Creates a new RunClawCommand. */
+  public RunClawCommand(Claw claw, String function) 
   {
-    // Use addRequirements() here to declare subsystem dependencies.
     m_claw = claw;
-    addRequirements(claw);
+    m_function = function;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_claw);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() 
   {
-
+    m_isFinished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() 
   {
-
+    if (m_function == "FORWARD")
+    {
+      m_claw.forwardClawMotor();
+    }
+    if (m_function == "BACKWARD")
+    {
+      m_claw.reverseClawMotor();
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -39,6 +48,7 @@ public class RetractClawCommand extends CommandBase
   public void end(boolean interrupted) 
   {
     m_isFinished = true;
+    m_claw.stopClawMotor();
   }
 
   // Returns true when the command should end.

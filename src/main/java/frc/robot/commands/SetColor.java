@@ -55,6 +55,19 @@ public class SetColor extends CommandBase
     {
       SmartDashboard.putString("YELLOW", "OFF");
     }
+
+    if(m_color.contentEquals("off"))
+    {
+      SmartDashboard.putString("OFF", "ON");
+      for(int i = 0; i < Constants.LEDsSubsystemConstants.k_numLeds; i++)
+        {
+        m_leds.setRGBColor(new LEDColor(0, 0, 0));
+        }
+    } 
+    else
+    {
+      SmartDashboard.putString("OFF", "OFF");
+    }
     
   }
   // Called every time the scheduler runs while the command is scheduled.

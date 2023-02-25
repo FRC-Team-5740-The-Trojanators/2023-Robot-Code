@@ -65,10 +65,8 @@ public final class Constants
         };
 
         // Distance between front and back wheels on robot; unit is meters
-        public static final double k_WheelBase = Units.inchesToMeters(24.25);
-
-        public static final double k_RobotRadius = Units.inchesToMeters(34.295) / 2; 
-
+        public static final double k_WheelBase = Units.inchesToMeters(18.75);
+        public static final double k_RobotRadius = Math.hypot(k_WheelBase / 2.0, k_WheelBase / 2.0); //for square robot
         public static final double k_wheelDiameter = Units.inchesToMeters(3.9375); //meters
 
         /*TODO for all of these change when robot is characterized*/
@@ -142,10 +140,9 @@ public final class Constants
 
         public static final int k_pigeon2ID = 0;
 
-        public static final int k_masterShoulderMotorID = 13;
-        public static final int k_followerShoulderMotorID = 14;
-        public static final int k_wristMotorID = 15;
-        public static final int k_clawMotorID = 16;
+        public static final int k_shoulderMotorID = 2;
+        public static final int k_wristMotorID = 1;
+        public static final int k_clawMotorID = 3;
     }
 
     public static class DriveModulePIDValues
@@ -169,42 +166,29 @@ public final class Constants
 
     public static class ClawSubsystemConstants
     {
-        public static final double k_clawMotorSpeed = 0.6;
-        public static final double k_clawReverseMotorSpeed = -0.6;
-        public static final double k_clawStopMotorSpeed = 0.0;
-        
-        public static final double k_holdMotorSpeed = -0.5;
-        public static final double k_holdReverseMotorSpeed = 0.75;
-        public static final double k_holdStopMotorSpeed = 0.0;
+        public static final double k_clawMotorSpeed = 0.2;
+        public static final double k_clawReverseMotorSpeed = -0.2;
+        public static final double k_clawHoldMotorSpeed = 0.15;
     }
     
     public static class DigitalInputPort
     {
-        public static final int k_shoulderEncoderPort = 0;
-        public static final int k_wristEncoderPort = 1;
+        public static final int k_shoulderEncoderPort = 9;
+        public static final int k_wristEncoderPort = 8;
     }
 
     public static class MotorPIDValues
     {
-        public static final double k_masterShoulderMotorP = 0; 
-        public static final double k_masterShoulderMotorI = 0; 
-        public static final double k_masterShoulderMotorD = 0; 
-        public static final double k_masterShoulderMotorFF = 0; 
+        public static final double k_shoulderMotorP = 3; 
+        public static final double k_shoulderMotorI = 0; 
+        public static final double k_shoulderMotorD = 0; 
 
-        public static final double k_followerShoulderMotorP = 0; 
-        public static final double k_followerShoulderMotorI = 0; 
-        public static final double k_followerShoulderMotorD = 0; 
-        public static final double k_followerShoulderMotorFF = 0; 
-
-        public static final double k_wristMotorP = 0; 
+        public static final double k_wristMotorP = 3; 
         public static final double k_wristMotorI = 0; 
         public static final double k_wristMotorD = 0; 
-        public static final double k_wristMotorFF = 0; 
-
-        public static final double k_clawMotorP = 0; 
-        public static final double k_clawMotorI = 0; 
-        public static final double k_clawMotorD = 0; 
-        public static final double k_clawMotorFF = 0; 
+ 
+        public static final double k_shoulderTolerance = .00005;
+        public static final double k_wristTolerance = .00005;
     }
     public static class SetColorValues
     {
@@ -221,6 +205,18 @@ public final class Constants
     {
         public static final int k_port = 4;
         public static final int k_numLeds = 300;
+    }
+
+    public static class ArmPositionConstants
+    {
+        public static final double shoulderStowed = 0.577;
+        public static final double wristStowed = 1.024;
+        public static final double shoulderTopGrid = 0.332;
+        public static final double wristTopGrid = 0.603;
+        public static final double shoulderMidGrid = 0.372;
+        public static final double wristMidGrid = 0.662;
+        public static final double shoulderFloor = 0.567;
+        public static final double wristFloor = 0.790;
     }
 
 } 

@@ -5,16 +5,10 @@
 package frc.robot;
 
 import java.util.HashMap;
-import java.util.List;
-
-import com.ctre.phoenix.CANifier.LEDChannel;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.auto.SwerveAutoBuilder;
-
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -22,19 +16,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.HIDConstants;
 import frc.robot.Constants.LEDsSubsystemConstants;
 import frc.robot.Constants.SwerveDriveModuleConstants;
+import frc.robot.commands.ArmCommand;
 import frc.robot.commands.Balance;
-import frc.robot.commands.DefaultTaxi;
+import frc.robot.commands.RunClawCommand;
 import frc.robot.commands.SwerveDriveCommand;
 import frc.robot.commands.TargetCommand;
 import frc.robot.commands.ZeroSwerveCommand;
 import frc.robot.commands.SetColor;
+import frc.robot.subsystems.Shoulder;
+import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.VisionTargeting;
+import frc.robot.subsystems.Wrist;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -47,6 +44,12 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveSubsystem m_driveSubsystem = new DriveSubsystem(false);
   public final VisionTargeting m_visionTargeting = new VisionTargeting();
+  private final Claw m_claw = new Claw();
+  private final Shoulder m_shoulder = new Shoulder();
+  private final Wrist m_wrist = new Wrist();
+
+  //private final RunClawCommand m_runClawCommand = new RunClawCommand(m_claw, "stop");
+
   public final static LEDs m_leds = new LEDs(LEDsSubsystemConstants.k_port, LEDsSubsystemConstants.k_numLeds);
   XboxController m_driverController = new XboxController(HIDConstants.k_DriverControllerPort);
   XboxController m_operatorController = new XboxController(HIDConstants.k_OperatorControllerPort);
@@ -77,7 +80,7 @@ public class RobotContainer {
   //private final DefaultTaxi m_autoDefault = new DefaultTaxi(m_driveSubsystem);
   private final SwerveDriveCommand m_driveCommand = new SwerveDriveCommand(m_driveSubsystem, m_driverController);
   
-  public static JoystickButton coneTarget, cubeTarget, xBalance, yBalance, aprilTag, zeroDrive, purpleLED, yellowLED, tapeTarget;
+  public static JoystickButton coneTarget, cubeTarget, xBalance, yBalance, aprilTag, zeroDrive, purpleLED, offLED, yellowLED, tapeTarget, runClaw, reverseClaw, stowArm, topGridArm, midGridArm, floorArm, clawIn, clawOut;
 
   SendableChooser<CommandBase> auto = new SendableChooser<CommandBase>();
 
@@ -125,23 +128,47 @@ public class RobotContainer {
     coneTarget = new JoystickButton(m_driverController , HIDConstants.kA);
     cubeTarget = new JoystickButton(m_driverController , HIDConstants.kB);
     tapeTarget = new JoystickButton(m_driverController, HIDConstants.kX);
-   // xBalance = new JoystickButton(m_driverController, HIDConstants.kX);
+    xBalance = new JoystickButton(m_driverController, HIDConstants.kX);
     yBalance = new JoystickButton(m_driverController, HIDConstants.kY);
     aprilTag = new JoystickButton(m_driverController , HIDConstants.kBack);
     zeroDrive = new JoystickButton(m_driverController, HIDConstants.kStart);
-    purpleLED = new JoystickButton(m_driverController, HIDConstants.kLB);
-    yellowLED = new JoystickButton(m_driverController, HIDConstants.kRB);
+
+    //runClaw = new JoystickButton(m_operatorController, HIDConstants.kA);
+    //reverseClaw = new JoystickButton(m_operatorController, HIDConstants.kB); 
+
+    //purpleLED = new JoystickButton(m_operatorController, HIDConstants.kLB);
+    //yellowLED = new JoystickButton(m_operatorController, HIDConstants.kRB);
+    //offLED = new JoystickButton(m_operatorController, HIDConstants.kX);
+    stowArm = new JoystickButton(m_operatorController, HIDConstants.kA);
+    topGridArm = new JoystickButton(m_operatorController, HIDConstants.kY);
+    midGridArm = new JoystickButton(m_operatorController, HIDConstants.kX);
+    floorArm = new JoystickButton(m_operatorController, HIDConstants.kB);
+    clawIn= new JoystickButton(m_operatorController, HIDConstants.kLB);
+    clawOut= new JoystickButton(m_operatorController, HIDConstants.kRB);
+
     //orangeLED = new JoystickButton(m_driverController, HIDConstants.kY);
 
     coneTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 0));
     cubeTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 1));
     tapeTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 3));
-    aprilTag.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 2));
+    //aprilTag.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 2));
     //xBalance.whileTrue(new Balance(m_driveSubsystem, true));
     yBalance.whileTrue(new Balance(m_driveSubsystem, false));
     zeroDrive.whileTrue(new ZeroSwerveCommand(m_driveSubsystem));
-    purpleLED.whileTrue(new SetColor(m_leds, "purple"));
-    yellowLED.whileTrue(new SetColor(m_leds, "yellow"));
+
+    //runClaw.whileTrue(new RunClawCommand(m_claw, "stop"));
+
+   // purpleLED.whileTrue(new SetColor(m_leds, "purple"));
+   // yellowLED.whileTrue(new SetColor(m_leds, "yellow"));
+    //offLED.whileTrue(new SetColor(m_leds, "off"));
+
+    stowArm.whileTrue(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
+    topGridArm.whileTrue(new ArmCommand(m_shoulder, m_wrist, "TOPGRID"));
+    midGridArm.whileTrue(new ArmCommand(m_shoulder, m_wrist, "MIDGRID"));
+    floorArm.whileTrue(new ArmCommand(m_shoulder, m_wrist, "FLOOR"));
+    clawIn.whileTrue(new RunClawCommand(m_claw, "FORWARD"));
+    clawOut.whileTrue(new RunClawCommand(m_claw, "BACKWARD"));
+
     //orangeLED.whileTrue(new SetColor(m_leds, "orange"));
   }
 
