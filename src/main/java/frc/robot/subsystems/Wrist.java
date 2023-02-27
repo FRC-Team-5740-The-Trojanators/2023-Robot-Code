@@ -25,7 +25,6 @@ public class Wrist extends SubsystemBase
     m_wristMotor.restoreFactoryDefaults();
     m_wristMotor.enableVoltageCompensation(10);
     m_wristMotor.setIdleMode(IdleMode.kBrake);
-    //m_wristMotorPID.setPID(Constants.MotorPIDValues.k_wristMotorP, Constants.MotorPIDValues.k_wristMotorI, Constants.MotorPIDValues.k_wristMotorD);
     m_wristMotorPID.setTolerance(Constants.MotorPIDValues.k_wristTolerance);
     m_wristMotorPID.disableContinuousInput();
     m_wristMotor.setInverted(false);

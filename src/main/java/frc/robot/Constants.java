@@ -70,7 +70,7 @@ public final class Constants
         public static final double k_wheelDiameter = Units.inchesToMeters(3.9375); //meters
 
         /*TODO for all of these change when robot is characterized*/
-        public static final double k_MaxTeleSpeed = Units.feetToMeters(16.3); //m/s checked :)
+        public static final double k_MaxTeleSpeed = Units.feetToMeters(4); //m/s checked :)
         public static final double k_MaxAutoSpeed = Units.feetToMeters(7); //m/s
         public static final double k_MaxAcceleration = 1; //m/s/s 
         
@@ -140,8 +140,8 @@ public final class Constants
 
         public static final int k_pigeon2ID = 0;
 
-        public static final int k_shoulderMotorID = 2;
         public static final int k_wristMotorID = 1;
+        public static final int k_shoulderMotorID = 2;
         public static final int k_clawMotorID = 3;
     }
 
@@ -179,17 +179,18 @@ public final class Constants
 
     public static class MotorPIDValues
     {
-        public static final double k_shoulderMotorP = 3; 
+        public static final double k_shoulderMotorP = 8; 
         public static final double k_shoulderMotorI = 0; 
-        public static final double k_shoulderMotorD = 0; 
+        public static final double k_shoulderMotorD = 1; 
 
-        public static final double k_wristMotorP = 3; 
+        public static final double k_wristMotorP = 5; 
         public static final double k_wristMotorI = 0; 
         public static final double k_wristMotorD = 0; 
  
         public static final double k_shoulderTolerance = .00005;
         public static final double k_wristTolerance = .00005;
     }
+
     public static class SetColorValues
     {
         public static final LEDColor kRed = new LEDColor(255, 0, 0);

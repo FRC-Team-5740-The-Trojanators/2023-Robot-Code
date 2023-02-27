@@ -9,7 +9,8 @@ import frc.robot.Constants.ArmPositionConstants;
 import frc.robot.subsystems.Shoulder;
 import frc.robot.subsystems.Wrist;
 
-public class ArmCommand extends CommandBase {
+public class ArmCommand extends CommandBase 
+{
   /** Creates a new ArmCommand. */
   private Shoulder m_shoulder;
   private Wrist m_wrist;
