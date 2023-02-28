@@ -179,9 +179,9 @@ public final class Constants
 
     public static class MotorPIDValues
     {
-        public static final double k_shoulderMotorP = 8; 
+        public static final double k_shoulderMotorP = 30; 
         public static final double k_shoulderMotorI = 0; 
-        public static final double k_shoulderMotorD = 1; 
+        public static final double k_shoulderMotorD = 2; 
 
         public static final double k_wristMotorP = 5; 
         public static final double k_wristMotorI = 0; 

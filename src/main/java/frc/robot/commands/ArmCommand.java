@@ -66,7 +66,7 @@ public class ArmCommand extends CommandBase
     }
 
     m_shoulder.setMotor(m_shoulder.setSetpoint(m_shoulderSetPoint));
-    m_wrist.setMotor(m_wrist.setSetpoint(m_wristSetPoint));
+    //m_wrist.setMotor(m_wrist.setSetpoint(m_wristSetPoint));
 
     m_isFinished = (m_shoulder.moveEnd() && m_wrist.moveEnd());
 
