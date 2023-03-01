@@ -179,9 +179,9 @@ public final class Constants
 
     public static class MotorPIDValues
     {
-        public static final double k_shoulderMotorP = 30; 
+        public static final double k_shoulderMotorP = 0; 
         public static final double k_shoulderMotorI = 0; 
-        public static final double k_shoulderMotorD = 2; 
+        public static final double k_shoulderMotorD = 0; 
 
         public static final double k_wristMotorP = 5; 
         public static final double k_wristMotorI = 0; 
@@ -210,13 +210,14 @@ public final class Constants
 
     public static class ArmPositionConstants
     {
-        public static final double shoulderStowed = 0.577;
+        public static final double shoulderOffset = 0.33841;
+        public static final double shoulderStowed = (0.577 - shoulderOffset) * 2 * Math.PI;
         public static final double wristStowed = 1.024;
-        public static final double shoulderTopGrid = 0.332;
+        public static final double shoulderTopGrid = (0.332 - shoulderOffset)  * 2 * Math.PI;
         public static final double wristTopGrid = 0.603;
-        public static final double shoulderMidGrid = 0.372;
+        public static final double shoulderMidGrid = (0.372 - shoulderOffset) * 2 * Math.PI;
         public static final double wristMidGrid = 0.662;
-        public static final double shoulderFloor = 0.567;
+        public static final double shoulderFloor = (0.567 - shoulderOffset) * 2 * Math.PI;
         public static final double wristFloor = 0.790;
     }
 
