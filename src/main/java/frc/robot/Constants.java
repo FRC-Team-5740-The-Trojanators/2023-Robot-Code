@@ -183,10 +183,13 @@ public final class Constants
         public static final double k_shoulderMotorI = 0; 
         public static final double k_shoulderMotorD = 0; 
 
-        public static final double k_wristMotorP = 5; 
+        public static final double k_wristMotorP = 4.3298; 
         public static final double k_wristMotorI = 0; 
-        public static final double k_wristMotorD = 0; 
- 
+        public static final double k_wristMotorD = 0.47482; 
+        public static final double k_wristMotorFF_Kg = 0.37262;
+        public static final double k_wristMotorFF_Kv = 0.93262;
+        public static final double k_wristMotorFF_Ks = 0.049419;
+
         public static final double k_shoulderTolerance = .00005;
         public static final double k_wristTolerance = .00005;
     }
@@ -210,15 +213,16 @@ public final class Constants
 
     public static class ArmPositionConstants
     {
-        public static final double shoulderOffset = 0.33841;
-        public static final double shoulderStowed = (0.577 - shoulderOffset) * 2 * Math.PI;
-        public static final double wristStowed = 1.024;
-        public static final double shoulderTopGrid = (0.332 - shoulderOffset)  * 2 * Math.PI;
-        public static final double wristTopGrid = 0.603;
-        public static final double shoulderMidGrid = (0.372 - shoulderOffset) * 2 * Math.PI;
-        public static final double wristMidGrid = 0.662;
-        public static final double shoulderFloor = (0.567 - shoulderOffset) * 2 * Math.PI;
-        public static final double wristFloor = 0.790;
+        public static final double shoulderOffset = 0.33841; //absolute encoder value
+        public static final double wristOffset = 0.4241; //absolute encoder value
+        public static final double shoulderStowed = (0.577 - shoulderOffset) * 2 * Math.PI; //radians
+        public static final double wristStowed = (0.8420 - wristOffset) * 2 * Math.PI; //radians
+        public static final double shoulderTopGrid = (0.332 - shoulderOffset)  * 2 * Math.PI; //radians
+        public static final double wristTopGrid = (0.5010 - wristOffset) * 2 * Math.PI; //radians
+        public static final double shoulderMidGrid = (0.372 - shoulderOffset) * 2 * Math.PI; //radians
+        public static final double wristMidGrid = (0.5010 - wristOffset) * 2 * Math.PI; //radians
+        public static final double shoulderFloor = (0.567 - shoulderOffset) * 2 * Math.PI; //radians
+        public static final double wristFloor = (0.6051 - wristOffset) * 2 * Math.PI; //radians
     }
 
 } 
