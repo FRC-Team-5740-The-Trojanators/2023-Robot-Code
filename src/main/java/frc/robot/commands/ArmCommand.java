@@ -34,6 +34,8 @@ public class ArmCommand extends CommandBase
   @Override
   public void initialize()
   {
+    m_shoulder.setInitialSetPoint();
+    m_wrist.setInitialSetPoint();
     m_isFinished = false;
   }
 

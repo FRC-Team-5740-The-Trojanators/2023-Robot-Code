@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
@@ -24,7 +25,10 @@ public class Wrist extends SubsystemBase
   private double m_lastSpeed = 0;
   private double m_lastTime = Timer.getFPGATimestamp();
 
-  private final TrapezoidProfile.Constraints m_trapConstraints = new TrapezoidProfile.Constraints(3, 1);
+  private MedianFilter m_filter = new MedianFilter(16);
+  private double m_filteredAngle;
+
+  private final TrapezoidProfile.Constraints m_trapConstraints = new TrapezoidProfile.Constraints(1, .5);
   private ArmFeedforward m_armFeedforward = new ArmFeedforward(MotorPIDValues.k_wristMotorFF_Ks, MotorPIDValues.k_wristMotorFF_Kg , MotorPIDValues.k_wristMotorFF_Kv);
   private ProfiledPIDController m_wristMotorPID = new ProfiledPIDController(MotorPIDValues.k_wristMotorP, MotorPIDValues.k_wristMotorI, MotorPIDValues.k_wristMotorD, m_trapConstraints);
   private CANSparkMax m_wristMotor = new CANSparkMax(CANBusIDs.k_wristMotorID, MotorType.kBrushless);
@@ -34,7 +38,7 @@ public class Wrist extends SubsystemBase
   public Wrist()
   {
     m_wristMotor.restoreFactoryDefaults();
-    m_wristMotor.enableVoltageCompensation(10);
+    m_wristMotor.enableVoltageCompensation(12);
     m_wristMotor.setIdleMode(IdleMode.kBrake);
     m_wristMotorPID.setTolerance(MotorPIDValues.k_wristTolerance);
     m_wristMotorPID.disableContinuousInput();
@@ -51,15 +55,26 @@ public class Wrist extends SubsystemBase
     SmartDashboard.putNumber("Wrist error", m_wristMotorPID.getPositionError());
     SmartDashboard.putNumber("Wrist Setpoint Pos", m_wristMotorPID.getSetpoint().position);
     SmartDashboard.putNumber("Wrist Setpoint Vel", m_wristMotorPID.getSetpoint().velocity);
+      
+    for(int i = 0; i < 16; i++)
+    {
+      m_filteredAngle = m_filter.calculate(getAngleRadians());
+    }
+    
   }
 
   public void goToPosition(double goalPosition) 
   {
-    double pidVal = m_wristMotorPID.calculate(getAngleRadians(), goalPosition);
+    double pidVal = m_wristMotorPID.calculate(m_filteredAngle, goalPosition);
     double acceleration = (m_wristMotorPID.getSetpoint().velocity - m_lastSpeed) / (Timer.getFPGATimestamp() - m_lastTime);
     m_wristMotor.setVoltage(pidVal + m_armFeedforward.calculate(m_wristMotorPID.getSetpoint().velocity, acceleration));
     m_lastSpeed = m_wristMotorPID.getSetpoint().velocity;
     m_lastTime = Timer.getFPGATimestamp();
+  }
+
+  public void setInitialSetPoint()
+  {
+    m_wristMotorPID.reset(m_filteredAngle);
   }
 
   public double getAngleRadians()
@@ -72,19 +87,9 @@ public class Wrist extends SubsystemBase
       return m_wristEncoder.get();
   }
 
-  public double setSetpoint(double posSetPoint)
-  {
-    return m_wristMotorPID.calculate(getAbsEncoder(), posSetPoint);
-  }
-
   public boolean moveEnd()
   {
     return m_wristMotorPID.atSetpoint();
-  }
-
-  public void setMotor(double demand)
-  {       
-    m_wristMotor.set(demand);    
   }
 
   public void forceMotorExtend()
