@@ -169,6 +169,8 @@ public final class Constants
         public static final double k_clawMotorSpeed = 0.2;
         public static final double k_clawReverseMotorSpeed = -0.2;
         public static final double k_clawHoldMotorSpeed = 0.15;
+        public static final double k_temperatureLimit = 0; //110.00;
+
     }
     
     public static class DigitalInputPort

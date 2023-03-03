@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ClawSubsystemConstants;
@@ -49,4 +51,17 @@ public class Claw extends SubsystemBase
   {
     m_clawMotor.set(0);
   }
+  public boolean getMotorTemperature()
+    {
+      double temperatureCelsius = m_clawMotor.getMotorTemperature();
+      boolean temperature = false;
+      SmartDashboard.putNumber("Claw Neo Temperature", temperatureCelsius);
+
+      if (m_clawMotor.getMotorTemperature() > ClawSubsystemConstants.k_temperatureLimit)
+      {
+        temperature = true;
+      }
+
+       return temperature; 
+    }
 }
