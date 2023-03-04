@@ -26,21 +26,26 @@ public class RunClawCommand extends CommandBase
   @Override
   public void initialize() 
   {
-    m_isFinished = false;
+    m_isFinished = m_claw.getTemperatureError();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() 
   {
-    if (m_function == "FORWARD")
+    if (m_function == "FORWARD") 
     {
       m_claw.forwardClawMotor();
     }
-    if (m_function == "BACKWARD")
+    if (m_function == "BACKWARD") 
     {
       m_claw.reverseClawMotor();
     }
+    if (m_function == "HOLD") 
+    {
+      m_claw.holdClawMotor();
+    }
+    m_isFinished = m_claw.getTemperatureError();
   }
 
   // Called once the command ends or is interrupted.

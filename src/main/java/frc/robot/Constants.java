@@ -169,7 +169,7 @@ public final class Constants
         public static final double k_clawMotorSpeed = 0.2;
         public static final double k_clawReverseMotorSpeed = -0.2;
         public static final double k_clawHoldMotorSpeed = 0.15;
-        public static final double k_temperatureLimit = 0; //110.00;
+        public static final double k_temperatureLimit = 40; //In Celsius
 
     }
     
@@ -181,14 +181,14 @@ public final class Constants
 
     public static class MotorPIDValues
     {
-        public static final double k_shoulderMotorP = 5.9087; 
+        public static final double k_shoulderMotorP = 7.7475; 
         public static final double k_shoulderMotorI = 0; 
-        public static final double k_shoulderMotorD = 1.6558; 
-        public static final double k_shoulderMotorFF_Kg = 0.4918;
-        public static final double k_shoulderMotorFF_Kv = 1.6713;
-        public static final double k_shoulderMotorFF_Ks = 0.035826;
+        public static final double k_shoulderMotorD = 2.0824; 
+        public static final double k_shoulderMotorFF_Ka = 0.17703;
+        public static final double k_shoulderMotorFF_Kv = 1.3107;
+        public static final double k_shoulderMotorFF_Ks = 0.1736;
 
-        public static final double k_wristMotorP = 3;//4.3298; 
+        public static final double k_wristMotorP = 4.3298; 
         public static final double k_wristMotorI = 0; 
         public static final double k_wristMotorD = 0.47482; 
         public static final double k_wristMotorFF_Kg = 0.37262;

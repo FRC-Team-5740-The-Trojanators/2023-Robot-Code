@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -27,16 +28,16 @@ public class Shoulder extends SubsystemBase
   private MedianFilter m_filter = new MedianFilter(16);
   private double m_filteredAngle;
 
-  private final TrapezoidProfile.Constraints m_trapConstraints = new TrapezoidProfile.Constraints(1, .5);
+  private final TrapezoidProfile.Constraints m_trapConstraints = new TrapezoidProfile.Constraints(2, 5);
   private CANSparkMax m_shoulderMotor = new CANSparkMax(Constants.CANBusIDs.k_shoulderMotorID, MotorType.kBrushless);
-  private ArmFeedforward m_armFeedforward = new ArmFeedforward(Constants.MotorPIDValues.k_shoulderMotorFF_Ks,Constants.MotorPIDValues.k_shoulderMotorFF_Kg , Constants.MotorPIDValues.k_shoulderMotorFF_Kv);
+  private SimpleMotorFeedforward m_armFeedforward = new SimpleMotorFeedforward(Constants.MotorPIDValues.k_shoulderMotorFF_Ks,Constants.MotorPIDValues.k_shoulderMotorFF_Kv , Constants.MotorPIDValues.k_shoulderMotorFF_Ka);
   private ProfiledPIDController m_shoulderMotorPID = new ProfiledPIDController(Constants.MotorPIDValues.k_shoulderMotorP, Constants.MotorPIDValues.k_shoulderMotorI, Constants.MotorPIDValues.k_shoulderMotorD, m_trapConstraints);
   private DutyCycleEncoder m_shoulderEncoder = new DutyCycleEncoder(Constants.DigitalInputPort.k_shoulderEncoderPort);
 
   public Shoulder()
   {
     m_shoulderMotor.restoreFactoryDefaults();
-    m_shoulderMotor.enableVoltageCompensation(12);
+    m_shoulderMotor.enableVoltageCompensation(10);
     m_shoulderMotor.setIdleMode(IdleMode.kBrake);
     m_shoulderMotor.setInverted(false);
     m_shoulderMotorPID.setTolerance(Constants.MotorPIDValues.k_shoulderTolerance);
@@ -103,5 +104,10 @@ public class Shoulder extends SubsystemBase
   public double getAbsEncoder()
   {
       return m_shoulderEncoder.get();
+  }
+
+  public double getFilteredAngle()
+  {
+      return m_filteredAngle;
   }
 }

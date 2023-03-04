@@ -68,9 +68,9 @@ public class ArmCommand extends CommandBase
     }
 
     m_shoulder.goToPosition(m_shoulderSetPoint);
-    m_wrist.goToPosition(m_wristSetPoint);
+    m_wrist.goToPosition(m_wristSetPoint, m_shoulder.getFilteredAngle());
 
-    m_isFinished = (m_shoulder.moveEnd() && m_wrist.moveEnd());
+    //m_isFinished = (m_shoulder.moveEnd() && m_wrist.moveEnd());
 
   }
 

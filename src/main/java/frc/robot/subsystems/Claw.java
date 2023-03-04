@@ -16,6 +16,7 @@ import frc.robot.Constants.ClawSubsystemConstants;
 public class Claw extends SubsystemBase 
 {
   private CANSparkMax m_clawMotor;
+  private boolean m_aboveTemperature; 
 
   /** Creates a new Claw. */
   public Claw() 
@@ -23,6 +24,7 @@ public class Claw extends SubsystemBase
     m_clawMotor = new CANSparkMax(Constants.CANBusIDs.k_clawMotorID, MotorType.kBrushless);
     m_clawMotor.restoreFactoryDefaults();
     m_clawMotor.setIdleMode(IdleMode.kBrake);
+    m_clawMotor.setSmartCurrentLimit(20);
   }
 
   // sparkmax w/ Neo550, distance sensor
@@ -30,6 +32,8 @@ public class Claw extends SubsystemBase
   public void periodic() 
   {
     // This method will be called once per scheduler run
+    m_aboveTemperature = getMotorTemperature();
+    SmartDashboard.putNumber("Claw Temperature", m_clawMotor.getMotorTemperature());
   }
 
   public void forwardClawMotor()
@@ -51,17 +55,21 @@ public class Claw extends SubsystemBase
   {
     m_clawMotor.set(0);
   }
+  
+  public boolean getTemperatureError()
+  {
+    return m_aboveTemperature;
+  }
+
   public boolean getMotorTemperature()
     {
-      double temperatureCelsius = m_clawMotor.getMotorTemperature();
-      boolean temperature = false;
-      SmartDashboard.putNumber("Claw Neo Temperature", temperatureCelsius);
-
       if (m_clawMotor.getMotorTemperature() > ClawSubsystemConstants.k_temperatureLimit)
       {
-        temperature = true;
+        return true;
+      } 
+      else 
+      {
+        return false; 
       }
-
-       return temperature; 
     }
 }

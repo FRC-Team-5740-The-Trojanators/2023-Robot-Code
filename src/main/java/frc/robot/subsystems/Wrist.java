@@ -13,7 +13,6 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.MotorPIDValues;
@@ -22,13 +21,10 @@ import frc.robot.Constants;
 
 public class Wrist extends SubsystemBase 
 {
-  private double m_lastSpeed = 0;
-  private double m_lastTime = Timer.getFPGATimestamp();
-
   private MedianFilter m_filter = new MedianFilter(16);
   private double m_filteredAngle;
 
-  private final TrapezoidProfile.Constraints m_trapConstraints = new TrapezoidProfile.Constraints(1, .5);
+  private final TrapezoidProfile.Constraints m_trapConstraints = new TrapezoidProfile.Constraints(2, 2);
   private ArmFeedforward m_armFeedforward = new ArmFeedforward(MotorPIDValues.k_wristMotorFF_Ks, MotorPIDValues.k_wristMotorFF_Kg , MotorPIDValues.k_wristMotorFF_Kv);
   private ProfiledPIDController m_wristMotorPID = new ProfiledPIDController(MotorPIDValues.k_wristMotorP, MotorPIDValues.k_wristMotorI, MotorPIDValues.k_wristMotorD, m_trapConstraints);
   private CANSparkMax m_wristMotor = new CANSparkMax(CANBusIDs.k_wristMotorID, MotorType.kBrushless);
@@ -38,7 +34,7 @@ public class Wrist extends SubsystemBase
   public Wrist()
   {
     m_wristMotor.restoreFactoryDefaults();
-    m_wristMotor.enableVoltageCompensation(12);
+    m_wristMotor.enableVoltageCompensation(10);
     m_wristMotor.setIdleMode(IdleMode.kBrake);
     m_wristMotorPID.setTolerance(MotorPIDValues.k_wristTolerance);
     m_wristMotorPID.disableContinuousInput();
@@ -63,13 +59,10 @@ public class Wrist extends SubsystemBase
     
   }
 
-  public void goToPosition(double goalPosition) 
+  public void goToPosition(double goalPosition, double shoulderAngle) 
   {
     double pidVal = m_wristMotorPID.calculate(m_filteredAngle, goalPosition);
-    double acceleration = (m_wristMotorPID.getSetpoint().velocity - m_lastSpeed) / (Timer.getFPGATimestamp() - m_lastTime);
-    m_wristMotor.setVoltage(pidVal + m_armFeedforward.calculate(m_wristMotorPID.getSetpoint().velocity, acceleration));
-    m_lastSpeed = m_wristMotorPID.getSetpoint().velocity;
-    m_lastTime = Timer.getFPGATimestamp();
+    m_wristMotor.setVoltage(pidVal + m_armFeedforward.calculate(m_wristMotorPID.getSetpoint().position + shoulderAngle, m_wristMotorPID.getSetpoint().velocity));
   }
 
   public void setInitialSetPoint()

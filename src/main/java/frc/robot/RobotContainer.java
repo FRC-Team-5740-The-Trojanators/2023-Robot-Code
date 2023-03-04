@@ -91,6 +91,8 @@ public class RobotContainer
     configureButtonBindings();
 
     m_driveSubsystem.setDefaultCommand(m_driveCommand);
+    m_shoulder.setDefaultCommand(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
+    m_wrist.setDefaultCommand(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
     m_driveSubsystem.resetIMU();
   
     configChooser();
