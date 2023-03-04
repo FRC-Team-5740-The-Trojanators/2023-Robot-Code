@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.playingwithfusion.TimeOfFlight;
+import com.playingwithfusion.TimeOfFlight.RangingMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,6 +19,7 @@ public class Claw extends SubsystemBase
 {
   private CANSparkMax m_clawMotor;
   private boolean m_aboveTemperature; 
+  private TimeOfFlight m_distanceSensor; 
 
   /** Creates a new Claw. */
   public Claw() 
@@ -25,6 +28,8 @@ public class Claw extends SubsystemBase
     m_clawMotor.restoreFactoryDefaults();
     m_clawMotor.setIdleMode(IdleMode.kBrake);
     m_clawMotor.setSmartCurrentLimit(20);
+
+    m_distanceSensor = new TimeOfFlight(Constants.CANBusIDs.k_clawTOF);
   }
 
   // sparkmax w/ Neo550, distance sensor
@@ -34,6 +39,7 @@ public class Claw extends SubsystemBase
     // This method will be called once per scheduler run
     m_aboveTemperature = getMotorTemperature();
     SmartDashboard.putNumber("Claw Temperature", m_clawMotor.getMotorTemperature());
+    SmartDashboard.putNumber("TOF Distance", getRange());
   }
 
   public void forwardClawMotor()
@@ -72,4 +78,10 @@ public class Claw extends SubsystemBase
         return false; 
       }
     }
+
+    public double getRange()
+    {
+      return m_distanceSensor.getRange();
+    }
+    
 }

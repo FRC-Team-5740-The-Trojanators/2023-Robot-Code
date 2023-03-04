@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.Claw;
 
 public class RunClawCommand extends CommandBase 
@@ -41,7 +42,7 @@ public class RunClawCommand extends CommandBase
     {
       m_claw.reverseClawMotor();
     }
-    if (m_function == "HOLD") 
+    if ((m_function == "FORWARD") && (m_claw.getRange() < Constants.ClawSubsystemConstants.k_coneThreshold))
     {
       m_claw.holdClawMotor();
     }
