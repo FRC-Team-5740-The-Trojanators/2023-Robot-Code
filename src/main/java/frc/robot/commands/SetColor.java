@@ -34,18 +34,18 @@ public class SetColor extends CommandBase
   {
     if(m_color.contentEquals("purple"))
     {
-      SmartDashboard.putString("PURPLE", "ON");
+      //SmartDashboard.putString("PURPLE", "ON");
         for(int i = 0; i < Constants.LEDsSubsystemConstants.k_numLeds; i++)
         {
         m_leds.setRGBColor(new LEDColor(153,  51, 255));
         }
     } 
     else
-    { SmartDashboard.putString("PURPLE", "Off");
+    { //SmartDashboard.putString("PURPLE", "Off");
   }
     if(m_color.contentEquals("yellow"))
     {
-      SmartDashboard.putString("YELLOW", "ON");
+      //SmartDashboard.putString("YELLOW", "ON");
       for(int i = 0; i < Constants.LEDsSubsystemConstants.k_numLeds; i++)
         {
         m_leds.setRGBColor(new LEDColor(255, 255, 0));
@@ -53,12 +53,12 @@ public class SetColor extends CommandBase
     } 
     else
     {
-      SmartDashboard.putString("YELLOW", "OFF");
+      //SmartDashboard.putString("YELLOW", "OFF");
     }
 
     if(m_color.contentEquals("off"))
     {
-      SmartDashboard.putString("OFF", "ON");
+      //SmartDashboard.putString("OFF", "ON");
       for(int i = 0; i < Constants.LEDsSubsystemConstants.k_numLeds; i++)
         {
         m_leds.setRGBColor(new LEDColor(0, 0, 0));
@@ -66,7 +66,7 @@ public class SetColor extends CommandBase
     } 
     else
     {
-      SmartDashboard.putString("OFF", "OFF");
+      //SmartDashboard.putString("OFF", "OFF");
     }
     
   }

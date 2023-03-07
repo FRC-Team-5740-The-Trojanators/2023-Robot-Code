@@ -35,8 +35,8 @@ public class VisionTargeting extends SubsystemBase
  
     
     //post to smart dashboard periodically
-    SmartDashboard.putNumber("LimelightX", m_tx);
-    SmartDashboard.putNumber("LimelightV", m_tv);
+    //SmartDashboard.putNumber("LimelightX", m_tx);
+    //SmartDashboard.putNumber("LimelightV", m_tv);
 
 }
 
@@ -95,6 +95,11 @@ public void ledOn()
 public void ledOff()
 {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
+}
+
+public String getObjectType()
+{
+    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tclass").getString("none");
 }
   
 }

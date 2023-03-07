@@ -24,7 +24,7 @@ public class Wrist extends SubsystemBase
   private MedianFilter m_filter = new MedianFilter(16);
   private double m_filteredAngle;
 
-  private final TrapezoidProfile.Constraints m_trapConstraints = new TrapezoidProfile.Constraints(2, 2);
+  private final TrapezoidProfile.Constraints m_trapConstraints = new TrapezoidProfile.Constraints(.5, .5);
   private ArmFeedforward m_armFeedforward = new ArmFeedforward(MotorPIDValues.k_wristMotorFF_Ks, MotorPIDValues.k_wristMotorFF_Kg , MotorPIDValues.k_wristMotorFF_Kv);
   private ProfiledPIDController m_wristMotorPID = new ProfiledPIDController(MotorPIDValues.k_wristMotorP, MotorPIDValues.k_wristMotorI, MotorPIDValues.k_wristMotorD, m_trapConstraints);
   private CANSparkMax m_wristMotor = new CANSparkMax(CANBusIDs.k_wristMotorID, MotorType.kBrushless);
