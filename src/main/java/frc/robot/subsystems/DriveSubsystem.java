@@ -4,11 +4,17 @@
 
 package frc.robot.subsystems;
 
+import java.util.Timer;
+
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
 
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.Nat;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -16,6 +22,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,11 +31,15 @@ import frc.robot.Constants.CANBusIDs;
 import frc.robot.Constants.SwerveDriveModuleConstants;
 
 
+
 public class DriveSubsystem extends SubsystemBase
 {
   public Pigeon2 m_imu = new Pigeon2(CANBusIDs.k_pigeon2ID, "CANivorous_Rex");
   DriveSubsystem m_drivetrain;
   Field2d m_field2d = new Field2d();
+  private Matrix<N3, N1> stateStdDevs = new Matrix<>(Nat.N3(), Nat.N1());
+  private Matrix<N3, N1> visionMeasurementStdDevs = new Matrix<>(Nat.N3(), Nat.N1());
+  
 
   private SwerveModuleState[] m_states = new SwerveModuleState[]
   {
@@ -52,8 +64,8 @@ public class DriveSubsystem extends SubsystemBase
     new SwerveModulePosition(),
     new SwerveModulePosition()
   };
-   
- public DriveSubsystem(boolean calibrateGyro) 
+ 
+  public DriveSubsystem(boolean calibrateGyro) 
   {
     if(calibrateGyro) 
     {
@@ -66,7 +78,12 @@ public class DriveSubsystem extends SubsystemBase
     }
 
     m_imu.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_1_General, 20);
+
+    stateStdDevs = VecBuilder.fill(0.003, 0.003, 0.0002);
+    visionMeasurementStdDevs = VecBuilder.fill(0.003, 0.003, 0.0002);
   }
+
+  private final SwerveDrivePoseEstimator m_odometry = new SwerveDrivePoseEstimator(SwerveDriveModuleConstants.k_AutoKinematics, getHeading(true), swerveModulePosition, getInitialPoseMeters(), stateStdDevs, visionMeasurementStdDevs);
 
   public void setZeroState()
   {
@@ -117,13 +134,19 @@ public class DriveSubsystem extends SubsystemBase
     m_imu.setYaw(0);
   }
 
-  private final SwerveDriveOdometry m_odometry = 
-      new SwerveDriveOdometry(SwerveDriveModuleConstants.k_AutoKinematics, getHeading(true), swerveModulePosition);
+  //private final SwerveDriveOdometry m_odometry = 
+      //new SwerveDriveOdometry(SwerveDriveModuleConstants.k_AutoKinematics, getHeading(true), swerveModulePosition);
+
+  public Pose2d getInitialPoseMeters()
+  {
+    return new Pose2d(0.0, 0.0, new Rotation2d(0));
+  }
 
   public Pose2d getPose() 
   {
-      SmartDashboard.putString("pose", m_odometry.getPoseMeters().toString());
-      return m_odometry.getPoseMeters();
+      //SmartDashboard.putString("pose", m_odometry.getPoseMeters().toString());
+      //return m_odometry.getPoseMeters();
+      return m_odometry.getEstimatedPosition();
   }
 
   public Rotation2d getHeading(boolean positive)
@@ -175,6 +198,8 @@ public class DriveSubsystem extends SubsystemBase
   @Override
   public void periodic() 
   {
+    //addVisionMeasurement​(Pose2d visionRobotPoseMeters, Timer.getFPGATimestamp());
+
     m_odometry.update(
       getHeading(true),
       new SwerveModulePosition[] 
@@ -185,6 +210,9 @@ public class DriveSubsystem extends SubsystemBase
         modules[3].getPosition()
       });
       m_field2d.setRobotPose(getPose());
+
+    
+           
       /*SmartDashboard.putString("Pitch", getPitch(true).toString());
       SmartDashboard.putString("Roll", getRoll(true).toString());
       SmartDashboard.putString("Position 0", modules[0].getPosition().toString());
