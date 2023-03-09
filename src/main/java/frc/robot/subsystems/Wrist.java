@@ -23,8 +23,9 @@ public class Wrist extends SubsystemBase
 {
   private MedianFilter m_filter = new MedianFilter(16);
   private double m_filteredAngle;
+  private boolean m_wristEncoderFlag = false;
 
-  private final TrapezoidProfile.Constraints m_trapConstraints = new TrapezoidProfile.Constraints(.5, .5);
+  private final TrapezoidProfile.Constraints m_trapConstraints = new TrapezoidProfile.Constraints(2, 2);
   private ArmFeedforward m_armFeedforward = new ArmFeedforward(MotorPIDValues.k_wristMotorFF_Ks, MotorPIDValues.k_wristMotorFF_Kg , MotorPIDValues.k_wristMotorFF_Kv);
   private ProfiledPIDController m_wristMotorPID = new ProfiledPIDController(MotorPIDValues.k_wristMotorP, MotorPIDValues.k_wristMotorI, MotorPIDValues.k_wristMotorD, m_trapConstraints);
   private CANSparkMax m_wristMotor = new CANSparkMax(CANBusIDs.k_wristMotorID, MotorType.kBrushless);
@@ -44,6 +45,12 @@ public class Wrist extends SubsystemBase
   @Override
   public void periodic() 
   {
+    if(m_wristEncoder.isConnected()) m_wristEncoderFlag = true;
+
+    if((getAngleRadians() < -.5) || (getAngleRadians() > 2.71))
+    {
+      m_wristEncoderFlag = false;
+    }
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Wrist Abs Encoder", getAbsEncoder());
     SmartDashboard.putNumber("Wrist Angle Radians", getAngleRadians());
@@ -62,7 +69,15 @@ public class Wrist extends SubsystemBase
   public void goToPosition(double goalPosition, double shoulderAngle) 
   {
     double pidVal = m_wristMotorPID.calculate(m_filteredAngle, goalPosition);
-    m_wristMotor.setVoltage(pidVal + m_armFeedforward.calculate(m_wristMotorPID.getSetpoint().position + shoulderAngle, m_wristMotorPID.getSetpoint().velocity));
+    if(m_wristEncoderFlag)
+    {
+      //m_wristMotor.setVoltage(pidVal + m_armFeedforward.calculate(m_wristMotorPID.getSetpoint().position + shoulderAngle, m_wristMotorPID.getSetpoint().velocity));
+      m_wristMotor.setVoltage(pidVal + m_armFeedforward.calculate(m_wristMotorPID.getSetpoint().position, m_wristMotorPID.getSetpoint().velocity));
+    }
+    else
+    {
+      forceMotorStop();
+    }
   }
 
   public void setInitialSetPoint()
@@ -72,7 +87,7 @@ public class Wrist extends SubsystemBase
 
   public double getAngleRadians()
   {
-      return ((m_wristEncoder.get() - Constants.ArmPositionConstants.wristOffset) * Math.PI * 2);
+      return ((m_wristEncoder.get()- Constants.ArmPositionConstants.wristOffset) * Math.PI * 2);
   }
 
   public double getAbsEncoder()

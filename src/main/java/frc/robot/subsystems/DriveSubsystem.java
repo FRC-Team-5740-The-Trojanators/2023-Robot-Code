@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import java.util.Timer;
-
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.Pigeon2;
@@ -17,6 +15,7 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -24,9 +23,11 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants.CANBusIDs;
 import frc.robot.Constants.SwerveDriveModuleConstants;
 
@@ -40,7 +41,6 @@ public class DriveSubsystem extends SubsystemBase
   private Matrix<N3, N1> stateStdDevs = new Matrix<>(Nat.N3(), Nat.N1());
   private Matrix<N3, N1> visionMeasurementStdDevs = new Matrix<>(Nat.N3(), Nat.N1());
   
-
   private SwerveModuleState[] m_states = new SwerveModuleState[]
   {
       new SwerveModuleState(0.0, new Rotation2d(0)),
@@ -139,7 +139,7 @@ public class DriveSubsystem extends SubsystemBase
 
   public Pose2d getInitialPoseMeters()
   {
-    return new Pose2d(0.0, 0.0, new Rotation2d(0));
+    return getVisionPose2d();
   }
 
   public Pose2d getPose() 
@@ -147,6 +147,20 @@ public class DriveSubsystem extends SubsystemBase
       //SmartDashboard.putString("pose", m_odometry.getPoseMeters().toString());
       //return m_odometry.getPoseMeters();
       return m_odometry.getEstimatedPosition();
+  }
+
+  public Pose2d getVisionPose2d()
+  {
+    double[] botposeArray = NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
+    double poseX = botposeArray[0];
+    double poseY = botposeArray[1];
+    Rotation2d rotation = new Rotation2d(botposeArray[5]);
+    return new Pose2d(poseX, poseY, rotation);
+  }
+
+  public boolean aprilTagInView()
+  {
+    return NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("tv").getBoolean(false);
   }
 
   public Rotation2d getHeading(boolean positive)
@@ -186,7 +200,8 @@ public class DriveSubsystem extends SubsystemBase
   {
     m_odometry.resetPosition(
       getHeading(true),
-        new SwerveModulePosition[] {
+        new SwerveModulePosition[] 
+        {
           modules[0].getPosition(),
           modules[1].getPosition(),
           modules[2].getPosition(),
@@ -198,7 +213,7 @@ public class DriveSubsystem extends SubsystemBase
   @Override
   public void periodic() 
   {
-    //addVisionMeasurement​(Pose2d visionRobotPoseMeters, Timer.getFPGATimestamp());
+    if(aprilTagInView()) m_odometry.addVisionMeasurement(getVisionPose2d(), Timer.getFPGATimestamp());
 
     m_odometry.update(
       getHeading(true),

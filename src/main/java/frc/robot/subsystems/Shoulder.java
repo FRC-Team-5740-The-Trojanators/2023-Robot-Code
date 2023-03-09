@@ -26,6 +26,7 @@ public class Shoulder extends SubsystemBase
 
   private MedianFilter m_filter = new MedianFilter(16);
   private double m_filteredAngle;
+  private boolean m_shoulderEncoderFlag = false;
 
   private final TrapezoidProfile.Constraints m_trapConstraints = new TrapezoidProfile.Constraints(2, 5);
   private CANSparkMax m_shoulderMotor = new CANSparkMax(Constants.CANBusIDs.k_shoulderMotorID, MotorType.kBrushless);
@@ -47,12 +48,18 @@ public class Shoulder extends SubsystemBase
   @Override
   public void periodic() 
   {
+    if(m_shoulderEncoder.isConnected()) m_shoulderEncoderFlag = true;
+
+    if((getAngleRadians() < -.25) || (getAngleRadians() > 1.53))
+    {
+      m_shoulderEncoderFlag = false;
+    }
     // This method will be called once per scheduler run
-    //SmartDashboard.putNumber("Shoulder Abs Encoder", getAbsEncoder());
-    //SmartDashboard.putNumber("Shoulder Angle Radians", getAngleRadians());
-    //SmartDashboard.putNumber("error", m_shoulderMotorPID.getPositionError());
-    //SmartDashboard.putNumber("Setpoint Pos", m_shoulderMotorPID.getSetpoint().position);
-    //SmartDashboard.putNumber("Setpoint Vel", m_shoulderMotorPID.getSetpoint().velocity);
+    SmartDashboard.putNumber("Shoulder Abs Encoder", getAbsEncoder());
+    SmartDashboard.putNumber("Shoulder Angle Radians", getAngleRadians());
+    SmartDashboard.putNumber("error", m_shoulderMotorPID.getPositionError());
+    SmartDashboard.putNumber("Setpoint Pos", m_shoulderMotorPID.getSetpoint().position);
+    SmartDashboard.putNumber("Setpoint Vel", m_shoulderMotorPID.getSetpoint().velocity);
 
     for(int i = 0; i < 16; i++)
     {
@@ -66,9 +73,17 @@ public class Shoulder extends SubsystemBase
   {
     double pidVal = m_shoulderMotorPID.calculate(m_filteredAngle, goalPosition);
     double acceleration = (m_shoulderMotorPID.getSetpoint().velocity - m_lastSpeed) / (Timer.getFPGATimestamp() - m_lastTime);
-    m_shoulderMotor.setVoltage(pidVal + m_armFeedforward.calculate(m_shoulderMotorPID.getSetpoint().velocity, acceleration));
-    m_lastSpeed = m_shoulderMotorPID.getSetpoint().velocity;
-    m_lastTime = Timer.getFPGATimestamp();
+
+    if(m_shoulderEncoderFlag)
+    {
+      m_shoulderMotor.setVoltage(pidVal + m_armFeedforward.calculate(m_shoulderMotorPID.getSetpoint().velocity, acceleration));
+      m_lastSpeed = m_shoulderMotorPID.getSetpoint().velocity;
+      m_lastTime = Timer.getFPGATimestamp();
+    }
+    else
+    {
+      forceMotorStop();
+    }
   }
 
   public void setInitialSetPoint()
