@@ -66,13 +66,13 @@ public class Wrist extends SubsystemBase
     
   }
 
-  public void goToPosition(double goalPosition, double shoulderAngle) 
+  public void goToPosition(double goalPosition, double shoulderAngle)
   {
     double pidVal = m_wristMotorPID.calculate(m_filteredAngle, goalPosition);
     if(m_wristEncoderFlag)
     {
-      //m_wristMotor.setVoltage(pidVal + m_armFeedforward.calculate(m_wristMotorPID.getSetpoint().position + shoulderAngle, m_wristMotorPID.getSetpoint().velocity));
-      m_wristMotor.setVoltage(pidVal + m_armFeedforward.calculate(m_wristMotorPID.getSetpoint().position, m_wristMotorPID.getSetpoint().velocity));
+      m_wristMotor.setVoltage(pidVal + m_armFeedforward.calculate(m_wristMotorPID.getSetpoint().position + shoulderAngle, m_wristMotorPID.getSetpoint().velocity));
+      //m_wristMotor.setVoltage(pidVal + m_armFeedforward.calculate(m_wristMotorPID.getSetpoint().position, m_wristMotorPID.getSetpoint().velocity));
     }
     else
     {
