@@ -40,6 +40,7 @@ public class Shoulder extends SubsystemBase
     m_shoulderMotor.enableVoltageCompensation(10);
     m_shoulderMotor.setIdleMode(IdleMode.kBrake);
     m_shoulderMotor.setInverted(false);
+    m_shoulderMotor.setSmartCurrentLimit(40);
     m_shoulderMotorPID.setTolerance(Constants.MotorPIDValues.k_shoulderTolerance);
     m_shoulderMotorPID.disableContinuousInput();
     m_shoulderMotorPID.setTolerance(.1, 1);

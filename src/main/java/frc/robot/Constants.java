@@ -94,13 +94,6 @@ public final class Constants
         public static double leftRearOffset = 239.06;
         public static double rightRearOffset = 103.01 + 180;
     
-        /*public static final SwerveDriveKinematics k_TeleKinematics =
-        new SwerveDriveKinematics(
-            new Translation2d(k_WheelBase / 2, -k_WheelBase / 2),
-            new Translation2d(k_WheelBase / 2, k_WheelBase / 2),   
-            new Translation2d(-k_WheelBase / 2, -k_WheelBase / 2),   
-            new Translation2d(-k_WheelBase / 2, k_WheelBase / 2));
-            */
         public static final SwerveDriveKinematics k_AutoKinematics =
         new SwerveDriveKinematics(
             new Translation2d(k_WheelBase / 2, k_WheelBase / 2),
@@ -193,15 +186,25 @@ public final class Constants
         public static final double k_shoulderMotorFF_Kv = 1.3107;
         public static final double k_shoulderMotorFF_Ks = 0.1736;
 
+        /* arm mechanism feedforward constants from sysid */
+        /*
         public static final double k_wristMotorP = 4.3298; 
         public static final double k_wristMotorI = 0; 
         public static final double k_wristMotorD = 0.47482; 
         public static final double k_wristMotorFF_Kg = 0.37262;
         public static final double k_wristMotorFF_Kv = 0.93262;
         public static final double k_wristMotorFF_Ks = 0.049419;
+        */
 
-        public static final double k_shoulderTolerance = .00005;
-        public static final double k_wristTolerance = .00005;
+        public static final double k_wristMotorP = 3; //4.9753; 
+        public static final double k_wristMotorI = 0; 
+        public static final double k_wristMotorD = 0.65186; 
+        public static final double k_wristMotorFF_Ka = 0.034179;
+        public static final double k_wristMotorFF_Kv = 0.84873;
+        public static final double k_wristMotorFF_Ks = 0.24851;
+
+        public static final double k_shoulderTolerance = .05;
+        public static final double k_wristTolerance = .1;
     }
 
     public static class SetColorValues
@@ -226,7 +229,7 @@ public final class Constants
         public static final double shoulderOffset = 0.33841; //absolute encoder value
         public static final double wristOffset = 0.4241; //absolute encoder value
         public static final double shoulderStowed = (0.585 - shoulderOffset) * 2 * Math.PI; //radians
-        public static final double wristStowed = (0.860 - wristOffset) * 2 * Math.PI; //radians
+        public static final double wristStowed = (0.850 - wristOffset) * 2 * Math.PI; //radians
         public static final double shoulderTopGrid = (0.332 - shoulderOffset)  * 2 * Math.PI; //radians
         public static final double wristTopGrid = (0.5010 - wristOffset) * 2 * Math.PI; //radians
         public static final double shoulderMidGrid = (0.372 - shoulderOffset) * 2 * Math.PI; //radians

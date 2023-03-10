@@ -68,7 +68,7 @@ public class SwerveDriveCommand extends CommandBase
         * SwerveDriveModuleConstants.k_MaxTeleSpeed)*.2;
      
       final var rot = -getJoystickWithDeadBand(controller.getRightX()) 
-      * SwerveDriveModuleConstants.k_MaxAngularSpeed*.03;
+      * SwerveDriveModuleConstants.k_MaxAngularSpeed*.1;
 
     if(controller.getRightTriggerAxis() >= 0.1)
     {
