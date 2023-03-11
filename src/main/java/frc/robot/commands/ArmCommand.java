@@ -50,16 +50,28 @@ public class ArmCommand extends CommandBase
         m_shoulderSetPoint = ArmPositionConstants.shoulderStowed;
         m_wristSetPoint = ArmPositionConstants.wristStowed;
       }
-      else if (m_position == "TOPGRID")
+      else if (m_position == "TOPGRIDCONE")
       {
-        m_shoulderSetPoint = ArmPositionConstants.shoulderTopGrid;
-        m_wristSetPoint = ArmPositionConstants.wristTopGrid;
+        m_shoulderSetPoint = ArmPositionConstants.shoulderTopGridCone;
+        m_wristSetPoint = ArmPositionConstants.wristTopGridCone;
       }
-      else if (m_position == "MIDGRID")
+      else if (m_position == "MIDGRIDCONE")
       {
-        m_shoulderSetPoint = ArmPositionConstants.shoulderMidGrid;
-        m_wristSetPoint = ArmPositionConstants.wristMidGrid;
+        m_shoulderSetPoint = ArmPositionConstants.shoulderMidGridCone;
+        m_wristSetPoint = ArmPositionConstants.wristMidGridCone;
       }
+
+      else if (m_position == "TOPGRIDCUBE")
+      {
+        m_shoulderSetPoint = ArmPositionConstants.shoulderTopGridCube;
+        m_wristSetPoint = ArmPositionConstants.wristTopGridCube;
+      }
+      else if (m_position == "MIDGRIDCUBE")
+      {
+        m_shoulderSetPoint = ArmPositionConstants.shoulderMidGridCube;
+        m_wristSetPoint = ArmPositionConstants.wristMidGridCube;
+      }
+
       else if (m_position == "FLOOR")
       {
         m_shoulderSetPoint = ArmPositionConstants.shoulderFloor;

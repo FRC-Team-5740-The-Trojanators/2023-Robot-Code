@@ -116,7 +116,7 @@ public class DriveSubsystem extends SubsystemBase
     m_states =
       SwerveDriveModuleConstants.k_AutoKinematics.toSwerveModuleStates(
           fieldRelative
-              ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getHeading(false))
+              ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getHeading(true))
               : new ChassisSpeeds(xSpeed, ySpeed, rot));
       setSwerveModuleStatesTele(m_states);
   }

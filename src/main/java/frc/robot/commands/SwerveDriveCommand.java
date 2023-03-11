@@ -72,12 +72,12 @@ public class SwerveDriveCommand extends CommandBase
 
     if(controller.getRightTriggerAxis() >= 0.1)
     {
-      drivetrain.teleDrive(xSpeed * (SwerveDriveModuleConstants.k_XYjoystickCoefficient), ySpeed * (SwerveDriveModuleConstants.k_XYjoystickCoefficient), rot * (SwerveDriveModuleConstants.k_RotCoefficient), false);
+      drivetrain.teleDrive(xSpeed * (SwerveDriveModuleConstants.k_XYjoystickCoefficient), ySpeed * (SwerveDriveModuleConstants.k_XYjoystickCoefficient), rot * (SwerveDriveModuleConstants.k_RotCoefficient), true);
     } 
     else 
     {
       //drivetrain.teleDrive(0, 1, 0, false);
-      drivetrain.teleDrive(xSpeed, ySpeed, rot, false);
+      drivetrain.teleDrive(xSpeed, ySpeed, rot, true);
     }
   }
 

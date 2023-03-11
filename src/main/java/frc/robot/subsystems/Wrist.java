@@ -57,7 +57,7 @@ public class Wrist extends SubsystemBase
   {
     if(m_wristEncoder.isConnected()) m_wristEncoderFlag = true;
 
-    if((getAngleRadians() < -.5) || (getAngleRadians() > 2.71))
+    if((getAngleRadians() < -1.59) || (getAngleRadians() > 2.71))
     {
       m_wristEncoderFlag = false;
     }

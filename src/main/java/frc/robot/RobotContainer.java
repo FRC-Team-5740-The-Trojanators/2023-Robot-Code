@@ -81,7 +81,7 @@ public class RobotContainer
   //private final DefaultTaxi m_autoDefault = new DefaultTaxi(m_driveSubsystem);
   private final SwerveDriveCommand m_driveCommand = new SwerveDriveCommand(m_driveSubsystem, m_driverController);
   
-  public static JoystickButton coneTarget, cubeTarget, xBalance, yBalance, aprilTag, zeroDrive, purpleLED, offLED, yellowLED, tapeTarget, runClaw, reverseClaw, stowArm, topGridArm, midGridArm, floorArm, clawIn, clawOut;
+  public static JoystickButton coneTarget, cubeTarget, xBalance, yBalance, aprilTag, zeroDrive, purpleLED, offLED, yellowLED, tapeTarget, runClaw, reverseClaw, stowArm, topGridArmCone, midGridArmCone, floorArm, clawIn, clawOut, topGridArmCube, midGridArmCube;
 
   SendableChooser<CommandBase> auto = new SendableChooser<CommandBase>();
 
@@ -131,8 +131,8 @@ public class RobotContainer
     coneTarget = new JoystickButton(m_driverController , HIDConstants.kA);
     cubeTarget = new JoystickButton(m_driverController , HIDConstants.kB);
     tapeTarget = new JoystickButton(m_driverController, HIDConstants.kX);
-    xBalance = new JoystickButton(m_driverController, HIDConstants.kX);
-    yBalance = new JoystickButton(m_driverController, HIDConstants.kY);
+    //xBalance = new JoystickButton(m_driverController, HIDConstants.kX);
+    //yBalance = new JoystickButton(m_driverController, HIDConstants.kY);
     aprilTag = new JoystickButton(m_driverController , HIDConstants.kBack);
     zeroDrive = new JoystickButton(m_driverController, HIDConstants.kStart);
 
@@ -143,11 +143,13 @@ public class RobotContainer
     //yellowLED = new JoystickButton(m_operatorController, HIDConstants.kRB);
     //offLED = new JoystickButton(m_operatorController, HIDConstants.kX);
     stowArm = new JoystickButton(m_operatorController, HIDConstants.kA);
-    topGridArm = new JoystickButton(m_operatorController, HIDConstants.kY);
-    midGridArm = new JoystickButton(m_operatorController, HIDConstants.kX);
+    topGridArmCone = new JoystickButton(m_operatorController, HIDConstants.kY);
+    midGridArmCone = new JoystickButton(m_operatorController, HIDConstants.kX);
     floorArm = new JoystickButton(m_operatorController, HIDConstants.kB);
     clawIn= new JoystickButton(m_operatorController, HIDConstants.kLB);
     clawOut= new JoystickButton(m_operatorController, HIDConstants.kRB);
+    topGridArmCube = new JoystickButton(m_operatorController, HIDConstants.kBack);
+    midGridArmCube = new JoystickButton(m_operatorController, HIDConstants.kStart);
 
     //orangeLED = new JoystickButton(m_driverController, HIDConstants.kY);
 
@@ -156,7 +158,7 @@ public class RobotContainer
     tapeTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 3));
     //aprilTag.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 2));
     //xBalance.whileTrue(new Balance(m_driveSubsystem, true));
-    yBalance.whileTrue(new Balance(m_driveSubsystem, false));
+    //yBalance.whileTrue(new Balance(m_driveSubsystem, false));
     zeroDrive.whileTrue(new ZeroSwerveCommand(m_driveSubsystem));
 
     //runClaw.whileTrue(new RunClawCommand(m_claw, "stop"));
@@ -166,8 +168,10 @@ public class RobotContainer
     //offLED.whileTrue(new SetColor(m_leds, "off"));
 
     stowArm.whileTrue(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
-    topGridArm.whileTrue(new ArmCommand(m_shoulder, m_wrist, "TOPGRID"));
-    midGridArm.whileTrue(new ArmCommand(m_shoulder, m_wrist, "MIDGRID"));
+    topGridArmCone.whileTrue(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE"));
+    midGridArmCone.whileTrue(new ArmCommand(m_shoulder, m_wrist, "MIDGRIDCONE"));
+    topGridArmCube.whileTrue(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCUBE"));
+    midGridArmCube.whileTrue(new ArmCommand(m_shoulder, m_wrist, "MIDGRIDCUBE"));
     floorArm.whileTrue(new ArmCommand(m_shoulder, m_wrist, "FLOOR"));
     clawIn.whileTrue(new RunClawCommand(m_claw, "FORWARD"));
     clawOut.whileTrue(new RunClawCommand(m_claw, "BACKWARD"));
