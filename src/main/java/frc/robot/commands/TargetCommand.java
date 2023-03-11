@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -13,17 +14,22 @@ import frc.robot.subsystems.VisionTargeting;
 public class TargetCommand extends CommandBase 
 {
     /** Creates a new TargetCommand. */
-  DriveSubsystem m_drivetrain;  
-  boolean m_isFinished;
-  int m_pipeline;
-  VisionTargeting m_visionTargeting; 
+  private DriveSubsystem m_drivetrain;  
+  private boolean m_isFinished;
+  private int m_pipeline;
+  private VisionTargeting m_visionTargeting; 
+  private String m_camera;
+  private PIDController m_targetController = new PIDController(.1, 0, 0);
+  private PIDController m_rotController = new PIDController(.1, 0, 0);
 
-  public TargetCommand(DriveSubsystem drivetrain, VisionTargeting visionTargeting, int pipeline) //pass in pipeline of target
+  public TargetCommand(DriveSubsystem drivetrain, VisionTargeting visionTargeting, int pipeline, String camera)
   {
     // Use addRequirements() here to declare subsystem dependencies.
     m_drivetrain = drivetrain;
     m_pipeline = pipeline;
     m_visionTargeting = visionTargeting;
+    m_camera = camera;
+  
     addRequirements(m_drivetrain);
   }
 
@@ -32,26 +38,9 @@ public class TargetCommand extends CommandBase
   public void initialize() 
   {
     //set correct camera pipeline
-    if(m_pipeline == 0)
-    {
-      NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
-    }
-    if(m_pipeline == 1)
-    {
-      NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
-    }
-   if(m_pipeline == 2)
-    {
-      NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(2);
-    }
-    if(m_pipeline == 3)
-      {
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(3);
-      }
-        SmartDashboard.putBoolean("Target Sees", false);
-  
-
-  
+    NetworkTableInstance.getDefault().getTable(m_camera).getEntry("pipeline").setNumber(m_pipeline);
+    SmartDashboard.putBoolean("Target Sees", false);
+    m_isFinished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -61,34 +50,20 @@ public class TargetCommand extends CommandBase
     if(m_visionTargeting.seesTarget())
     {
       SmartDashboard.putBoolean("Target Sees",true);
-      if(m_visionTargeting.getLimelightTX() < 0)
-      {
-        m_drivetrain.teleDrive(0, 0, 1, true);
-      } 
-      else
-        if(m_visionTargeting.getLimelightTX() > 0)
-        {
-          m_drivetrain.teleDrive(0, 0, -1, true);
-        } 
-        else 
-        {
-          m_drivetrain.teleDrive(0, 0, 0, true);
-        }
-    }
+      m_drivetrain.teleDrive(0, m_targetController.calculate(m_visionTargeting.getLimelightTX(), 0), m_rotController.calculate(m_drivetrain.getRawYaw(), 180), false);
+    }   
     else 
     {
-
+      m_drivetrain.teleDrive(0, 0, 0, true);
     }
-    //use tx, ty, ta values to rotate drivetrain
-    //do some math...
-    //drive(arguments)...
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) 
   {
-    //m_isFinished = true;
+    m_isFinished = true;
+    NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("pipeline").setNumber(0);
   }
 
   // Returns true when the command should end.

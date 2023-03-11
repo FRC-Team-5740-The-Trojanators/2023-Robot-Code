@@ -70,13 +70,16 @@ public final class Constants
         public static final double k_wheelDiameter = Units.inchesToMeters(3.9375); //meters
 
         /*TODO for all of these change when robot is characterized*/
-        public static final double k_MaxTeleSpeed = Units.feetToMeters(4); //m/s checked :)
+        public static final double k_MaxTeleSpeed = Units.feetToMeters(16); //m/s checked :)
         public static final double k_MaxAutoSpeed = Units.feetToMeters(7); //m/s
         public static final double k_MaxAcceleration = 1; //m/s/s 
         
-        public static final double k_XYjoystickCoefficient = .5; //speed limiter
-        public static final double k_MaxAngularSpeed = Units.feetToMeters(16.3) / k_RobotRadius; // 628; //rad/s TODO confirm
-        public static final double k_RotCoefficient = .5; //speed limiter
+        public static final double k_XYjoystickCoefficient = .8; //speed limiter
+        public static final double k_MaxAngularSpeed = Units.feetToMeters(16) / k_RobotRadius; // 628; //rad/s TODO confirm
+        public static final double k_RotCoefficient = .4; //speed limiter
+
+        public static final double k_slowXYjoystickCoefficient = .2; //slow speed limiter
+        public static final double k_slowRotCoefficient = .05; //slow speed limiter
 
         public static final double k_driveEncoderTicksPerRotation = 2048; 
         public static final double k_gearRatio = 6.75;

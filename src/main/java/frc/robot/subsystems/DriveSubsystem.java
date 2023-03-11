@@ -196,6 +196,11 @@ public class DriveSubsystem extends SubsystemBase
     }
   }
 
+  public double getRawYaw()
+  {
+    return m_imu.getYaw();
+  }
+
   public void resetOdometry(Pose2d pose) 
   {
     m_odometry.resetPosition(

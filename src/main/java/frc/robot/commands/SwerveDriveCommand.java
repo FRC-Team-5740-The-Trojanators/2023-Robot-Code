@@ -17,8 +17,8 @@ public class SwerveDriveCommand extends CommandBase
     private final DriveSubsystem drivetrain;
     private final XboxController controller;
            
-    private final SlewRateLimiter xspeedLimiter = new SlewRateLimiter(20);//SlewRateLimiter(6);
-    private final SlewRateLimiter yspeedLimiter = new SlewRateLimiter(20);//SlewRateLimiter(6);
+    private final SlewRateLimiter xspeedLimiter = new SlewRateLimiter(10);//SlewRateLimiter(6);
+    private final SlewRateLimiter yspeedLimiter = new SlewRateLimiter(10);//SlewRateLimiter(6);
 
   public SwerveDriveCommand(DriveSubsystem drivetrain, XboxController controller)
   {
@@ -61,18 +61,18 @@ public class SwerveDriveCommand extends CommandBase
       // Get the x speed.
       final var xSpeed =
          -xspeedLimiter.calculate(getJoystickWithDeadBand(controller.getLeftY())
-          * SwerveDriveModuleConstants.k_MaxTeleSpeed)*.2;
+          * SwerveDriveModuleConstants.k_MaxTeleSpeed) * SwerveDriveModuleConstants.k_XYjoystickCoefficient;
 
       final var ySpeed =
         -yspeedLimiter.calculate(getJoystickWithDeadBand(controller.getLeftX())
-        * SwerveDriveModuleConstants.k_MaxTeleSpeed)*.2;
+        * SwerveDriveModuleConstants.k_MaxTeleSpeed) * SwerveDriveModuleConstants.k_XYjoystickCoefficient;
      
       final var rot = -getJoystickWithDeadBand(controller.getRightX()) 
-      * SwerveDriveModuleConstants.k_MaxAngularSpeed*.1;
+      * SwerveDriveModuleConstants.k_MaxAngularSpeed * SwerveDriveModuleConstants.k_RotCoefficient;
 
     if(controller.getRightTriggerAxis() >= 0.1)
     {
-      drivetrain.teleDrive(xSpeed * (SwerveDriveModuleConstants.k_XYjoystickCoefficient), ySpeed * (SwerveDriveModuleConstants.k_XYjoystickCoefficient), rot * (SwerveDriveModuleConstants.k_RotCoefficient), true);
+      drivetrain.teleDrive(xSpeed * (SwerveDriveModuleConstants.k_slowXYjoystickCoefficient), ySpeed * (SwerveDriveModuleConstants.k_slowXYjoystickCoefficient), rot * (SwerveDriveModuleConstants.k_slowRotCoefficient), true);
     } 
     else 
     {

@@ -25,7 +25,7 @@ public class VisionTargeting extends SubsystemBase
   public void periodic() 
   {
          //limelight code to be put onto shuffleboard
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight-b");
     NetworkTableEntry tx = table.getEntry("tx");
     NetworkTableEntry tv = table.getEntry("tv");
    
@@ -66,7 +66,7 @@ public boolean seesTarget()
 
 public double getSkew() 
 {
-    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ts").getDouble(0);
+    return NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("ts").getDouble(0);
 }
 
 public double getHeadingToTarget() 
@@ -89,17 +89,17 @@ else
 
 public void ledOn()
 {
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
+    NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("ledMode").setNumber(3);
 }
 
 public void ledOff()
 {
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
+    NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("ledMode").setNumber(1);
 }
 
 public String getObjectType()
 {
-    return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tclass").getString("none");
+    return NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("tclass").getString("none");
 }
   
 }
