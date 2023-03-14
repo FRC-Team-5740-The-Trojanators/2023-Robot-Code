@@ -145,12 +145,13 @@ public class DriveSubsystem extends SubsystemBase
 
   public Pose2d getInitialPoseMeters()
   {
-    return getVisionPose2d();
+    //return getVisionPose2d();
+    return new Pose2d(0, 0, new Rotation2d(0));
   }
 
   public Pose2d getPose() 
   {
-      //SmartDashboard.putString("pose", m_odometry.getPoseMeters().toString());
+      SmartDashboard.putString("pose", m_odometry.getEstimatedPosition().toString());
       //return m_odometry.getPoseMeters();
       return m_odometry.getEstimatedPosition();
   }
@@ -252,7 +253,7 @@ public class DriveSubsystem extends SubsystemBase
            
       //SmartDashboard.putString("Pitch", getPitch(true).toString());
       //SmartDashboard.putString("Roll", getRoll(true).toString());
-      SmartDashboard.putNumber("Rotation2D_Yaw", getHeading(true).getDegrees());
+      //SmartDashboard.putNumber("Rotation2D_Yaw", getHeading(true).getDegrees());
       //SmartDashboard.putString("Rotation 0", modules[0].getAngle().toString());
       //SmartDashboard.putString("Rotation 1", modules[1].getAngle().toString());
       //SmartDashboard.putString("Rotation 2", modules[2].getAngle().toString());
