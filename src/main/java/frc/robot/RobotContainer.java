@@ -116,6 +116,13 @@ public class RobotContainer
 
     auto.addOption("DefaultTaxi", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("DefaultTaxi", new PathConstraints(4, 3)))));
 
+    //auto.addOption("autoTest", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("autoTest", new PathConstraints(4, 3))), new TargetCommand(m_driveSubsystem, m_driverController, m_visionTargeting, 1, "limelight - b"), new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE")));
+    //auto.addOption("autoTest", new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE"));
+
+    //auto.addOption("autoTest", new SequentialCommandGroup(new TargetCommand(m_driveSubsystem, m_driverController, m_visionTargeting, 1, "limelight - b")));
+    auto.addOption("autoTest", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("autoTest", new PathConstraints(4, 3)))));
+
+
     SmartDashboard.putData(auto);
   }
 
@@ -185,8 +192,8 @@ public class RobotContainer
    
 
     //return autoBuilder.fullAuto(pathGroup);
-    //return auto.getSelected();
-    return null;
+    return auto.getSelected();
+    //return null;
   }
 }
 

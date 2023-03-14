@@ -165,9 +165,9 @@ public final class Constants
 
     public static class ClawSubsystemConstants
     {
-        public static final double k_clawMotorSpeed = 0.4;
-        public static final double k_clawReverseMotorSpeed = -0.05;
-        public static final double k_clawHoldMotorSpeed = 0.15;
+        public static final double k_clawMotorSpeed = 0.5;
+        public static final double k_clawReverseMotorSpeed = -0.1;
+        public static final double k_clawHoldMotorSpeed = 0.2;
         public static final double k_temperatureLimit = 40; //In Celsius
 
         public static final int k_coneThreshold = 40;

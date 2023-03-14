@@ -235,7 +235,7 @@ public class DriveSubsystem extends SubsystemBase
   @Override
   public void periodic() 
   {
-    if(aprilTagInView()) m_odometry.addVisionMeasurement(getVisionPose2d(), Timer.getFPGATimestamp());
+    //if(aprilTagInView()) m_odometry.addVisionMeasurement(getVisionPose2d(), Timer.getFPGATimestamp());
 
     m_odometry.update(
       getHeading(true),
