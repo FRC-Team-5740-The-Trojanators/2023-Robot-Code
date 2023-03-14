@@ -17,8 +17,8 @@ public class SwerveDriveCommand extends CommandBase
     private final DriveSubsystem drivetrain;
     private final XboxController controller;
            
-    private final SlewRateLimiter xspeedLimiter = new SlewRateLimiter(10);//SlewRateLimiter(6);
-    private final SlewRateLimiter yspeedLimiter = new SlewRateLimiter(10);//SlewRateLimiter(6);
+    private final SlewRateLimiter xspeedLimiter = new SlewRateLimiter(SwerveDriveModuleConstants.k_XYslewRate);//SlewRateLimiter(6);
+    private final SlewRateLimiter yspeedLimiter = new SlewRateLimiter(SwerveDriveModuleConstants.k_XYslewRate);//SlewRateLimiter(6);
 
   public SwerveDriveCommand(DriveSubsystem drivetrain, XboxController controller)
   {
@@ -73,11 +73,23 @@ public class SwerveDriveCommand extends CommandBase
     if(controller.getRightTriggerAxis() >= 0.1)
     {
       drivetrain.teleDrive(xSpeed * (SwerveDriveModuleConstants.k_slowXYjoystickCoefficient), ySpeed * (SwerveDriveModuleConstants.k_slowXYjoystickCoefficient), rot * (SwerveDriveModuleConstants.k_slowRotCoefficient), true);
-    } 
+    }
+    else if(controller.getLeftTriggerAxis() >= 0.1)
+    {
+      drivetrain.teleDrive(xSpeed, ySpeed, rot, false);
+    }
+    else if(controller.getXButton())
+    {
+      drivetrain.teleDrive(-xSpeed, -ySpeed, drivetrain.turnToAngle(0) * SwerveDriveModuleConstants.k_MaxAngularSpeed * SwerveDriveModuleConstants.k_RotCoefficient, true);
+    }
+    else if(controller.getYButton())
+    {
+      drivetrain.teleDrive(-xSpeed, -ySpeed, drivetrain.turnToAngle(180) * SwerveDriveModuleConstants.k_MaxAngularSpeed * SwerveDriveModuleConstants.k_RotCoefficient, true);
+    }
     else 
     {
-      //drivetrain.teleDrive(0, 1, 0, false);
-      drivetrain.teleDrive(xSpeed, ySpeed, rot, true);
+      //drivetrain.teleDrive(2, 0, 0, false);
+      drivetrain.teleDrive(-xSpeed, -ySpeed, rot, true);
     }
   }
 

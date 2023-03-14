@@ -77,9 +77,10 @@ public final class Constants
         public static final double k_XYjoystickCoefficient = .8; //speed limiter
         public static final double k_MaxAngularSpeed = Units.feetToMeters(16) / k_RobotRadius; // 628; //rad/s TODO confirm
         public static final double k_RotCoefficient = .4; //speed limiter
+        public static final double k_XYslewRate = 10;
 
         public static final double k_slowXYjoystickCoefficient = .2; //slow speed limiter
-        public static final double k_slowRotCoefficient = .05; //slow speed limiter
+        public static final double k_slowRotCoefficient = .2; //slow speed limiter
 
         public static final double k_driveEncoderTicksPerRotation = 2048; 
         public static final double k_gearRatio = 6.75;
@@ -92,9 +93,9 @@ public final class Constants
         //public static double fieldCalibration = 0;
 
         //Angle offsets
-        public static double leftFrontOffset =  14.85 + 180;
-        public static double rightFrontOffset = 239.59 - 180;
-        public static double leftRearOffset = 239.06;
+        public static double leftFrontOffset =  14.85 + 180 - 2.5;
+        public static double rightFrontOffset = 239.59 - 180 + 5;
+        public static double leftRearOffset = 239.06 + 2.5;
         public static double rightRearOffset = 103.01 + 180;
     
         public static final SwerveDriveKinematics k_AutoKinematics =

@@ -151,8 +151,8 @@ public class RobotContainer
 
     //orangeLED = new JoystickButton(m_driverController, HIDConstants.kY);
 
-    coneTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 1, "limelight-b"));
-    cubeTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 0, "limelight-b"));
+    coneTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_driverController, m_visionTargeting, 1, "limelight-b"));
+    cubeTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_driverController, m_visionTargeting, 0, "limelight-b"));
     //aprilTag.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 2));
     //xBalance.whileTrue(new Balance(m_driveSubsystem, true));
     //yBalance.whileTrue(new Balance(m_driveSubsystem, false));
