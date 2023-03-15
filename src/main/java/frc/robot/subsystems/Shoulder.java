@@ -56,11 +56,11 @@ public class Shoulder extends SubsystemBase
       m_shoulderEncoderFlag = false;
     }
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Shoulder Abs Encoder", getAbsEncoder());
-    SmartDashboard.putNumber("Shoulder Angle Radians", getAngleRadians());
-    SmartDashboard.putNumber("error", m_shoulderMotorPID.getPositionError());
-    SmartDashboard.putNumber("Setpoint Pos", m_shoulderMotorPID.getSetpoint().position);
-    SmartDashboard.putNumber("Setpoint Vel", m_shoulderMotorPID.getSetpoint().velocity);
+    //SmartDashboard.putNumber("Shoulder Abs Encoder", getAbsEncoder());
+    //SmartDashboard.putNumber("Shoulder Angle Radians", getAngleRadians());
+    //SmartDashboard.putNumber("error", m_shoulderMotorPID.getPositionError());
+    //SmartDashboard.putNumber("Setpoint Pos", m_shoulderMotorPID.getSetpoint().position);
+    //SmartDashboard.putNumber("Setpoint Vel", m_shoulderMotorPID.getSetpoint().velocity);
 
     for(int i = 0; i < 16; i++)
     {

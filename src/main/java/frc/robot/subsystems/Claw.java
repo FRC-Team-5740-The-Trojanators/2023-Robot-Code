@@ -38,8 +38,8 @@ public class Claw extends SubsystemBase
   {
     // This method will be called once per scheduler run
     m_aboveTemperature = getMotorTemperature();
-    SmartDashboard.putNumber("Claw Temperature", m_clawMotor.getMotorTemperature());
-    SmartDashboard.putNumber("TOF Distance", getRange());
+    //SmartDashboard.putNumber("Claw Temperature", m_clawMotor.getMotorTemperature());
+    //SmartDashboard.putNumber("TOF Distance", getRange());
   }
 
   public void forwardClawMotor()

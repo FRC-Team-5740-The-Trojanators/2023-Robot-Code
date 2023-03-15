@@ -62,10 +62,10 @@ public class Wrist extends SubsystemBase
       m_wristEncoderFlag = false;
     }
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Wrist Abs Encoder", getAbsEncoder());
-    SmartDashboard.putNumber("Wrist Angle Radians", getAngleRadians());
-    SmartDashboard.putData(m_wristMotorPID);
-    SmartDashboard.putNumber("Wrist error", m_wristMotorPID.getPositionError());
+    //SmartDashboard.putNumber("Wrist Abs Encoder", getAbsEncoder());
+    //SmartDashboard.putNumber("Wrist Angle Radians", getAngleRadians());
+    //SmartDashboard.putData(m_wristMotorPID);
+    //SmartDashboard.putNumber("Wrist error", m_wristMotorPID.getPositionError());
     //SmartDashboard.putNumber("Wrist Setpoint Pos", m_wristMotorPID.getSetpoint().position);
     //SmartDashboard.putNumber("Wrist Setpoint Vel", m_wristMotorPID.getSetpoint().velocity);
       
