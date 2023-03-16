@@ -18,6 +18,7 @@ import frc.robot.Constants.LEDsSubsystemConstants;
 import frc.robot.Constants.SwerveDriveModuleConstants;
 import frc.robot.commands.ArmCommand;
 import frc.robot.commands.Balance;
+import frc.robot.commands.DefaultTaxiAndMore;
 import frc.robot.commands.RunClawCommand;
 import frc.robot.commands.SwerveDriveCommand;
 import frc.robot.commands.TargetCommand;
@@ -119,7 +120,7 @@ public class RobotContainer
     //auto.addOption("autoTest", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("autoTest", new PathConstraints(4, 3))), new TargetCommand(m_driveSubsystem, m_driverController, m_visionTargeting, 1, "limelight - b"), new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE")));
     //auto.addOption("autoTest", new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE"));
 
-    //auto.addOption("autoTest", new SequentialCommandGroup(new TargetCommand(m_driveSubsystem, m_driverController, m_visionTargeting, 1, "limelight - b")));
+    auto.addOption("DefaultTaxiAndMore", new DefaultTaxiAndMore(m_driveSubsystem, m_claw, m_shoulder, m_wrist));
     auto.addOption("autoTest", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("autoTest", new PathConstraints(4, 3)))));
 
 
@@ -141,12 +142,12 @@ public class RobotContainer
     //yBalance = new JoystickButton(m_driverController, HIDConstants.kY);
     aprilTag = new JoystickButton(m_driverController , HIDConstants.kBack);
     zeroDrive = new JoystickButton(m_driverController, HIDConstants.kStart);
+    //purpleLED = new JoystickButton(m_operatorController, HIDConstants.kLB);
+    //yellowLED = new JoystickButton(m_operatorController, HIDConstants.kRB);
 
     //runClaw = new JoystickButton(m_operatorController, HIDConstants.kA);
     //reverseClaw = new JoystickButton(m_operatorController, HIDConstants.kB); 
 
-    //purpleLED = new JoystickButton(m_operatorController, HIDConstants.kLB);
-    //yellowLED = new JoystickButton(m_operatorController, HIDConstants.kRB);
     //offLED = new JoystickButton(m_operatorController, HIDConstants.kX);
     topGridArmCone = new JoystickButton(m_operatorController, HIDConstants.kY);
     midGridArmCone = new JoystickButton(m_operatorController, HIDConstants.kX);

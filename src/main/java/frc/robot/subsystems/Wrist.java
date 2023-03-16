@@ -56,16 +56,16 @@ public class Wrist extends SubsystemBase
   public void periodic() 
   {
     if(m_wristEncoder.isConnected()) m_wristEncoderFlag = true;
-
-    if((getAngleRadians() < -1.59) || (getAngleRadians() > 2.71))
+    
+    if((getAngleRadians() < -1.59) || (getAngleRadians() > 2.75))
     {
       m_wristEncoderFlag = false;
     }
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Wrist Abs Encoder", getAbsEncoder());
+    //SmartDashboard.putNumber("Wrist Abs Encoder", getAbsEncoder());
     SmartDashboard.putNumber("Wrist Angle Radians", getAngleRadians());
-    SmartDashboard.putData(m_wristMotorPID);
-    SmartDashboard.putNumber("Wrist error", m_wristMotorPID.getPositionError());
+    //SmartDashboard.putData(m_wristMotorPID);
+    //SmartDashboard.putNumber("Wrist error", m_wristMotorPID.getPositionError());
     //SmartDashboard.putNumber("Wrist Setpoint Pos", m_wristMotorPID.getSetpoint().position);
     //SmartDashboard.putNumber("Wrist Setpoint Vel", m_wristMotorPID.getSetpoint().velocity);
       
@@ -101,7 +101,15 @@ public class Wrist extends SubsystemBase
 
   public double getAngleRadians()
   {
-      return ((m_wristEncoder.get()- Constants.ArmPositionConstants.wristOffset) * Math.PI * 2);
+    double angle = ((m_wristEncoder.get() - Constants.ArmPositionConstants.wristOffset) * Math.PI * 2);
+    if ((angle < -Math.PI) && (angle > (-Math.PI * 2)))
+    {
+      return (angle + (Math.PI * 2));
+    }
+    else
+    {
+      return angle;
+    }
   }
 
   public double getAbsEncoder()
