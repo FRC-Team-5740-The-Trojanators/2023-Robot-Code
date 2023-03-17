@@ -51,13 +51,13 @@ public class Shoulder extends SubsystemBase
   {
     if(m_shoulderEncoder.isConnected()) m_shoulderEncoderFlag = true;
 
-    if((getAngleRadians() < -.25) || (getAngleRadians() > 1.53))
+    if((getAngleRadians() < -.25) || (getAngleRadians() > 1.55))
     {
       m_shoulderEncoderFlag = false;
     }
     // This method will be called once per scheduler run
-    //SmartDashboard.putNumber("Shoulder Abs Encoder", getAbsEncoder());
-    //SmartDashboard.putNumber("Shoulder Angle Radians", getAngleRadians());
+    SmartDashboard.putNumber("Shoulder Abs Encoder", getAbsEncoder());
+    SmartDashboard.putNumber("Shoulder Angle Radians", getAngleRadians());
     //SmartDashboard.putNumber("error", m_shoulderMotorPID.getPositionError());
     //SmartDashboard.putNumber("Setpoint Pos", m_shoulderMotorPID.getSetpoint().position);
     //SmartDashboard.putNumber("Setpoint Vel", m_shoulderMotorPID.getSetpoint().velocity);
@@ -72,6 +72,7 @@ public class Shoulder extends SubsystemBase
 // and a ProfiledPIDm_shoulderMotorPID
   public void goToPosition(double goalPosition) 
   {
+    //System.out.println("go to position, yes");
     double pidVal = m_shoulderMotorPID.calculate(m_filteredAngle, goalPosition);
     double acceleration = (m_shoulderMotorPID.getSetpoint().velocity - m_lastSpeed) / (Timer.getFPGATimestamp() - m_lastTime);
 
@@ -83,6 +84,7 @@ public class Shoulder extends SubsystemBase
     }
     else
     {
+      //System.out.println("shoulder motor stop");
       forceMotorStop();
     }
   }

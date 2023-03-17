@@ -68,24 +68,24 @@ public class DefaultTaxiAndMore extends CommandBase
     switch(state)
     {
       case INIT:
-        System.out.println("State " + state);
+        //System.out.println("State " + state);
         m_driveSubsystem.setZeroState();
         m_driveSubsystem.resetOdometry(m_forwardTraj.getInitialHolonomicPose());
-        m_claw.holdClawMotor();
+        m_claw.forwardClawMotor();
 
-        if (m_timer.get() > 0.5)
+        if (m_timer.get() > 1)
         {
           state = State.RAISE_ARM;
         }
       break;
 
       case RAISE_ARM:
-        System.out.println("State " + state);
+        //System.out.println("State " + state);
         m_shoulder.goToPosition(ArmPositionConstants.shoulderTopGridCone);
         m_wrist.goToPosition(ArmPositionConstants.wristTopGridCone, m_shoulder.getFilteredAngle());
-        m_claw.holdClawMotor();
+        m_claw.forwardClawMotor();
 
-        if (m_timer.get() > 2)
+        if (m_timer.get() > 4)
         {
           m_swerveController = new PPSwerveControllerCommand(
             m_forwardTraj,
@@ -95,7 +95,7 @@ public class DefaultTaxiAndMore extends CommandBase
             new PIDController(SwerveDriveModuleConstants.k_pTransController, 0.0, 0.0),
             new PIDController(SwerveDriveModuleConstants.k_pThetaController, 0.0, 0.0),
             m_driveSubsystem::setSwerveModuleStatesAuto,
-            true,
+            false,
             m_driveSubsystem);
 
           state = State.STRAIGHT_FORWARD;
@@ -104,14 +104,14 @@ public class DefaultTaxiAndMore extends CommandBase
       break;
 
       case STRAIGHT_FORWARD:
-        System.out.println("State " + state);
+        //System.out.println("State " + state);
         m_shoulder.goToPosition(ArmPositionConstants.shoulderTopGridCone);
         m_wrist.goToPosition(ArmPositionConstants.wristTopGridCone, m_shoulder.getFilteredAngle());
-        m_claw.holdClawMotor();
+        m_claw.forwardClawMotor();
 
         m_swerveController.execute();
 
-        if (m_swerveController.isFinished() && (m_timer.get() > 5))
+        if (m_swerveController.isFinished() && (m_timer.get() > 7))
         {
           state = State.SCORE;
           m_swerveController.end(true);
@@ -119,12 +119,12 @@ public class DefaultTaxiAndMore extends CommandBase
       break;
 
       case SCORE:
-        System.out.println("State " + state);
+        //System.out.println("State " + state);
         m_shoulder.goToPosition(ArmPositionConstants.shoulderTopGridCone);
         m_wrist.goToPosition(ArmPositionConstants.wristTopGridCone, m_shoulder.getFilteredAngle());
         m_claw.reverseClawMotor();
 
-        if (m_timer.get() > 7)
+        if (m_timer.get() > 9)
         {
           m_swerveController = new PPSwerveControllerCommand(
             m_reverseTraj,
@@ -134,7 +134,7 @@ public class DefaultTaxiAndMore extends CommandBase
             new PIDController(SwerveDriveModuleConstants.k_pTransController, 0.0, 0.0),
             new PIDController(SwerveDriveModuleConstants.k_pThetaController, 0.0, 0.0),
             m_driveSubsystem::setSwerveModuleStatesAuto,
-            true,
+            false,
             m_driveSubsystem);
 
           state = State.REVERSE;
@@ -143,7 +143,7 @@ public class DefaultTaxiAndMore extends CommandBase
       break;
 
       case REVERSE:
-        System.out.println("State " + state);
+        //System.out.println("State " + state);
         m_shoulder.goToPosition(ArmPositionConstants.shoulderTopGridCone);
         m_wrist.goToPosition(ArmPositionConstants.wristTopGridCone, m_shoulder.getFilteredAngle());
         m_claw.reverseClawMotor();
@@ -158,7 +158,7 @@ public class DefaultTaxiAndMore extends CommandBase
         break;
 
         case FINISHED:
-          System.out.println("State " + state);
+          //System.out.println("State " + state);
           m_shoulder.goToPosition(ArmPositionConstants.shoulderStowed);
           m_wrist.goToPosition(ArmPositionConstants.wristStowed, m_shoulder.getFilteredAngle());
           m_claw.stopClawMotor();

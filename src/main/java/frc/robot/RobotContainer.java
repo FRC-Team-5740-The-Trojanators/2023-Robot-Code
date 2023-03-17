@@ -84,7 +84,7 @@ public class RobotContainer
   
   private final SwerveDriveCommand m_driveCommand = new SwerveDriveCommand(m_driveSubsystem, m_driverController);
   
-  public static JoystickButton coneTarget, cubeTarget, aprilTag, zeroDrive, purpleLED, offLED, yellowLED, runClaw, reverseClaw, topGridArmCone, midGridArmCone, floorArm, clawIn, clawOut, topGridArmCube, midGridArmCube;
+  public static JoystickButton coneTarget, cubeTarget, aprilTag, zeroDrive, purpleLED, offLED, yellowLED, runClaw, reverseClaw, topGridArmCone, midGridArmCone, floorArm, substationArm, clawIn, clawOut, topGridArmCube, midGridArmCube;
 
   SendableChooser<CommandBase> auto = new SendableChooser<CommandBase>();
 
@@ -104,18 +104,18 @@ public class RobotContainer
 
   private void configChooser()
   {
-    auto.addOption("Position1Cone2Chrg", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part1Pickup1", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part2Cone", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part3ConeBalance", new PathConstraints(4, 3))) ));
-    auto.addOption("Position1Cube2Chrg", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part1Pickup1", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part2Cube", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part3CubeBalance", new PathConstraints(4, 3))) ));
-    auto.addOption("Position1Cone3PckUp", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part1Pickup1", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part2Cone", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part3ConePickup2", new PathConstraints(4, 3))) ));
-    auto.addOption("Position1Cube3PckUp", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part1Pickup1", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part2Cube", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part3CubePickup2", new PathConstraints(4, 3))) ));
+    //auto.addOption("Position1Cone2Chrg", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part1Pickup1", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part2Cone", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part3ConeBalance", new PathConstraints(4, 3))) ));
+    //auto.addOption("Position1Cube2Chrg", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part1Pickup1", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part2Cube", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part3CubeBalance", new PathConstraints(4, 3))) ));
+    //auto.addOption("Position1Cone3PckUp", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part1Pickup1", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part2Cone", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part3ConePickup2", new PathConstraints(4, 3))) ));
+    //auto.addOption("Position1Cube3PckUp", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part1Pickup1", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part2Cube", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part3CubePickup2", new PathConstraints(4, 3))) ));
   
-    auto.addOption("Position2Cone1Chrg", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position2Part1Cone", new PathConstraints(4, 3)))));
-    auto.addOption("Position2Cube1Chrg", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position2Part1Cube", new PathConstraints(4, 3)))));
+    //auto.addOption("Position2Cone1Chrg", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position2Part1Cone", new PathConstraints(4, 3)))));
+    //auto.addOption("Position2Cube1Chrg", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position2Part1Cube", new PathConstraints(4, 3)))));
 
-    auto.addOption("Position3Cone2Chrg", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part1Pickup4", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part2Cone", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part3ConeBalance", new PathConstraints(4, 3))) ));
-    auto.addOption("Position3Cube2Chrg", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part1Pickup4", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part2Cube", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part3CubeBalance", new PathConstraints(4, 3))) ));
-    auto.addOption("Position3Cone3PckUp", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part1Pickup4", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part2Cone", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part3ConePickup3", new PathConstraints(4, 3))) ));
-    auto.addOption("Position3Cube3PckUp", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part1Pickup4", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part2Cube", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part3CubePickup3", new PathConstraints(4, 3))) ));
+    //auto.addOption("Position3Cone2Chrg", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part1Pickup4", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part2Cone", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part3ConeBalance", new PathConstraints(4, 3))) ));
+    //auto.addOption("Position3Cube2Chrg", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part1Pickup4", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part2Cube", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part3CubeBalance", new PathConstraints(4, 3))) ));
+    //auto.addOption("Position3Cone3PckUp", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part1Pickup4", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part2Cone", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part3ConePickup3", new PathConstraints(4, 3))) ));
+    //auto.addOption("Position3Cube3PckUp", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part1Pickup4", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part2Cube", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part3CubePickup3", new PathConstraints(4, 3))) ));
 
     //auto.addOption("DefaultTaxiAndMore", new SequentialCommandGroup(new ParallelDeadlineGroup(new SequentialCommandGroup(new ParallelDeadlineGroup(new SequentialCommandGroup(
     //                                          new WaitCommand(2), autoBuilder.fullAuto(PathPlanner.loadPathGroup("DefaultTaxiAndMore", new PathConstraints(4, 3))), new WaitCommand(2)), new RunClawCommand(m_claw, "FORWARD")),
@@ -125,9 +125,9 @@ public class RobotContainer
     //auto.addOption("autoTest", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("autoTest", new PathConstraints(4, 3))), new TargetCommand(m_driveSubsystem, m_driverController, m_visionTargeting, 1, "limelight - b"), new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE")));
     //auto.addOption("autoTest", new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE"));
 
-    //auto.addOption("autoTest", new SequentialCommandGroup(new TargetCommand(m_driveSubsystem, m_driverController, m_visionTargeting, 1, "limelight - b")));
+    auto.addOption("DefaultTaxi", new SequentialCommandGroup(autoBuilder.fullAuto( PathPlanner.loadPathGroup("DefaultTaxiAndMore2", new PathConstraints(4, 3)))));
     auto.addOption("DefaultTaxiAndMore", new DefaultTaxiAndMore(m_driveSubsystem, m_claw, m_shoulder, m_wrist));
-    auto.addOption("autoTest", new SequentialCommandGroup(autoBuilder.fullAuto( PathPlanner.loadPathGroup("autoTest", new PathConstraints(4, 3)))));
+    auto.addOption("Do Nothing", null);
 
 
     SmartDashboard.putData(auto);
@@ -162,6 +162,7 @@ public class RobotContainer
     clawOut= new JoystickButton(m_operatorController, HIDConstants.kRB);
     topGridArmCube = new JoystickButton(m_operatorController, HIDConstants.kBack);
     midGridArmCube = new JoystickButton(m_operatorController, HIDConstants.kStart);
+    substationArm = new JoystickButton(m_operatorController, HIDConstants.kA);
 
     //orangeLED = new JoystickButton(m_driverController, HIDConstants.kY);
 
@@ -182,6 +183,7 @@ public class RobotContainer
     midGridArmCone.whileTrue(new ArmCommand(m_shoulder, m_wrist, "MIDGRIDCONE"));
     topGridArmCube.whileTrue(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCUBE"));
     midGridArmCube.whileTrue(new ArmCommand(m_shoulder, m_wrist, "MIDGRIDCUBE"));
+    substationArm.whileTrue(new ArmCommand(m_shoulder, m_wrist, "SUBSTATION"));
     floorArm.whileTrue(new ArmCommand(m_shoulder, m_wrist, "FLOOR"));
     clawIn.whileTrue(new RunClawCommand(m_claw, "FORWARD"));
     clawOut.whileTrue(new RunClawCommand(m_claw, "BACKWARD"));

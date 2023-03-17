@@ -57,12 +57,12 @@ public class Wrist extends SubsystemBase
   {
     if(m_wristEncoder.isConnected()) m_wristEncoderFlag = true;
 
-    if((getAngleRadians() < -1.59) || (getAngleRadians() > 2.71))
+    if((getAngleRadians() < -1.59) || (getAngleRadians() > 2.75))
     {
       m_wristEncoderFlag = false;
     }
     // This method will be called once per scheduler run
-    //SmartDashboard.putNumber("Wrist Abs Encoder", getAbsEncoder());
+    SmartDashboard.putNumber("Wrist Abs Encoder", getAbsEncoder());
     SmartDashboard.putNumber("Wrist Angle Radians", getAngleRadians());
     //SmartDashboard.putData(m_wristMotorPID);
     //SmartDashboard.putNumber("Wrist error", m_wristMotorPID.getPositionError());

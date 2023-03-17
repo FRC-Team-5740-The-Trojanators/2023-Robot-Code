@@ -77,6 +77,11 @@ public class ArmCommand extends CommandBase
         m_shoulderSetPoint = ArmPositionConstants.shoulderFloor;
         m_wristSetPoint = ArmPositionConstants.wristFloor;
       }
+      else if (m_position == "SUBSTATION")
+      {
+        m_shoulderSetPoint = ArmPositionConstants.shoulderSubstation;
+        m_wristSetPoint = ArmPositionConstants.wristSubstation;
+      }
     }
 
     m_shoulder.goToPosition(m_shoulderSetPoint);
