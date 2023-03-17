@@ -7,10 +7,6 @@ package frc.robot.commands;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.*;
 import frc.robot.Constants.ArmPositionConstants;
 import frc.robot.Constants.SwerveDriveModuleConstants;
@@ -18,7 +14,6 @@ import frc.robot.Constants.SwerveDriveModuleConstants;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.auto.PIDConstants;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
 public class DefaultTaxiAndMore extends CommandBase
@@ -54,9 +49,7 @@ public class DefaultTaxiAndMore extends CommandBase
     state = State.INIT;
   }
 
- 
   //private State laststate = State.INIT;
-
 
    private enum State
    {
@@ -79,7 +72,7 @@ public class DefaultTaxiAndMore extends CommandBase
         m_driveSubsystem.resetOdometry(m_forwardTraj.getInitialHolonomicPose());
         m_claw.holdClawMotor();
 
-        if (m_timer.get() > 0.5)
+        if (m_timer.get() > 0.1)
         {
           state = State.RAISE_ARM;
         }
@@ -91,7 +84,7 @@ public class DefaultTaxiAndMore extends CommandBase
         m_wrist.goToPosition(ArmPositionConstants.wristTopGridCone, m_shoulder.getFilteredAngle());
         m_claw.holdClawMotor();
 
-        if (m_timer.get() > 2.5)
+        if (m_timer.get() > 2)
         {
           m_swerveController = new PPSwerveControllerCommand(
             m_forwardTraj,
