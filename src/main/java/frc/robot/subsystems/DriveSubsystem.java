@@ -9,26 +9,26 @@ import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
 
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.Nat;
-import edu.wpi.first.math.VecBuilder;
+//import edu.wpi.first.math.Matrix;
+//import edu.wpi.first.math.Nat;
+//import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+//import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Transform3d;
+//import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
+//import edu.wpi.first.math.numbers.N1;
+//import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj.Timer;
+//import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants.CANBusIDs;
 import frc.robot.Constants.SwerveDriveModuleConstants;
 
@@ -39,8 +39,8 @@ public class DriveSubsystem extends SubsystemBase
   public Pigeon2 m_imu = new Pigeon2(CANBusIDs.k_pigeon2ID, "CANivorous_Rex");
   DriveSubsystem m_drivetrain;
   Field2d m_field2d = new Field2d();
-  private Matrix<N3, N1> stateStdDevs = new Matrix<>(Nat.N3(), Nat.N1());
-  private Matrix<N3, N1> visionMeasurementStdDevs = new Matrix<>(Nat.N3(), Nat.N1());
+  //private Matrix<N3, N1> stateStdDevs = new Matrix<>(Nat.N3(), Nat.N1());
+  //private Matrix<N3, N1> visionMeasurementStdDevs = new Matrix<>(Nat.N3(), Nat.N1());
 
   private PIDController m_rotController = new PIDController(.05, 0, 0);
   
@@ -74,6 +74,7 @@ public class DriveSubsystem extends SubsystemBase
     {
       m_imu.setYaw(0); //recalibrates gyro offset
     }
+    resetIMU();
         
     for(int i = 0; i < 4; i++)
     {
@@ -82,14 +83,16 @@ public class DriveSubsystem extends SubsystemBase
 
     m_imu.setStatusFramePeriod(PigeonIMU_StatusFrame.CondStatus_1_General, 20);
 
-    stateStdDevs = VecBuilder.fill(0.003, 0.003, 0.0002);
-    visionMeasurementStdDevs = VecBuilder.fill(0.003, 0.003, 0.0002);
+    //stateStdDevs = VecBuilder.fill(0.003, 0.003, 0.0002);
+    //visionMeasurementStdDevs = VecBuilder.fill(0.003, 0.003, 0.0002);
 
     m_rotController.enableContinuousInput(-180, 180);
     m_rotController.setTolerance(2);
   }
 
-  private final SwerveDrivePoseEstimator m_odometry = new SwerveDrivePoseEstimator(SwerveDriveModuleConstants.k_AutoKinematics, getHeading(true), swerveModulePosition, getInitialPoseMeters(), stateStdDevs, visionMeasurementStdDevs);
+  //private final SwerveDrivePoseEstimator m_odometry = new SwerveDrivePoseEstimator(SwerveDriveModuleConstants.k_AutoKinematics, getHeading(true), swerveModulePosition, getInitialPoseMeters(), stateStdDevs, visionMeasurementStdDevs);
+  private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(SwerveDriveModuleConstants.k_AutoKinematics, getHeading(true), swerveModulePosition);
+
 
   public void setZeroState()
   {
@@ -151,24 +154,24 @@ public class DriveSubsystem extends SubsystemBase
 
   public Pose2d getPose() 
   {
-      SmartDashboard.putString("pose", m_odometry.getEstimatedPosition().toString());
-      //return m_odometry.getPoseMeters();
-      return m_odometry.getEstimatedPosition();
+      //SmartDashboard.putString("pose", m_odometry.getEstimatedPosition().toString());
+      return m_odometry.getPoseMeters();
+      //return m_odometry.getEstimatedPosition();
   }
 
-  public Pose2d getVisionPose2d()
-  {
-    double[] botposeArray = NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
-    double poseX = botposeArray[0];
-    double poseY = botposeArray[1];
-    Rotation2d rotation = new Rotation2d(botposeArray[5]);
-    return new Pose2d(poseX, poseY, rotation);
-  }
+  //public Pose2d getVisionPose2d()
+  //{
+  //  double[] botposeArray = NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
+  //  double poseX = botposeArray[0];
+  //  double poseY = botposeArray[1];
+  //  Rotation2d rotation = new Rotation2d(botposeArray[5]);
+  //  return new Pose2d(poseX, poseY, rotation);
+  //}
 
-  public boolean aprilTagInView()
-  {
-    return NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("tv").getBoolean(false);
-  }
+  //public boolean aprilTagInView()
+  //{
+  //  return NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("tv").getBoolean(false);
+  //}
 
   public Rotation2d getHeading(boolean positive)
   { if(positive)
@@ -247,10 +250,10 @@ public class DriveSubsystem extends SubsystemBase
         modules[2].getPosition(),
         modules[3].getPosition()
       });
-      m_field2d.setRobotPose(getPose());
+      //m_field2d.setRobotPose(getPose());
 
     
-           
+      SmartDashboard.putString("pose", m_odometry.getPoseMeters().toString());
       //SmartDashboard.putString("Pitch", getPitch(true).toString());
       //SmartDashboard.putString("Roll", getRoll(true).toString());
       //SmartDashboard.putNumber("Rotation2D_Yaw", getHeading(true).getDegrees());

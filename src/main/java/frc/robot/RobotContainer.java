@@ -18,7 +18,6 @@ import frc.robot.Constants.LEDsSubsystemConstants;
 import frc.robot.Constants.SwerveDriveModuleConstants;
 import frc.robot.commands.ArmCommand;
 import frc.robot.commands.Balance;
-import frc.robot.commands.DefaultTaxiAndMore;
 import frc.robot.commands.RunClawCommand;
 import frc.robot.commands.SwerveDriveCommand;
 import frc.robot.commands.TargetCommand;
@@ -32,7 +31,10 @@ import frc.robot.subsystems.VisionTargeting;
 import frc.robot.subsystems.Wrist;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -44,7 +46,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer 
 {
   // The robot's subsystems and commands are defined here...
-  public final DriveSubsystem m_driveSubsystem = new DriveSubsystem(false);
+  public final DriveSubsystem m_driveSubsystem = new DriveSubsystem(true);
   public final VisionTargeting m_visionTargeting = new VisionTargeting();
   private final Claw m_claw = new Claw();
   private final Shoulder m_shoulder = new Shoulder();
@@ -79,10 +81,9 @@ public class RobotContainer
       m_driveSubsystem // The drive subsystem. Used to properly set the requirements of path following commands
     );
   
-  //private final DefaultTaxi m_autoDefault = new DefaultTaxi(m_driveSubsystem);
   private final SwerveDriveCommand m_driveCommand = new SwerveDriveCommand(m_driveSubsystem, m_driverController);
   
-  public static JoystickButton coneTarget, cubeTarget, xBalance, yBalance, aprilTag, zeroDrive, purpleLED, offLED, yellowLED, runClaw, reverseClaw, topGridArmCone, midGridArmCone, floorArm, clawIn, clawOut, topGridArmCube, midGridArmCube;
+  public static JoystickButton coneTarget, cubeTarget, aprilTag, zeroDrive, purpleLED, offLED, yellowLED, runClaw, reverseClaw, topGridArmCone, midGridArmCone, floorArm, clawIn, clawOut, topGridArmCube, midGridArmCube;
 
   SendableChooser<CommandBase> auto = new SendableChooser<CommandBase>();
 
@@ -93,7 +94,7 @@ public class RobotContainer
 
     m_driveSubsystem.setDefaultCommand(m_driveCommand);
     m_shoulder.setDefaultCommand(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
-    m_wrist.setDefaultCommand(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
+    //m_wrist.setDefaultCommand(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
     m_driveSubsystem.resetIMU();
   
     configChooser();
@@ -115,13 +116,16 @@ public class RobotContainer
     auto.addOption("Position3Cone3PckUp", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part1Pickup4", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part2Cone", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part3ConePickup3", new PathConstraints(4, 3))) ));
     auto.addOption("Position3Cube3PckUp", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part1Pickup4", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part2Cube", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part3CubePickup3", new PathConstraints(4, 3))) ));
 
-    auto.addOption("DefaultTaxi", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("DefaultTaxi", new PathConstraints(4, 3)))));
+    //auto.addOption("DefaultTaxiAndMore", new SequentialCommandGroup(new ParallelDeadlineGroup(new SequentialCommandGroup(new ParallelDeadlineGroup(new SequentialCommandGroup(
+    //                                          new WaitCommand(2), autoBuilder.fullAuto(PathPlanner.loadPathGroup("DefaultTaxiAndMore", new PathConstraints(4, 3))), new WaitCommand(2)), new RunClawCommand(m_claw, "FORWARD")),
+    //                                          new ParallelDeadlineGroup(new SequentialCommandGroup(new WaitCommand(2), autoBuilder.fullAuto(PathPlanner.loadPathGroup("DefaultTaxiAndMore", new PathConstraints(4, 3)))), new RunClawCommand(m_claw, "BACKWARD")), new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE")),
+    //                                          new ParallelCommandGroup(new ArmCommand(m_shoulder, m_wrist, "STOWED"), autoBuilder.fullAuto(PathPlanner.loadPathGroup("DefaultTaxiAndMore", new PathConstraints(4, 3)))))));
 
     //auto.addOption("autoTest", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("autoTest", new PathConstraints(4, 3))), new TargetCommand(m_driveSubsystem, m_driverController, m_visionTargeting, 1, "limelight - b"), new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE")));
     //auto.addOption("autoTest", new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE"));
 
-    auto.addOption("DefaultTaxiAndMore", new DefaultTaxiAndMore(m_driveSubsystem, m_claw, m_shoulder, m_wrist));
-    auto.addOption("autoTest", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("autoTest", new PathConstraints(4, 3)))));
+    //auto.addOption("autoTest", new SequentialCommandGroup(new TargetCommand(m_driveSubsystem, m_driverController, m_visionTargeting, 1, "limelight - b")));
+    auto.addOption("autoTest", new SequentialCommandGroup(autoBuilder.fullAuto( PathPlanner.loadPathGroup("autoTest", new PathConstraints(4, 3)))));
 
 
     SmartDashboard.putData(auto);
@@ -142,12 +146,12 @@ public class RobotContainer
     //yBalance = new JoystickButton(m_driverController, HIDConstants.kY);
     aprilTag = new JoystickButton(m_driverController , HIDConstants.kBack);
     zeroDrive = new JoystickButton(m_driverController, HIDConstants.kStart);
-    //purpleLED = new JoystickButton(m_operatorController, HIDConstants.kLB);
-    //yellowLED = new JoystickButton(m_operatorController, HIDConstants.kRB);
 
     //runClaw = new JoystickButton(m_operatorController, HIDConstants.kA);
     //reverseClaw = new JoystickButton(m_operatorController, HIDConstants.kB); 
 
+    //purpleLED = new JoystickButton(m_operatorController, HIDConstants.kLB);
+    //yellowLED = new JoystickButton(m_operatorController, HIDConstants.kRB);
     //offLED = new JoystickButton(m_operatorController, HIDConstants.kX);
     topGridArmCone = new JoystickButton(m_operatorController, HIDConstants.kY);
     midGridArmCone = new JoystickButton(m_operatorController, HIDConstants.kX);

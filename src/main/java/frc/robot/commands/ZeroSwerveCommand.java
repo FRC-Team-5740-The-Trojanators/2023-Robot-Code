@@ -12,6 +12,7 @@ import frc.robot.subsystems.DriveSubsystem;
 public class ZeroSwerveCommand extends CommandBase {
   /** Creates a new ZeroSwerveCommand. */
   private final DriveSubsystem drivetrain;
+  private boolean m_isfinished;
   
   public ZeroSwerveCommand(DriveSubsystem drivetrain) 
   {
@@ -24,7 +25,7 @@ public class ZeroSwerveCommand extends CommandBase {
   @Override
   public void initialize() 
   {
-    
+    m_isfinished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,11 +37,14 @@ public class ZeroSwerveCommand extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted)
+  {
+    m_isfinished = true;
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return m_isfinished;
   }
 }
