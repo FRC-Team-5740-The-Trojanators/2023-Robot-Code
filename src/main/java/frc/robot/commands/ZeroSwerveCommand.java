@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
@@ -12,7 +13,7 @@ import frc.robot.subsystems.DriveSubsystem;
 public class ZeroSwerveCommand extends CommandBase {
   /** Creates a new ZeroSwerveCommand. */
   private final DriveSubsystem drivetrain;
-  private boolean m_isfinished;
+  private Timer m_timer = new Timer();
   
   public ZeroSwerveCommand(DriveSubsystem drivetrain) 
   {
@@ -25,7 +26,8 @@ public class ZeroSwerveCommand extends CommandBase {
   @Override
   public void initialize() 
   {
-    m_isfinished = false;
+    m_timer.reset();
+    m_timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,12 +41,12 @@ public class ZeroSwerveCommand extends CommandBase {
   @Override
   public void end(boolean interrupted)
   {
-    m_isfinished = true;
+  
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_isfinished;
+    return m_timer.get() > 0.5;
   }
 }

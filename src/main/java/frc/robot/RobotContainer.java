@@ -18,6 +18,7 @@ import frc.robot.Constants.LEDsSubsystemConstants;
 import frc.robot.Constants.SwerveDriveModuleConstants;
 import frc.robot.commands.ArmCommand;
 import frc.robot.commands.Balance;
+import frc.robot.commands.DefaultTaxiAndMore;
 import frc.robot.commands.RunClawCommand;
 import frc.robot.commands.SwerveDriveCommand;
 import frc.robot.commands.TargetCommand;
@@ -125,6 +126,7 @@ public class RobotContainer
     //auto.addOption("autoTest", new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE"));
 
     //auto.addOption("autoTest", new SequentialCommandGroup(new TargetCommand(m_driveSubsystem, m_driverController, m_visionTargeting, 1, "limelight - b")));
+    auto.addOption("DefaultTaxiAndMore", new DefaultTaxiAndMore(m_driveSubsystem, m_claw, m_shoulder, m_wrist));
     auto.addOption("autoTest", new SequentialCommandGroup(autoBuilder.fullAuto( PathPlanner.loadPathGroup("autoTest", new PathConstraints(4, 3)))));
 
 

@@ -69,10 +69,11 @@ public class DefaultTaxiAndMore extends CommandBase
     {
       case INIT:
         System.out.println("State " + state);
+        m_driveSubsystem.setZeroState();
         m_driveSubsystem.resetOdometry(m_forwardTraj.getInitialHolonomicPose());
         m_claw.holdClawMotor();
 
-        if (m_timer.get() > 0.1)
+        if (m_timer.get() > 0.5)
         {
           state = State.RAISE_ARM;
         }
@@ -110,7 +111,7 @@ public class DefaultTaxiAndMore extends CommandBase
 
         m_swerveController.execute();
 
-        if (m_swerveController.isFinished())
+        if (m_swerveController.isFinished() && (m_timer.get() > 5))
         {
           state = State.SCORE;
           m_swerveController.end(true);
