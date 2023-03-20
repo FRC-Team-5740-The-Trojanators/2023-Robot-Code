@@ -85,7 +85,7 @@ public class DefaultTaxiAndMore extends CommandBase
         m_wrist.goToPosition(ArmPositionConstants.wristTopGridCone, m_shoulder.getFilteredAngle());
         m_claw.forwardClawMotor();
 
-        if (m_timer.get() > 4)
+        if (m_timer.get() > 6)
         {
           m_swerveController = new PPSwerveControllerCommand(
             m_forwardTraj,
@@ -111,7 +111,7 @@ public class DefaultTaxiAndMore extends CommandBase
 
         m_swerveController.execute();
 
-        if (m_swerveController.isFinished() && (m_timer.get() > 7))
+        if (m_swerveController.isFinished() && (m_timer.get() > 9))
         {
           state = State.SCORE;
           m_swerveController.end(true);
@@ -124,7 +124,7 @@ public class DefaultTaxiAndMore extends CommandBase
         m_wrist.goToPosition(ArmPositionConstants.wristTopGridCone, m_shoulder.getFilteredAngle());
         m_claw.reverseClawMotor();
 
-        if (m_timer.get() > 9)
+        if (m_timer.get() > 11)
         {
           m_swerveController = new PPSwerveControllerCommand(
             m_reverseTraj,

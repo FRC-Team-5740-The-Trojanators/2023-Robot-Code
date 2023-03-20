@@ -234,7 +234,8 @@ public final class Constants
         public static final double wristOffset = 0.4241; //absolute encoder value
         public static final double shoulderStowed = (0.585 - shoulderOffset) * 2 * Math.PI; //radians
         public static final double wristStowed = (0.850 - wristOffset) * 2 * Math.PI; //radians
-        public static final double shoulderTopGridCone = (0.355 - shoulderOffset)  * 2 * Math.PI; //radians
+        //public static final double shoulderTopGridCone = (0.355 - shoulderOffset)  * 2 * Math.PI; //radians
+        public static final double shoulderTopGridCone = (0.345 - shoulderOffset)  * 2 * Math.PI; //radians
         public static final double wristTopGridCone = ((0.536 + 0.035) - wristOffset) * 2 * Math.PI; //radians
         public static final double shoulderMidGridCone = (0.406 - shoulderOffset) * 2 * Math.PI; //radians
         public static final double wristMidGridCone = ((0.587 + 0.043) - wristOffset) * 2 * Math.PI; //radians

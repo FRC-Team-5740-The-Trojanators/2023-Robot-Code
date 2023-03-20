@@ -102,7 +102,7 @@ public class Wrist extends SubsystemBase
   public double getAngleRadians()
   {
     double angle = ((m_wristEncoder.get() - Constants.ArmPositionConstants.wristOffset) * Math.PI * 2);
-    if ((angle < -Math.PI) && (angle > (-Math.PI * 2)))
+    if ((angle < -Math.PI) && (angle > (-Math.PI * 3)))
     {
       return (angle + (Math.PI * 2));
     }
