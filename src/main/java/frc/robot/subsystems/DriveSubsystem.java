@@ -114,10 +114,10 @@ public class DriveSubsystem extends SubsystemBase
   public void setSwerveModuleStatesAuto(SwerveModuleState[] desiredStates) {
     SwerveDriveKinematics.desaturateWheelSpeeds(
         desiredStates, SwerveDriveModuleConstants.k_MaxAutoSpeed);
-        modules[0].setDesiredState(desiredStates[0], false);
-        modules[1].setDesiredState(desiredStates[1], false);
-        modules[2].setDesiredState(desiredStates[2], false);
-        modules[3].setDesiredState(desiredStates[3], false);
+        modules[0].setDesiredAutoState(desiredStates[0], false);
+        modules[1].setDesiredAutoState(desiredStates[1], false);
+        modules[2].setDesiredAutoState(desiredStates[2], false);
+        modules[3].setDesiredAutoState(desiredStates[3], false);
   }
 
   public void teleDrive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) 

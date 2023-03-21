@@ -129,6 +129,33 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
         
         m_driveMotor.set(TalonFXControlMode.PercentOutput, state.speedMetersPerSecond / SwerveDriveModuleConstants.k_MaxTeleSpeed);
     }
+
+    public void setDesiredAutoState(SwerveModuleState desiredState, boolean optimize)
+    {      
+       //Steering Motor Calc
+        SwerveModuleState state;
+        Rotation2d currentRotation = getAngle();
+        if(optimize)
+        {
+           state = SwerveModuleState.optimize(desiredState, currentRotation);
+        } 
+        else 
+        {
+            state = desiredState;
+        }
+        Rotation2d rotationDelta = state.angle.minus(currentRotation); //takes our current rotatation and subtracts the last state rotation
+       
+        double deltaTicks = calculateDeltaTicks(rotationDelta);
+        double currentTicks = calculateCurrentTicks();
+        double desiredTicks = currentTicks + deltaTicks;
+
+        desiredTicks = currentTicks + deltaTicks;
+
+        m_angleMotor.set(TalonFXControlMode.Position, desiredTicks);
+        
+        m_driveMotor.set(TalonFXControlMode.PercentOutput, (state.speedMetersPerSecond * 0.25));
+    }
+
     public void setZeroState()
     {
         SwerveModuleState state = new SwerveModuleState(0, new Rotation2d(0));
