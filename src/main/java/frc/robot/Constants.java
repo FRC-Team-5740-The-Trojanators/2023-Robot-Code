@@ -71,7 +71,7 @@ public final class Constants
 
         /*TODO for all of these change when robot is characterized*/
         public static final double k_MaxTeleSpeed = Units.feetToMeters(16); //m/s checked :)
-        public static final double k_MaxAutoSpeed = Units.feetToMeters(1); //m/s
+        public static final double k_MaxAutoSpeed = Units.feetToMeters(5); //m/s
         public static final double k_MaxAcceleration = 1; //m/s/s 
         
         public static final double k_XYjoystickCoefficient = .8; //speed limiter
@@ -84,6 +84,7 @@ public final class Constants
 
         public static final double k_driveEncoderTicksPerRotation = 2048; 
         public static final double k_gearRatio = 6.75;
+        public static final double k_driveDistancePerPulse = ((k_wheelDiameter * Math.PI) / (k_driveEncoderTicksPerRotation * k_gearRatio));
         public static final double k_temperatureLimit = 110.00;
 
         public static final double k_steerFeedbackCoefficient = 0.087890625;
@@ -105,8 +106,8 @@ public final class Constants
             new Translation2d(-k_WheelBase / 2, k_WheelBase / 2),   
             new Translation2d(-k_WheelBase / 2, -k_WheelBase / 2)); 
             
-            public static final double k_pThetaController = .01;
-            public static final double k_pTransController = 1;
+            public static final double k_pThetaController = 3;
+            public static final double k_pTransController = 2;
             public static final double k_MaxAngularSpeedRadiansPerSecond = Units.feetToMeters(7) / k_RobotRadius; //Math.PI;
             public static final double k_MaxAngularSpeedRadiansPerSecondSquared = 10; //Math.PI;
             public static final TrapezoidProfile.Constraints k_ThetaControllerConstraints =
@@ -146,10 +147,10 @@ public final class Constants
 
     public static class DriveModulePIDValues
     {
-        public static double k_driveP = 3;
+        public static double k_driveP = -1000;
         public static double k_driveI = 0;
-        public static double k_driveD = 0.0; 
-        public static double k_driveFF = 1 / Units.feetToMeters(SwerveDriveModuleConstants.k_MaxTeleSpeed); 
+        public static double k_driveD = -25; 
+        public static double k_driveFF = (1023 / (SwerveDriveModuleConstants.k_MaxTeleSpeed / SwerveDriveModuleConstants.k_driveDistancePerPulse));//1 / Units.feetToMeters(SwerveDriveModuleConstants.k_MaxAutoSpeed);
         public static final int k_ToleranceInTicks = 5; 
     }
 

@@ -81,8 +81,8 @@ public class DefaultTaxiAndMore extends CommandBase
 
       case RAISE_ARM:
         //System.out.println("State " + state);
-        m_shoulder.goToPosition(ArmPositionConstants.shoulderTopGridCone);
-        m_wrist.goToPosition(ArmPositionConstants.wristTopGridCone, m_shoulder.getFilteredAngle());
+        m_shoulder.setSetpoint(ArmPositionConstants.shoulderTopGridCone);
+        m_wrist.setSetpoint(ArmPositionConstants.wristTopGridCone);
         m_claw.forwardClawMotor();
 
         if (m_timer.get() > 6)
@@ -105,8 +105,8 @@ public class DefaultTaxiAndMore extends CommandBase
 
       case STRAIGHT_FORWARD:
         //System.out.println("State " + state);
-        m_shoulder.goToPosition(ArmPositionConstants.shoulderTopGridCone);
-        m_wrist.goToPosition(ArmPositionConstants.wristTopGridCone, m_shoulder.getFilteredAngle());
+        m_shoulder.setSetpoint(ArmPositionConstants.shoulderTopGridCone);
+        m_wrist.setSetpoint(ArmPositionConstants.wristTopGridCone);
         m_claw.forwardClawMotor();
 
         m_swerveController.execute();
@@ -120,8 +120,8 @@ public class DefaultTaxiAndMore extends CommandBase
 
       case SCORE:
         //System.out.println("State " + state);
-        m_shoulder.goToPosition(ArmPositionConstants.shoulderTopGridCone);
-        m_wrist.goToPosition(ArmPositionConstants.wristTopGridCone, m_shoulder.getFilteredAngle());
+        m_shoulder.setSetpoint(ArmPositionConstants.shoulderTopGridCone);
+        m_wrist.setSetpoint(ArmPositionConstants.wristTopGridCone);
         m_claw.reverseClawMotor();
 
         if (m_timer.get() > 11)
@@ -144,8 +144,8 @@ public class DefaultTaxiAndMore extends CommandBase
 
       case REVERSE:
         //System.out.println("State " + state);
-        m_shoulder.goToPosition(ArmPositionConstants.shoulderTopGridCone);
-        m_wrist.goToPosition(ArmPositionConstants.wristTopGridCone, m_shoulder.getFilteredAngle());
+        m_shoulder.setSetpoint(ArmPositionConstants.shoulderTopGridCone);
+        m_wrist.setSetpoint(ArmPositionConstants.wristTopGridCone);
         m_claw.reverseClawMotor();
 
         m_swerveController.execute();
@@ -159,8 +159,8 @@ public class DefaultTaxiAndMore extends CommandBase
 
         case FINISHED:
           //System.out.println("State " + state);
-          m_shoulder.goToPosition(ArmPositionConstants.shoulderStowed);
-          m_wrist.goToPosition(ArmPositionConstants.wristStowed, m_shoulder.getFilteredAngle());
+          m_shoulder.setSetpoint(ArmPositionConstants.shoulderStowed);
+          m_wrist.setSetpoint(ArmPositionConstants.wristStowed);
           m_claw.stopClawMotor();
           m_driveSubsystem.teleDrive(0, 0, 0, true);
         break;

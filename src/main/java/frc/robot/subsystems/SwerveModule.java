@@ -153,7 +153,7 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 
         m_angleMotor.set(TalonFXControlMode.Position, desiredTicks);
         
-        m_driveMotor.set(TalonFXControlMode.PercentOutput, (state.speedMetersPerSecond * 0.25));
+        m_driveMotor.set(TalonFXControlMode.Velocity, state.speedMetersPerSecond / SwerveDriveModuleConstants.k_driveDistancePerPulse);
     }
 
     public void setZeroState()

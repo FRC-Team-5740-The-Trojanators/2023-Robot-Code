@@ -66,21 +66,7 @@ public class RobotContainer
 // This is just an example event map. It would be better to have a constant, global event map
 // in your code that will be used by all path following commands.
      HashMap<String, Command> eventMap = new HashMap<>();
-  //eventMap.put("marker1", new PrintCommand("Passed marker 1"));
    //eventMap.put("intakeDown", new IntakeDown());
-
-// Create the AutoBuilder. This only needs to be created once when robot code starts, not every time you want to create an auto command. A good place to put this is in RobotContainer along with your subsystems.
-    SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
-      m_driveSubsystem::getPose, // Pose2d supplier
-      m_driveSubsystem::resetOdometry, // Pose2d consumer, used to reset odometry at the beginning of auto
-      SwerveDriveModuleConstants.k_AutoKinematics, // SwerveDriveKinematics
-      new PIDConstants(SwerveDriveModuleConstants.k_pTransController, 0.0, 0.0), // PID constants to correct for translation error (used to create the X and Y PID controllers)
-      new PIDConstants(SwerveDriveModuleConstants.k_pThetaController, 0.0, 0.0), // PID constants to correct for rotation error (used to create the rotation controller)
-      m_driveSubsystem::setSwerveModuleStatesAuto, // Module states consumer used to output to the drive subsystem
-      eventMap,
-      true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
-      m_driveSubsystem // The drive subsystem. Used to properly set the requirements of path following commands
-    );
   
   private final SwerveDriveCommand m_driveCommand = new SwerveDriveCommand(m_driveSubsystem, m_driverController);
   
@@ -94,42 +80,34 @@ public class RobotContainer
     configureButtonBindings();
 
     m_driveSubsystem.setDefaultCommand(m_driveCommand);
-    m_shoulder.setDefaultCommand(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
+    //m_shoulder.setDefaultCommand(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
     //m_wrist.setDefaultCommand(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
     m_driveSubsystem.resetIMU();
   
     configChooser();
+
+    eventMap.put("event", new RunClawCommand(m_claw, "FORWARD") );
   
   }
 
+  // Create the AutoBuilder. This only needs to be created once when robot code starts, not every time you want to create an auto command. A good place to put this is in RobotContainer along with your subsystems.
+  SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
+    m_driveSubsystem::getPose, // Pose2d supplier
+    m_driveSubsystem::resetOdometry, // Pose2d consumer, used to reset odometry at the beginning of auto
+    SwerveDriveModuleConstants.k_AutoKinematics, // SwerveDriveKinematics
+    new PIDConstants(SwerveDriveModuleConstants.k_pTransController, 0.0, 0.0), // PID constants to correct for translation error (used to create the X and Y PID controllers)
+    new PIDConstants(SwerveDriveModuleConstants.k_pThetaController, 0.0, 0.0), // PID constants to correct for rotation error (used to create the rotation controller)
+    m_driveSubsystem::setSwerveModuleStatesAuto, // Module states consumer used to output to the drive subsystem
+    eventMap,
+    true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
+    m_driveSubsystem // The drive subsystem. Used to properly set the requirements of path following commands
+  );
+
   private void configChooser()
   {
-    //auto.addOption("Position1Cone2Chrg", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part1Pickup1", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part2Cone", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part3ConeBalance", new PathConstraints(4, 3))) ));
-    //auto.addOption("Position1Cube2Chrg", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part1Pickup1", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part2Cube", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part3CubeBalance", new PathConstraints(4, 3))) ));
-    //auto.addOption("Position1Cone3PckUp", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part1Pickup1", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part2Cone", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part3ConePickup2", new PathConstraints(4, 3))) ));
-    //auto.addOption("Position1Cube3PckUp", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part1Pickup1", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part2Cube", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1Part3CubePickup2", new PathConstraints(4, 3))) ));
-  
-    //auto.addOption("Position2Cone1Chrg", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position2Part1Cone", new PathConstraints(4, 3)))));
-    //auto.addOption("Position2Cube1Chrg", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position2Part1Cube", new PathConstraints(4, 3)))));
-
-    //auto.addOption("Position3Cone2Chrg", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part1Pickup4", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part2Cone", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part3ConeBalance", new PathConstraints(4, 3))) ));
-    //auto.addOption("Position3Cube2Chrg", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part1Pickup4", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part2Cube", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part3CubeBalance", new PathConstraints(4, 3))) ));
-    //auto.addOption("Position3Cone3PckUp", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part1Pickup4", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part2Cone", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part3ConePickup3", new PathConstraints(4, 3))) ));
-    //auto.addOption("Position3Cube3PckUp", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part1Pickup4", new PathConstraints(4, 3))), autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part2Cube", new PathConstraints(4, 3))),autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position3Part3CubePickup3", new PathConstraints(4, 3))) ));
-
-    //auto.addOption("DefaultTaxiAndMore", new SequentialCommandGroup(new ParallelDeadlineGroup(new SequentialCommandGroup(new ParallelDeadlineGroup(new SequentialCommandGroup(
-    //                                          new WaitCommand(2), autoBuilder.fullAuto(PathPlanner.loadPathGroup("DefaultTaxiAndMore", new PathConstraints(4, 3))), new WaitCommand(2)), new RunClawCommand(m_claw, "FORWARD")),
-    //                                          new ParallelDeadlineGroup(new SequentialCommandGroup(new WaitCommand(2), autoBuilder.fullAuto(PathPlanner.loadPathGroup("DefaultTaxiAndMore", new PathConstraints(4, 3)))), new RunClawCommand(m_claw, "BACKWARD")), new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE")),
-    //                                          new ParallelCommandGroup(new ArmCommand(m_shoulder, m_wrist, "STOWED"), autoBuilder.fullAuto(PathPlanner.loadPathGroup("DefaultTaxiAndMore", new PathConstraints(4, 3)))))));
-
-    //auto.addOption("autoTest", new SequentialCommandGroup(new ZeroSwerveCommand(m_driveSubsystem),autoBuilder.fullAuto( PathPlanner.loadPathGroup("autoTest", new PathConstraints(4, 3))), new TargetCommand(m_driveSubsystem, m_driverController, m_visionTargeting, 1, "limelight - b"), new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE")));
-    //auto.addOption("autoTest", new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE"));
-
-    //auto.addOption("DefaultTaxi", new SequentialCommandGroup(autoBuilder.fullAuto( PathPlanner.loadPathGroup("DefaultTaxiAndMore2", new PathConstraints(4, 3)))));
     auto.addOption("DefaultTaxiAndMore", new DefaultTaxiAndMore(m_driveSubsystem, m_claw, m_shoulder, m_wrist));
-    auto.addOption("Mid", autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1", new PathConstraints(1, 1))));
+    auto.addOption("Mid", autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1", new PathConstraints(1.5, 1))));
     auto.addOption("Do Nothing", null);
-
 
     SmartDashboard.putData(auto);
   }
@@ -145,14 +123,8 @@ public class RobotContainer
   {
     coneTarget = new JoystickButton(m_driverController , HIDConstants.kA);
     cubeTarget = new JoystickButton(m_driverController , HIDConstants.kB);
-    //xBalance = new JoystickButton(m_driverController, HIDConstants.kX);
-    //yBalance = new JoystickButton(m_driverController, HIDConstants.kY);
     aprilTag = new JoystickButton(m_driverController , HIDConstants.kBack);
     zeroDrive = new JoystickButton(m_driverController, HIDConstants.kStart);
-
-    //runClaw = new JoystickButton(m_operatorController, HIDConstants.kA);
-    //reverseClaw = new JoystickButton(m_operatorController, HIDConstants.kB); 
-
     //purpleLED = new JoystickButton(m_operatorController, HIDConstants.kLB);
     //yellowLED = new JoystickButton(m_operatorController, HIDConstants.kRB);
     //offLED = new JoystickButton(m_operatorController, HIDConstants.kX);
@@ -169,23 +141,18 @@ public class RobotContainer
 
     coneTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_driverController, m_visionTargeting, 1, "limelight-b"));
     cubeTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_driverController, m_visionTargeting, 0, "limelight-b"));
-    //aprilTag.whileTrue(new TargetCommand(m_driveSubsystem, m_visionTargeting, 2));
-    //xBalance.whileTrue(new Balance(m_driveSubsystem, true));
-    //yBalance.whileTrue(new Balance(m_driveSubsystem, false));
     zeroDrive.whileTrue(new ZeroSwerveCommand(m_driveSubsystem));
-
-    //runClaw.whileTrue(new RunClawCommand(m_claw, "stop"));
 
    // purpleLED.whileTrue(new SetColor(m_leds, "purple"));
    // yellowLED.whileTrue(new SetColor(m_leds, "yellow"));
     //offLED.whileTrue(new SetColor(m_leds, "off"));
 
-    topGridArmCone.whileTrue(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE"));
-    midGridArmCone.whileTrue(new ArmCommand(m_shoulder, m_wrist, "MIDGRIDCONE"));
-    topGridArmCube.whileTrue(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCUBE"));
-    midGridArmCube.whileTrue(new ArmCommand(m_shoulder, m_wrist, "MIDGRIDCUBE"));
-    substationArm.whileTrue(new ArmCommand(m_shoulder, m_wrist, "SUBSTATION"));
-    floorArm.whileTrue(new ArmCommand(m_shoulder, m_wrist, "FLOOR"));
+    topGridArmCone.onTrue(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE")).onFalse(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
+    midGridArmCone.onTrue(new ArmCommand(m_shoulder, m_wrist, "MIDGRIDCONE")).onFalse(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
+    topGridArmCube.onTrue(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCUBE")).onFalse(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
+    midGridArmCube.onTrue(new ArmCommand(m_shoulder, m_wrist, "MIDGRIDCUBE")).onFalse(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
+    substationArm.onTrue(new ArmCommand(m_shoulder, m_wrist, "SUBSTATION")).onFalse(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
+    floorArm.onTrue(new ArmCommand(m_shoulder, m_wrist, "FLOOR")).onFalse(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
     clawIn.whileTrue(new RunClawCommand(m_claw, "FORWARD"));
     clawOut.whileTrue(new RunClawCommand(m_claw, "BACKWARD"));
 

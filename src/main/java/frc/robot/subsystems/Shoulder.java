@@ -17,12 +17,14 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.ArmPositionConstants;
 
 public class Shoulder extends SubsystemBase 
 {
   /** Creates a new Shoulder. */
   private double m_lastSpeed = 0;
   private double m_lastTime = Timer.getFPGATimestamp();
+  private double m_setpoint = ArmPositionConstants.shoulderStowed;
 
   private MedianFilter m_filter = new MedianFilter(16);
   private double m_filteredAngle;
@@ -44,6 +46,7 @@ public class Shoulder extends SubsystemBase
     m_shoulderMotorPID.setTolerance(Constants.MotorPIDValues.k_shoulderTolerance);
     m_shoulderMotorPID.disableContinuousInput();
     m_shoulderMotorPID.setTolerance(.1, 1);
+    setSetpoint(ArmPositionConstants.shoulderStowed);
   }
 
   @Override
@@ -59,13 +62,15 @@ public class Shoulder extends SubsystemBase
     SmartDashboard.putNumber("Shoulder Abs Encoder", getAbsEncoder());
     SmartDashboard.putNumber("Shoulder Angle Radians", getAngleRadians());
     //SmartDashboard.putNumber("error", m_shoulderMotorPID.getPositionError());
-    //SmartDashboard.putNumber("Setpoint Pos", m_shoulderMotorPID.getSetpoint().position);
+    SmartDashboard.putNumber("Setpoint Pos", m_shoulderMotorPID.getSetpoint().position);
     //SmartDashboard.putNumber("Setpoint Vel", m_shoulderMotorPID.getSetpoint().velocity);
 
     for(int i = 0; i < 16; i++)
     {
       m_filteredAngle = m_filter.calculate(getAngleRadians());
     }
+
+    goToPosition(m_setpoint);
   }
 
 // Controls a simple motor's position using a SimpleMotorFeedforward
@@ -87,6 +92,11 @@ public class Shoulder extends SubsystemBase
       //System.out.println("shoulder motor stop");
       forceMotorStop();
     }
+  }
+
+  public void setSetpoint(double setpoint)
+  {
+    m_setpoint = setpoint;
   }
 
   public void setInitialSetPoint()

@@ -35,7 +35,7 @@ public class ArmCommand extends CommandBase
   public void initialize()
   {
     m_shoulder.setInitialSetPoint();
-    m_wrist.setInitialSetPoint();
+    //m_wrist.setInitialSetPoint();
     m_isFinished = false;
   }
 
@@ -84,8 +84,8 @@ public class ArmCommand extends CommandBase
       }
     }
 
-    m_shoulder.goToPosition(m_shoulderSetPoint);
-    m_wrist.goToPosition(m_wristSetPoint, m_shoulder.getFilteredAngle());
+    m_shoulder.setSetpoint(m_shoulderSetPoint);
+    m_wrist.setSetpoint(m_wristSetPoint);
 
     //m_isFinished = (m_shoulder.moveEnd() && m_wrist.moveEnd());
 
