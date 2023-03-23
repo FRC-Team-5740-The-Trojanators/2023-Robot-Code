@@ -20,6 +20,7 @@ import frc.robot.commands.ArmCommand;
 import frc.robot.commands.Balance;
 import frc.robot.commands.DefaultTaxiAndMore;
 import frc.robot.commands.RunClawCommand;
+import frc.robot.commands.ScoreConeAndTaxi;
 import frc.robot.commands.SwerveDriveCommand;
 import frc.robot.commands.TargetCommand;
 import frc.robot.commands.ZeroSwerveCommand;
@@ -66,7 +67,6 @@ public class RobotContainer
 // This is just an example event map. It would be better to have a constant, global event map
 // in your code that will be used by all path following commands.
      HashMap<String, Command> eventMap = new HashMap<>();
-   //eventMap.put("intakeDown", new IntakeDown());
   
   private final SwerveDriveCommand m_driveCommand = new SwerveDriveCommand(m_driveSubsystem, m_driverController);
   
@@ -86,8 +86,13 @@ public class RobotContainer
   
     configChooser();
 
-    eventMap.put("event", new RunClawCommand(m_claw, "FORWARD") );
-  
+    eventMap.put("ClawIn", new RunClawCommand(m_claw, "FORWARD"));
+    eventMap.put("ClawOut", new RunClawCommand(m_claw, "BACKWARD"));
+    eventMap.put("ClawStop", new RunClawCommand(m_claw, "STOP"));
+    eventMap.put("ArmConeTop", new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE"));
+    eventMap.put("ArmStowed", new ArmCommand(m_shoulder, m_wrist, "STOWED"));
+    eventMap.put("Wait2S", new WaitCommand(2));
+    
   }
 
   // Create the AutoBuilder. This only needs to be created once when robot code starts, not every time you want to create an auto command. A good place to put this is in RobotContainer along with your subsystems.
@@ -105,8 +110,10 @@ public class RobotContainer
 
   private void configChooser()
   {
-    auto.addOption("DefaultTaxiAndMore", new DefaultTaxiAndMore(m_driveSubsystem, m_claw, m_shoulder, m_wrist));
-    auto.addOption("Mid", autoBuilder.fullAuto( PathPlanner.loadPathGroup("Position1", new PathConstraints(1.5, 1))));
+    //auto.addOption("DefaultTaxiAndMore", new DefaultTaxiAndMore(m_driveSubsystem, m_claw, m_shoulder, m_wrist));
+    //auto.addOption("Score Cone and Taxi", new RunClawCommand(m_claw, "FORWARD").alongWith(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE")).withTimeout(2).andThen(autoBuilder.fullAuto(PathPlanner.loadPathGroup("ScoreConeAndTaxi", new PathConstraints(1.5, 1)))));
+    auto.addOption("Score Cone and Taxi", new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist));
+    auto.addOption("Mid", autoBuilder.fullAuto(PathPlanner.loadPathGroup("Position2", new PathConstraints(1.5, 1))));
     auto.addOption("Do Nothing", null);
 
     SmartDashboard.putData(auto);

@@ -65,6 +65,11 @@ public class RunClawCommand extends CommandBase
       m_claw.reverseClawMotor();
     }
 
+    if (m_function == "STOP") 
+    {
+      m_claw.stopClawMotor();
+    }
+
     m_isFinished = m_claw.getTemperatureError();
   }
 

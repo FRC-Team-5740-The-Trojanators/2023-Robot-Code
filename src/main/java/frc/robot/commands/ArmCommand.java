@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmPositionConstants;
 import frc.robot.subsystems.Shoulder;
@@ -43,46 +44,48 @@ public class ArmCommand extends CommandBase
   @Override
   public void execute()
   {
-    if (!m_shoulder.moveEnd())
-    {
       if (m_position == "STOWED")
       {
+        SmartDashboard.putString("Arm Position", "STOWED");
         m_shoulderSetPoint = ArmPositionConstants.shoulderStowed;
         m_wristSetPoint = ArmPositionConstants.wristStowed;
       }
       else if (m_position == "TOPGRIDCONE")
       {
+        SmartDashboard.putString("Arm Position", "TOPGRIDCONE");
         m_shoulderSetPoint = ArmPositionConstants.shoulderTopGridCone;
         m_wristSetPoint = ArmPositionConstants.wristTopGridCone;
       }
       else if (m_position == "MIDGRIDCONE")
       {
+        SmartDashboard.putString("Arm Position", "MIDGRIDCONE");
         m_shoulderSetPoint = ArmPositionConstants.shoulderMidGridCone;
         m_wristSetPoint = ArmPositionConstants.wristMidGridCone;
       }
-
       else if (m_position == "TOPGRIDCUBE")
       {
+        SmartDashboard.putString("Arm Position", "TOPGRIDCUBE");
         m_shoulderSetPoint = ArmPositionConstants.shoulderTopGridCube;
         m_wristSetPoint = ArmPositionConstants.wristTopGridCube;
       }
       else if (m_position == "MIDGRIDCUBE")
       {
+        SmartDashboard.putString("Arm Position", "MIDGRIDCUBE");
         m_shoulderSetPoint = ArmPositionConstants.shoulderMidGridCube;
         m_wristSetPoint = ArmPositionConstants.wristMidGridCube;
       }
-
       else if (m_position == "FLOOR")
       {
+        SmartDashboard.putString("Arm Position", "FLOOR");
         m_shoulderSetPoint = ArmPositionConstants.shoulderFloor;
         m_wristSetPoint = ArmPositionConstants.wristFloor;
       }
       else if (m_position == "SUBSTATION")
       {
+        SmartDashboard.putString("Arm Position", "SUBSTATION");
         m_shoulderSetPoint = ArmPositionConstants.shoulderSubstation;
         m_wristSetPoint = ArmPositionConstants.wristSubstation;
       }
-    }
 
     m_shoulder.setSetpoint(m_shoulderSetPoint);
     m_wrist.setSetpoint(m_wristSetPoint);
@@ -96,14 +99,14 @@ public class ArmCommand extends CommandBase
   public void end(boolean interrupted)
   {
     m_isFinished = true;
-    m_shoulder.forceMotorStop();
-    m_wrist.forceMotorStop();
+    //m_shoulder.forceMotorStop();
+    //m_wrist.forceMotorStop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished()
   {
-    return m_isFinished;
+    return true;
   }
 }
