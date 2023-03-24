@@ -5,13 +5,16 @@
 package frc.robot.commands;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.commands.FollowPathWithEvents;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -31,24 +34,26 @@ public class ScoreConeAndTaxi extends SequentialCommandGroup {
   private Claw m_claw;
   private Shoulder m_shoulder;
   private Wrist m_wrist;
+  private HashMap<String, Command> m_eventMap;
 
-  public ScoreConeAndTaxi(DriveSubsystem driveSubsystem, Claw claw, Shoulder shoulder, Wrist wrist)
+  public ScoreConeAndTaxi(DriveSubsystem driveSubsystem, Claw claw, Shoulder shoulder, Wrist wrist, HashMap<String, Command> eventMap)
   {
     m_driveSubsystem = driveSubsystem;
     m_claw = claw;
     m_shoulder = shoulder;
     m_wrist = wrist;
+    m_eventMap = eventMap;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(m_driveSubsystem, m_claw, m_shoulder, m_wrist);
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    ArrayList<PathPlannerTrajectory> pathGroup1 = (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("ScoreConeAndTaxi", new PathConstraints(1.5, 1));
+    ArrayList<PathPlannerTrajectory> pathGroup1 = (ArrayList<PathPlannerTrajectory>) PathPlanner.loadPathGroup("ScoreConeAndTaxi", new PathConstraints(2, 2));
 
     addCommands(
       new ParallelDeadlineGroup(
-            new WaitCommand(2),
+            new WaitCommand(1.5),
             new RunClawCommand(m_claw, "FORWARD"),
             new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE")),
       new InstantCommand(() -> {
@@ -68,19 +73,22 @@ public class ScoreConeAndTaxi extends SequentialCommandGroup {
             new RunClawCommand(m_claw, "FORWARD")),
       new WaitCommand(.2),
       new ParallelDeadlineGroup(
-            new WaitCommand(.5),
+            new WaitCommand(.3),
             new RunClawCommand(m_claw, "BACKWARD")),
       new ParallelDeadlineGroup(
-            new PPSwerveControllerCommand(
-                pathGroup1.get(1),
-                m_driveSubsystem::getPose,
-                SwerveDriveModuleConstants.k_AutoKinematics, // SwerveDriveKinematics
-                new PIDController(SwerveDriveModuleConstants.k_pTransController, 0.0, 0.0), // PID constants to correct for translation error (used to create the X and Y PID controllers)
-                new PIDController(SwerveDriveModuleConstants.k_pTransController, 0.0, 0.0),
-                new PIDController(SwerveDriveModuleConstants.k_pThetaController, 0.0, 0.0),
-                m_driveSubsystem::setSwerveModuleStatesAuto,
-                false,
-                m_driveSubsystem),
+            new FollowPathWithEvents(
+                new PPSwerveControllerCommand(
+                    pathGroup1.get(1),
+                    m_driveSubsystem::getPose,
+                    SwerveDriveModuleConstants.k_AutoKinematics, // SwerveDriveKinematics
+                    new PIDController(SwerveDriveModuleConstants.k_pTransController, 0.0, 0.0), // PID constants to correct for translation error (used to create the X and Y PID controllers)
+                    new PIDController(SwerveDriveModuleConstants.k_pTransController, 0.0, 0.0),
+                    new PIDController(SwerveDriveModuleConstants.k_pThetaController, 0.0, 0.0),
+                    m_driveSubsystem::setSwerveModuleStatesAuto,
+                    false,
+                    m_driveSubsystem),
+                pathGroup1.get(1).getMarkers(),
+                m_eventMap),
             new RunClawCommand(m_claw, "BACKWARD")),
       new ArmCommand(m_shoulder, m_wrist, "STOWED")
     );

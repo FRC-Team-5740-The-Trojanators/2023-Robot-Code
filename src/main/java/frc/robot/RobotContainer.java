@@ -17,12 +17,11 @@ import frc.robot.Constants.HIDConstants;
 import frc.robot.Constants.LEDsSubsystemConstants;
 import frc.robot.Constants.SwerveDriveModuleConstants;
 import frc.robot.commands.ArmCommand;
-import frc.robot.commands.Balance;
-import frc.robot.commands.DefaultTaxiAndMore;
 import frc.robot.commands.RunClawCommand;
 import frc.robot.commands.ScoreConeAndTaxi;
 import frc.robot.commands.SwerveDriveCommand;
 import frc.robot.commands.TargetCommand;
+import frc.robot.commands.TaxiAndGrabCube1Blue;
 import frc.robot.commands.ZeroSwerveCommand;
 import frc.robot.commands.SetColor;
 import frc.robot.subsystems.Shoulder;
@@ -33,8 +32,6 @@ import frc.robot.subsystems.VisionTargeting;
 import frc.robot.subsystems.Wrist;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -54,19 +51,14 @@ public class RobotContainer
   private final Shoulder m_shoulder = new Shoulder();
   private final Wrist m_wrist = new Wrist();
 
-  //private final RunClawCommand m_runClawCommand = new RunClawCommand(m_claw, "stop");
-
   public final static LEDs m_leds = new LEDs(LEDsSubsystemConstants.k_port, LEDsSubsystemConstants.k_numLeds);
   XboxController m_driverController = new XboxController(HIDConstants.k_DriverControllerPort);
   XboxController m_operatorController = new XboxController(HIDConstants.k_OperatorControllerPort);
 
-   // This will load the file "FullAuto.path" and generate it with a max velocity of 4 m/s and a max acceleration of 3 m/s^2
-// for every path in the group
-     //List<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("FullAuto", new PathConstraints(1, 1));
 
 // This is just an example event map. It would be better to have a constant, global event map
 // in your code that will be used by all path following commands.
-     HashMap<String, Command> eventMap = new HashMap<>();
+  HashMap<String, Command> eventMap = new HashMap<>();
   
   private final SwerveDriveCommand m_driveCommand = new SwerveDriveCommand(m_driveSubsystem, m_driverController);
   
@@ -80,8 +72,6 @@ public class RobotContainer
     configureButtonBindings();
 
     m_driveSubsystem.setDefaultCommand(m_driveCommand);
-    //m_shoulder.setDefaultCommand(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
-    //m_wrist.setDefaultCommand(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
     m_driveSubsystem.resetIMU();
   
     configChooser();
@@ -92,6 +82,7 @@ public class RobotContainer
     eventMap.put("ArmConeTop", new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE"));
     eventMap.put("ArmStowed", new ArmCommand(m_shoulder, m_wrist, "STOWED"));
     eventMap.put("Wait2S", new WaitCommand(2));
+    eventMap.put("ArmFloor", new ArmCommand(m_shoulder, m_wrist, "FLOOR"));
     
   }
 
@@ -112,11 +103,15 @@ public class RobotContainer
   {
     //auto.addOption("DefaultTaxiAndMore", new DefaultTaxiAndMore(m_driveSubsystem, m_claw, m_shoulder, m_wrist));
     //auto.addOption("Score Cone and Taxi", new RunClawCommand(m_claw, "FORWARD").alongWith(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE")).withTimeout(2).andThen(autoBuilder.fullAuto(PathPlanner.loadPathGroup("ScoreConeAndTaxi", new PathConstraints(1.5, 1)))));
-    auto.addOption("Score Cone and Taxi", new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist));
-    auto.addOption("Mid", autoBuilder.fullAuto(PathPlanner.loadPathGroup("Position2", new PathConstraints(1.5, 1))));
+    //auto.addOption("Score Cone and Taxi", new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist));
+    auto.addOption("Mid", autoBuilder.fullAuto(PathPlanner.loadPathGroup("Position2", new PathConstraints(3, 2))));
+    auto.addOption("Do Nothing", null);
+
+    auto.addOption("Blue 1 Score 2 Pieces", new SequentialCommandGroup(new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap), new TaxiAndGrabCube1Blue(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap)));
     auto.addOption("Do Nothing", null);
 
     SmartDashboard.putData(auto);
+
   }
 
 
@@ -173,8 +168,6 @@ public class RobotContainer
    */
   public Command getAutonomousCommand() 
   {
-   
-
     //return autoBuilder.fullAuto(pathGroup);
     return auto.getSelected();
     //return null;

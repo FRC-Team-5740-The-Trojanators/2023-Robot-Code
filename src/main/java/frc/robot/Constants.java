@@ -71,7 +71,7 @@ public final class Constants
 
         /*TODO for all of these change when robot is characterized*/
         public static final double k_MaxTeleSpeed = Units.feetToMeters(16); //m/s checked :)
-        public static final double k_MaxAutoSpeed = Units.feetToMeters(5); //m/s
+        public static final double k_MaxAutoSpeed = 4.5; //m/s
         public static final double k_MaxAcceleration = 1; //m/s/s 
         
         public static final double k_XYjoystickCoefficient = .8; //speed limiter
@@ -150,7 +150,8 @@ public final class Constants
         public static double k_driveP = -1000;
         public static double k_driveI = 0;
         public static double k_driveD = -25; 
-        public static double k_driveFF = (1023 / (SwerveDriveModuleConstants.k_MaxTeleSpeed / SwerveDriveModuleConstants.k_driveDistancePerPulse));//1 / Units.feetToMeters(SwerveDriveModuleConstants.k_MaxAutoSpeed);
+        //public static double k_driveFF = (1023 / (SwerveDriveModuleConstants.k_MaxTeleSpeed / SwerveDriveModuleConstants.k_driveDistancePerPulse));//1 / Units.feetToMeters(SwerveDriveModuleConstants.k_MaxAutoSpeed);
+        public static double k_driveFF = (1024 / (SwerveDriveModuleConstants.k_MaxAutoSpeed / SwerveDriveModuleConstants.k_driveDistancePerPulse));
         public static final int k_ToleranceInTicks = 5; 
     }
 

@@ -17,7 +17,6 @@ public class ArmCommand extends CommandBase
   private Wrist m_wrist;
   private String m_position;
   
-  private boolean m_isFinished;
   private double m_shoulderSetPoint;
   private double m_wristSetPoint;
 
@@ -36,8 +35,6 @@ public class ArmCommand extends CommandBase
   public void initialize()
   {
     m_shoulder.setInitialSetPoint();
-    //m_wrist.setInitialSetPoint();
-    m_isFinished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -98,9 +95,7 @@ public class ArmCommand extends CommandBase
   @Override
   public void end(boolean interrupted)
   {
-    m_isFinished = true;
-    //m_shoulder.forceMotorStop();
-    //m_wrist.forceMotorStop();
+
   }
 
   // Returns true when the command should end.

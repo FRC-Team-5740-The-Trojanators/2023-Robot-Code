@@ -59,7 +59,7 @@
       "nextControl": null,
       "holonomicAngle": 180.0,
       "isReversal": false,
-      "velOverride": null,
+      "velOverride": 2.0,
       "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
@@ -70,9 +70,18 @@
       }
     }
   ],
+  "maxVelocity": 2.0,
+  "maxAcceleration": 2.0,
+  "isReversed": null,
   "markers": [
     {
       "position": 0.99,
+      "names": [
+        "ArmStowed"
+      ]
+    },
+    {
+      "position": 1.3,
       "names": [
         "ArmStowed"
       ]
