@@ -59,7 +59,7 @@ public class ScoreConeAndTaxi extends SequentialCommandGroup {
       new InstantCommand(() -> {
                   m_driveSubsystem.resetOdometry(pathGroup1.get(0).getInitialHolonomicPose());
             }),
-      new ParallelDeadlineGroup(
+      //new ParallelDeadlineGroup(
             new PPSwerveControllerCommand(
                   pathGroup1.get(0),
                   m_driveSubsystem::getPose,
@@ -70,7 +70,7 @@ public class ScoreConeAndTaxi extends SequentialCommandGroup {
                   m_driveSubsystem::setSwerveModuleStatesAuto,
                   false,
                   m_driveSubsystem),
-            new RunClawCommand(m_claw, "FORWARD")),
+            //new RunClawCommand(m_claw, "FORWARD")),
       new WaitCommand(.2),
       new ParallelDeadlineGroup(
             new WaitCommand(.3),

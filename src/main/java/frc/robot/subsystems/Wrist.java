@@ -109,6 +109,10 @@ public class Wrist extends SubsystemBase
     {
       return (angle + (Math.PI * 2));
     }
+    else if ((angle > Math.PI) && (angle < (Math.PI * 3)))
+    {
+      return (angle - (Math.PI * 2));
+    }
     else
     {
       return angle;
