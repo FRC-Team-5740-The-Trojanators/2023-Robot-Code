@@ -54,7 +54,7 @@ public class ScoreConeAndTaxi extends SequentialCommandGroup {
     addCommands(
       new ParallelDeadlineGroup(
             new WaitCommand(1.5),
-            new RunClawCommand(m_claw, "FORWARD"),
+            //new RunClawCommand(m_claw, "FORWARD"),
             new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE")),
       new InstantCommand(() -> {
                   m_driveSubsystem.resetOdometry(pathGroup1.get(0).getInitialHolonomicPose());

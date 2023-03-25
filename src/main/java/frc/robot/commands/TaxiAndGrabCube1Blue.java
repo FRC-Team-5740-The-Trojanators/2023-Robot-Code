@@ -64,8 +64,8 @@ public class TaxiAndGrabCube1Blue extends SequentialCommandGroup
           m_driveSubsystem),
         path.getMarkers(),
         m_eventMap
-      ),
-      new ParallelDeadlineGroup(new WaitCommand(.5), new RunClawCommand(m_claw, "BACKWARD"))
+      )//,
+      //new ParallelDeadlineGroup(new WaitCommand(.5), new RunClawCommand(m_claw, "BACKWARD"))
     );
   }
 }
