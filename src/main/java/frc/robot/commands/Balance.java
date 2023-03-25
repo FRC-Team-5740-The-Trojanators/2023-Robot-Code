@@ -15,7 +15,7 @@ public class Balance extends CommandBase {
   boolean m_isFinished;
   double angleDegrees;
   double positionThresholdDegrees = 3.0;
-  double velocityThresholdDegreesPerSec = 8.0;
+  double velocityThresholdDegreesPerSec = 3.0;
   double speedInchesPerSec = 22.5;
 
   /** Creates a new Xbalance. */
@@ -40,8 +40,7 @@ public class Balance extends CommandBase {
     
     double angleVelocityDegreesPerSec = m_drivetrain.getPitchVelocity();
 
-    boolean shouldStop =
-        (angleDegrees != 0.0 && Math.abs(angleVelocityDegreesPerSec) > velocityThresholdDegreesPerSec);
+    boolean shouldStop = Math.abs(angleVelocityDegreesPerSec) > velocityThresholdDegreesPerSec;
             //|| (angleDegrees > 0.0 && Math.abs(angleVelocityDegreesPerSec) < -velocityThresholdDegreesPerSec);
 
     // Send velocity to drive
@@ -72,6 +71,7 @@ public class Balance extends CommandBase {
   @Override
   public boolean isFinished()
   {
-    return Math.abs(angleDegrees) < positionThresholdDegrees;
+    //return Math.abs(angleDegrees) < positionThresholdDegrees;
+    return false;
   }
 }

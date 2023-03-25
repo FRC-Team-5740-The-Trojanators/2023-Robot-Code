@@ -22,6 +22,7 @@ import frc.robot.commands.RunClawCommand;
 import frc.robot.commands.ScoreConeAndTaxi;
 import frc.robot.commands.SwerveDriveCommand;
 import frc.robot.commands.TargetCommand;
+import frc.robot.commands.TaxiAndBalance2;
 import frc.robot.commands.TaxiAndGrabCube1Blue;
 import frc.robot.commands.TaxiAndGrabCube1Red;
 import frc.robot.commands.ZeroSwerveCommand;
@@ -112,6 +113,7 @@ public class RobotContainer
 
     auto.addOption("Blue 1 Score 2 Pieces", new SequentialCommandGroup(new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap), new TaxiAndGrabCube1Blue(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap)));
     auto.addOption("Red 1 Score 2 Pieces", new SequentialCommandGroup(new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap), new TaxiAndGrabCube1Red(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap)));
+    auto.addOption("2 Score and Balance", new SequentialCommandGroup(new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap), new TaxiAndBalance2(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap)));
     auto.addOption("Do Nothing", null);
 
     SmartDashboard.putData(auto);
