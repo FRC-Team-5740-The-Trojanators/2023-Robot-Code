@@ -136,6 +136,12 @@
       "names": [
         "ArmStowed"
       ]
+    },
+    {
+      "position": 2.6,
+      "names": [
+        "ArmCubeTop"
+      ]
     }
   ]
 }

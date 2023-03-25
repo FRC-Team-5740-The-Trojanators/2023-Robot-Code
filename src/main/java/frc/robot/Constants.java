@@ -168,7 +168,7 @@ public final class Constants
     public static class ClawSubsystemConstants
     {
         public static final double k_clawMotorSpeed = 1.0;
-        public static final double k_clawReverseMotorSpeed = -0.4;
+        public static final double k_clawReverseMotorSpeed = -1.0;
         public static final double k_clawHoldMotorSpeed = 0.3;
         public static final double k_temperatureLimit = 65; //In Celsius
 
@@ -241,8 +241,8 @@ public final class Constants
         public static final double wristTopGridCone = ((0.536 + 0.035) - wristOffset) * 2 * Math.PI; //radians
         public static final double shoulderMidGridCone = (0.406 - shoulderOffset) * 2 * Math.PI; //radians
         public static final double wristMidGridCone = ((0.587 + 0.043) - wristOffset) * 2 * Math.PI; //radians
-        public static final double shoulderFloor = (0.567 - shoulderOffset) * 2 * Math.PI; //radians
-        public static final double wristFloor = (0.640 - wristOffset) * 2 * Math.PI; //radians
+        public static final double shoulderFloor = (0.548 - shoulderOffset) * 2 * Math.PI; //radians
+        public static final double wristFloor = (0.600 - wristOffset) * 2 * Math.PI; //radians
         public static final double shoulderSubstation = (0.367 - .007 - shoulderOffset) * 2 * Math.PI;
         public static final double wristSubstation = (0.446 + .03 - wristOffset) * 2 * Math.PI;
 

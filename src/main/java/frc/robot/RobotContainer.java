@@ -17,6 +17,7 @@ import frc.robot.Constants.HIDConstants;
 import frc.robot.Constants.LEDsSubsystemConstants;
 import frc.robot.Constants.SwerveDriveModuleConstants;
 import frc.robot.commands.ArmCommand;
+import frc.robot.commands.Balance;
 import frc.robot.commands.RunClawCommand;
 import frc.robot.commands.ScoreConeAndTaxi;
 import frc.robot.commands.SwerveDriveCommand;
@@ -62,7 +63,7 @@ public class RobotContainer
   
   private final SwerveDriveCommand m_driveCommand = new SwerveDriveCommand(m_driveSubsystem, m_driverController);
   
-  public static JoystickButton coneTarget, cubeTarget, aprilTag, zeroDrive, purpleLED, offLED, yellowLED, runClaw, reverseClaw, topGridArmCone, midGridArmCone, floorArm, substationArm, clawIn, clawOut, topGridArmCube, midGridArmCube;
+  public static JoystickButton coneTarget, cubeTarget, aprilTag, zeroDrive, balance, purpleLED, offLED, yellowLED, runClaw, reverseClaw, topGridArmCone, midGridArmCone, floorArm, substationArm, clawIn, clawOut, topGridArmCube, midGridArmCube;
 
   SendableChooser<CommandBase> auto = new SendableChooser<CommandBase>();
 
@@ -83,6 +84,7 @@ public class RobotContainer
     eventMap.put("ArmStowed", new ArmCommand(m_shoulder, m_wrist, "STOWED"));
     eventMap.put("Wait2S", new WaitCommand(2));
     eventMap.put("ArmFloor", new ArmCommand(m_shoulder, m_wrist, "FLOOR"));
+    eventMap.put("ArmCubeTop", new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCUBE"));
     
   }
 
@@ -125,8 +127,9 @@ public class RobotContainer
   {
     coneTarget = new JoystickButton(m_driverController , HIDConstants.kA);
     cubeTarget = new JoystickButton(m_driverController , HIDConstants.kB);
-    aprilTag = new JoystickButton(m_driverController , HIDConstants.kBack);
+    //aprilTag = new JoystickButton(m_driverController , HIDConstants.kBack);
     zeroDrive = new JoystickButton(m_driverController, HIDConstants.kStart);
+    balance = new JoystickButton(m_driverController, HIDConstants.kBack);
     //purpleLED = new JoystickButton(m_operatorController, HIDConstants.kLB);
     //yellowLED = new JoystickButton(m_operatorController, HIDConstants.kRB);
     //offLED = new JoystickButton(m_operatorController, HIDConstants.kX);
@@ -144,6 +147,7 @@ public class RobotContainer
     coneTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_driverController, m_visionTargeting, 1, "limelight-b"));
     cubeTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_driverController, m_visionTargeting, 0, "limelight-b"));
     zeroDrive.whileTrue(new ZeroSwerveCommand(m_driveSubsystem));
+    balance.whileTrue(new Balance(m_driveSubsystem));
 
    // purpleLED.whileTrue(new SetColor(m_leds, "purple"));
    // yellowLED.whileTrue(new SetColor(m_leds, "yellow"));

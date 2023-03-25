@@ -38,6 +38,7 @@ public class DriveSubsystem extends SubsystemBase
   public Pigeon2 m_imu = new Pigeon2(CANBusIDs.k_pigeon2ID, "CANivorous_Rex");
   DriveSubsystem m_drivetrain;
   Field2d m_field2d = new Field2d();
+  private final double[] xyzDps = new double[3];
   //private Matrix<N3, N1> stateStdDevs = new Matrix<>(Nat.N3(), Nat.N1());
   //private Matrix<N3, N1> visionMeasurementStdDevs = new Matrix<>(Nat.N3(), Nat.N1());
 
@@ -87,6 +88,7 @@ public class DriveSubsystem extends SubsystemBase
 
     m_rotController.enableContinuousInput(-180, 180);
     m_rotController.setTolerance(2);
+
   }
 
   //private final SwerveDrivePoseEstimator m_odometry = new SwerveDrivePoseEstimator(SwerveDriveModuleConstants.k_AutoKinematics, getHeading(true), swerveModulePosition, getInitialPoseMeters(), stateStdDevs, visionMeasurementStdDevs);
@@ -205,6 +207,18 @@ public class DriveSubsystem extends SubsystemBase
     }
   }
 
+  public double getPitchVelocity()
+  {
+    m_imu.getRawGyro(xyzDps);
+    return -xyzDps[0];
+  }
+
+  public double getRollVelocity()
+  {
+    m_imu.getRawGyro(xyzDps);
+    return xyzDps[1];
+  }
+
   public double turnToAngle(double desiredAngle)
   {
     double output = -m_rotController.calculate((getHeading(false).getDegrees() % 360), desiredAngle);
@@ -251,10 +265,10 @@ public class DriveSubsystem extends SubsystemBase
       });
       //m_field2d.setRobotPose(getPose());
 
-    
+      SmartDashboard.putNumber("Angular Velocity", getPitchVelocity());
       SmartDashboard.putString("pose", m_odometry.getPoseMeters().toString());
-      //SmartDashboard.putString("Pitch", getPitch(true).toString());
-      //SmartDashboard.putString("Roll", getRoll(true).toString());
+      SmartDashboard.putString("Pitch", getPitch(true).toString());
+      SmartDashboard.putString("Roll", getRoll(true).toString());
       //SmartDashboard.putNumber("Rotation2D_Yaw", getHeading(true).getDegrees());
       //SmartDashboard.putString("Rotation 0", modules[0].getAngle().toString());
       //SmartDashboard.putString("Rotation 1", modules[1].getAngle().toString());

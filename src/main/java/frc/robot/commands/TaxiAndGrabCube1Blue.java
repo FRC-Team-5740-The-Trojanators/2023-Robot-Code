@@ -13,7 +13,9 @@ import com.pathplanner.lib.commands.FollowPathWithEvents;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.SwerveDriveModuleConstants;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.DriveSubsystem;
@@ -58,11 +60,12 @@ public class TaxiAndGrabCube1Blue extends SequentialCommandGroup
           new PIDController(SwerveDriveModuleConstants.k_pTransController, 0.0, 0.0),
           new PIDController(SwerveDriveModuleConstants.k_pThetaController, 0.0, 0.0),
           m_driveSubsystem::setSwerveModuleStatesAuto,
-          true,
+          false,
           m_driveSubsystem),
         path.getMarkers(),
         m_eventMap
-      )
+      ),
+      new ParallelDeadlineGroup(new WaitCommand(.5), new RunClawCommand(m_claw, "BACKWARD"))
     );
   }
 }
