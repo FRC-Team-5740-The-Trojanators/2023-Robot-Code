@@ -102,6 +102,14 @@ public class DriveSubsystem extends SubsystemBase
     modules[2].setZeroState();
     modules[3].setZeroState();
   }
+
+  public void setLockState()
+  {
+    modules[0].setLockState(45);
+    modules[1].setLockState(-45);
+    modules[2].setLockState(-45);
+    modules[3].setLockState(45);
+  }
     
   public void setSwerveModuleStatesTele(SwerveModuleState[] desiredStates) {
     SwerveDriveKinematics.desaturateWheelSpeeds(

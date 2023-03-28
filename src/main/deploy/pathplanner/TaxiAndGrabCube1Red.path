@@ -149,11 +149,11 @@
     },
     {
       "anchorPoint": {
-        "x": 4.25,
+        "x": 4.05,
         "y": 7.1
       },
       "prevControl": {
-        "x": -0.08754423523884537,
+        "x": -0.28754423523884554,
         "y": 8.106664935134381
       },
       "nextControl": null,
@@ -172,7 +172,7 @@
   ],
   "markers": [
     {
-      "position": 0.3,
+      "position": 0.25,
       "names": [
         "ClawIn",
         "ArmFloor"

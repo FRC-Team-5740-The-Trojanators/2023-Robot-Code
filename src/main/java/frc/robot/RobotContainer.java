@@ -18,6 +18,7 @@ import frc.robot.Constants.LEDsSubsystemConstants;
 import frc.robot.Constants.SwerveDriveModuleConstants;
 import frc.robot.commands.ArmCommand;
 import frc.robot.commands.Balance;
+import frc.robot.commands.LockSwerveCommand;
 import frc.robot.commands.RunClawCommand;
 import frc.robot.commands.ScoreConeAndTaxi;
 import frc.robot.commands.SwerveDriveCommand;
@@ -65,7 +66,7 @@ public class RobotContainer
   
   private final SwerveDriveCommand m_driveCommand = new SwerveDriveCommand(m_driveSubsystem, m_driverController);
   
-  public static JoystickButton coneTarget, cubeTarget, aprilTag, zeroDrive, balance, purpleLED, offLED, yellowLED, runClaw, reverseClaw, topGridArmCone, midGridArmCone, floorArm, substationArm, clawIn, clawOut, topGridArmCube, midGridArmCube;
+  public static JoystickButton coneTarget, cubeTarget, aprilTag, zeroDrive, lockDrive, purpleLED, offLED, yellowLED, runClaw, reverseClaw, topGridArmCone, midGridArmCone, floorArm, substationArm, clawIn, clawOut, topGridArmCube, midGridArmCube;
 
   SendableChooser<CommandBase> auto = new SendableChooser<CommandBase>();
 
@@ -108,7 +109,7 @@ public class RobotContainer
     //auto.addOption("DefaultTaxiAndMore", new DefaultTaxiAndMore(m_driveSubsystem, m_claw, m_shoulder, m_wrist));
     //auto.addOption("Score Cone and Taxi", new RunClawCommand(m_claw, "FORWARD").alongWith(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE")).withTimeout(2).andThen(autoBuilder.fullAuto(PathPlanner.loadPathGroup("ScoreConeAndTaxi", new PathConstraints(1.5, 1)))));
     //auto.addOption("Score Cone and Taxi", new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist));
-    auto.addOption("Mid", autoBuilder.fullAuto(PathPlanner.loadPathGroup("Position2", new PathConstraints(3, 2))));
+    //auto.addOption("Mid", autoBuilder.fullAuto(PathPlanner.loadPathGroup("Position2", new PathConstraints(3, 2))));
     auto.addOption("Do Nothing", null);
 
     auto.addOption("Blue 1 Score 2 Pieces", new SequentialCommandGroup(new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap), new TaxiAndGrabCube1Blue(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap)));
@@ -133,7 +134,7 @@ public class RobotContainer
     cubeTarget = new JoystickButton(m_driverController , HIDConstants.kB);
     //aprilTag = new JoystickButton(m_driverController , HIDConstants.kBack);
     zeroDrive = new JoystickButton(m_driverController, HIDConstants.kStart);
-    balance = new JoystickButton(m_driverController, HIDConstants.kBack);
+    lockDrive = new JoystickButton(m_driverController, HIDConstants.kBack);
     //purpleLED = new JoystickButton(m_operatorController, HIDConstants.kLB);
     //yellowLED = new JoystickButton(m_operatorController, HIDConstants.kRB);
     //offLED = new JoystickButton(m_operatorController, HIDConstants.kX);
@@ -151,7 +152,7 @@ public class RobotContainer
     coneTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_driverController, m_visionTargeting, 1, "limelight-b"));
     cubeTarget.whileTrue(new TargetCommand(m_driveSubsystem, m_driverController, m_visionTargeting, 0, "limelight-b"));
     zeroDrive.whileTrue(new ZeroSwerveCommand(m_driveSubsystem));
-    balance.whileTrue(new Balance(m_driveSubsystem));
+    lockDrive.whileTrue(new LockSwerveCommand(m_driveSubsystem));
 
    // purpleLED.whileTrue(new SetColor(m_leds, "purple"));
    // yellowLED.whileTrue(new SetColor(m_leds, "yellow"));

@@ -65,8 +65,8 @@ public class TaxiAndBalance2 extends SequentialCommandGroup
         path.getMarkers(),
         m_eventMap
       ),
-      new Balance(m_driveSubsystem)
-      //new ParallelDeadlineGroup(new WaitCommand(.5), new RunClawCommand(m_claw, "BACKWARD"))
+      new Balance(m_driveSubsystem),
+      new LockSwerveCommand(m_driveSubsystem)
     );
   }
 }

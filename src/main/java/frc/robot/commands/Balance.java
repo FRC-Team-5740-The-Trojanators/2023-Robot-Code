@@ -14,7 +14,7 @@ public class Balance extends CommandBase {
   DriveSubsystem m_drivetrain;  
   boolean m_isFinished;
   double angleDegrees;
-  double positionThresholdDegrees = 3.0;
+  double positionThresholdDegrees = 1.0;
   double velocityThresholdDegreesPerSec = 3.0;
   double speedInchesPerSec = 22.5;
 
@@ -71,7 +71,7 @@ public class Balance extends CommandBase {
   @Override
   public boolean isFinished()
   {
-    //return Math.abs(angleDegrees) < positionThresholdDegrees;
-    return false;
+    return Math.abs(angleDegrees) < positionThresholdDegrees;
+    //return false;
   }
 }
