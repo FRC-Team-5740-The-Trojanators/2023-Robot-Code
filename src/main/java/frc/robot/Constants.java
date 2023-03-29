@@ -227,7 +227,7 @@ public final class Constants
     public static class LEDsSubsystemConstants
     {
         public static final int k_port = 7;
-        public static final int k_numLeds = 300;
+        public static final int k_numLeds = 36;
     }
 
     public static class ArmPositionConstants
@@ -243,8 +243,8 @@ public final class Constants
         public static final double wristMidGridCone = ((0.682 + 0.043) - wristOffset) * 2 * Math.PI; //radians
         public static final double shoulderFloor = (0.548 - shoulderOffset) * 2 * Math.PI; //radians
         public static final double wristFloor = (0.600 - wristOffset) * 2 * Math.PI; //radians
-        public static final double shoulderSubstation = (0.367 - .007 - shoulderOffset) * 2 * Math.PI;
-        public static final double wristSubstation = (0.446 + .03 - wristOffset) * 2 * Math.PI;
+        public static final double shoulderSubstation = (0.373 - .007 - shoulderOffset) * 2 * Math.PI;
+        public static final double wristSubstation = (0.453 + .03 - wristOffset) * 2 * Math.PI;
 
         public static final double shoulderTopGridCube = (0.340 - shoulderOffset)  * 2 * Math.PI; //radians
         public static final double wristTopGridCube = ((0.328 + 0.070) - wristOffset) * 2 * Math.PI; //radians

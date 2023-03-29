@@ -110,11 +110,10 @@ public class RobotContainer
     //auto.addOption("Score Cone and Taxi", new RunClawCommand(m_claw, "FORWARD").alongWith(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE")).withTimeout(2).andThen(autoBuilder.fullAuto(PathPlanner.loadPathGroup("ScoreConeAndTaxi", new PathConstraints(1.5, 1)))));
     //auto.addOption("Score Cone and Taxi", new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist));
     //auto.addOption("Mid", autoBuilder.fullAuto(PathPlanner.loadPathGroup("Position2", new PathConstraints(3, 2))));
-    auto.addOption("Do Nothing", null);
 
-    auto.addOption("Blue 1 Score 2 Pieces", new SequentialCommandGroup(new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap), new TaxiAndGrabCube1Blue(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap)));
-    auto.addOption("Red 1 Score 2 Pieces", new SequentialCommandGroup(new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap), new TaxiAndGrabCube1Red(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap)));
-    auto.addOption("2 Score and Balance", new SequentialCommandGroup(new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap), new TaxiAndBalance2(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap)));
+    auto.addOption("B1 Score 2P and Bal", new SequentialCommandGroup(new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap), new TaxiAndGrabCube1Blue(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap)));
+    auto.addOption("R1 Score 2P and Bal", new SequentialCommandGroup(new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap), new TaxiAndGrabCube1Red(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap)));
+    auto.addOption("R2/B2 Score 1P and Bal", new SequentialCommandGroup(new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap), new TaxiAndBalance2(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap)));
     auto.addOption("Do Nothing", null);
 
     SmartDashboard.putData(auto);
@@ -135,8 +134,8 @@ public class RobotContainer
     //aprilTag = new JoystickButton(m_driverController , HIDConstants.kBack);
     zeroDrive = new JoystickButton(m_driverController, HIDConstants.kStart);
     lockDrive = new JoystickButton(m_driverController, HIDConstants.kBack);
-    //purpleLED = new JoystickButton(m_operatorController, HIDConstants.kLB);
-    //yellowLED = new JoystickButton(m_operatorController, HIDConstants.kRB);
+    purpleLED = new JoystickButton(m_driverController, HIDConstants.kLB);
+    yellowLED = new JoystickButton(m_driverController, HIDConstants.kRB);
     //offLED = new JoystickButton(m_operatorController, HIDConstants.kX);
     topGridArmCone = new JoystickButton(m_operatorController, HIDConstants.kY);
     midGridArmCone = new JoystickButton(m_operatorController, HIDConstants.kX);
@@ -154,8 +153,8 @@ public class RobotContainer
     zeroDrive.whileTrue(new ZeroSwerveCommand(m_driveSubsystem));
     lockDrive.whileTrue(new LockSwerveCommand(m_driveSubsystem));
 
-   // purpleLED.whileTrue(new SetColor(m_leds, "purple"));
-   // yellowLED.whileTrue(new SetColor(m_leds, "yellow"));
+    purpleLED.whileTrue(new SetColor(m_leds, "purple"));
+    yellowLED.whileTrue(new SetColor(m_leds, "yellow"));
     //offLED.whileTrue(new SetColor(m_leds, "off"));
 
     topGridArmCone.onTrue(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE")).onFalse(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
