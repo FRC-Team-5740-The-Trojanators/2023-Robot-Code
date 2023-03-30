@@ -14,7 +14,7 @@ public class Balance extends CommandBase {
   DriveSubsystem m_drivetrain;  
   boolean m_isFinished;
   double angleDegrees;
-  double positionThresholdDegrees = 1.0;
+  double positionThresholdDegrees = 5.0;
   double velocityThresholdDegreesPerSec = 3.0;
   double speedInchesPerSec = 22.5;
 
