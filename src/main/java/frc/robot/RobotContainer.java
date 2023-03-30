@@ -23,9 +23,12 @@ import frc.robot.commands.RunClawCommand;
 import frc.robot.commands.ScoreConeAndTaxi;
 import frc.robot.commands.SwerveDriveCommand;
 import frc.robot.commands.TargetCommand;
+import frc.robot.commands.Taxi3;
 import frc.robot.commands.TaxiAndBalance2;
 import frc.robot.commands.TaxiAndGrabCube1Blue;
+import frc.robot.commands.TaxiAndGrabCube1BlueNoBal;
 import frc.robot.commands.TaxiAndGrabCube1Red;
+import frc.robot.commands.TaxiAndGrabCube1RedNoBal;
 import frc.robot.commands.ZeroSwerveCommand;
 import frc.robot.commands.SetColor;
 import frc.robot.subsystems.Shoulder;
@@ -36,6 +39,7 @@ import frc.robot.subsystems.VisionTargeting;
 import frc.robot.subsystems.Wrist;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -114,6 +118,9 @@ public class RobotContainer
     auto.addOption("B1 Score 2P and Bal", new SequentialCommandGroup(new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap), new TaxiAndGrabCube1Blue(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap)));
     auto.addOption("R1 Score 2P and Bal", new SequentialCommandGroup(new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap), new TaxiAndGrabCube1Red(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap)));
     auto.addOption("R2/B2 Score 1P and Bal", new SequentialCommandGroup(new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap), new TaxiAndBalance2(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap)));
+    auto.addOption("R3/B3 Score 1P and Taxi", new SequentialCommandGroup(new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap), new Taxi3(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap)));
+    auto.addOption("B1 Score 2P NO Bal", new SequentialCommandGroup(new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap), new TaxiAndGrabCube1BlueNoBal(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap)));
+    auto.addOption("R1 Score 2P NO Bal", new SequentialCommandGroup(new ScoreConeAndTaxi(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap), new TaxiAndGrabCube1RedNoBal(m_driveSubsystem, m_claw, m_shoulder, m_wrist, eventMap)));
     auto.addOption("Do Nothing", null);
 
     SmartDashboard.putData(auto);
@@ -153,16 +160,16 @@ public class RobotContainer
     zeroDrive.whileTrue(new ZeroSwerveCommand(m_driveSubsystem));
     lockDrive.whileTrue(new LockSwerveCommand(m_driveSubsystem));
 
-    purpleLED.whileTrue(new SetColor(m_leds, "purple"));
-    yellowLED.whileTrue(new SetColor(m_leds, "yellow"));
+    purpleLED.onTrue(new SetColor(m_leds, "purple"));
+    yellowLED.onTrue(new SetColor(m_leds, "yellow"));
     //offLED.whileTrue(new SetColor(m_leds, "off"));
 
-    topGridArmCone.onTrue(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE")).onFalse(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
-    midGridArmCone.onTrue(new ArmCommand(m_shoulder, m_wrist, "MIDGRIDCONE")).onFalse(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
-    topGridArmCube.onTrue(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCUBE")).onFalse(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
-    midGridArmCube.onTrue(new ArmCommand(m_shoulder, m_wrist, "MIDGRIDCUBE")).onFalse(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
-    substationArm.onTrue(new ArmCommand(m_shoulder, m_wrist, "SUBSTATION")).onFalse(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
-    floorArm.onTrue(new ArmCommand(m_shoulder, m_wrist, "FLOOR")).onFalse(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
+    topGridArmCone.onTrue(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE")).onFalse(new ParallelCommandGroup(new ArmCommand(m_shoulder, m_wrist, "STOWED"), new SetColor(m_leds, "off")));
+    midGridArmCone.onTrue(new ArmCommand(m_shoulder, m_wrist, "MIDGRIDCONE")).onFalse(new ParallelCommandGroup(new ArmCommand(m_shoulder, m_wrist, "STOWED"), new SetColor(m_leds, "off")));
+    topGridArmCube.onTrue(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCUBE")).onFalse(new ParallelCommandGroup(new ArmCommand(m_shoulder, m_wrist, "STOWED"), new SetColor(m_leds, "off")));
+    midGridArmCube.onTrue(new ArmCommand(m_shoulder, m_wrist, "MIDGRIDCUBE")).onFalse(new ParallelCommandGroup(new ArmCommand(m_shoulder, m_wrist, "STOWED"), new SetColor(m_leds, "off")));
+    substationArm.onTrue(new ArmCommand(m_shoulder, m_wrist, "SUBSTATION")).onFalse(new ParallelCommandGroup(new ArmCommand(m_shoulder, m_wrist, "STOWED"), new SetColor(m_leds, "off")));
+    floorArm.onTrue(new ArmCommand(m_shoulder, m_wrist, "FLOOR")).onFalse(new ParallelCommandGroup(new ArmCommand(m_shoulder, m_wrist, "STOWED"), new SetColor(m_leds, "off")));
     clawIn.whileTrue(new RunClawCommand(m_claw, "FORWARD"));
     clawOut.whileTrue(new RunClawCommand(m_claw, "BACKWARD"));
 
