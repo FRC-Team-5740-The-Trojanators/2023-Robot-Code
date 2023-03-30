@@ -40,6 +40,7 @@ import frc.robot.subsystems.Wrist;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -164,12 +165,19 @@ public class RobotContainer
     yellowLED.onTrue(new SetColor(m_leds, "yellow"));
     //offLED.whileTrue(new SetColor(m_leds, "off"));
 
-    topGridArmCone.onTrue(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE")).onFalse(new ParallelCommandGroup(new ArmCommand(m_shoulder, m_wrist, "STOWED"), new SetColor(m_leds, "off")));
-    midGridArmCone.onTrue(new ArmCommand(m_shoulder, m_wrist, "MIDGRIDCONE")).onFalse(new ParallelCommandGroup(new ArmCommand(m_shoulder, m_wrist, "STOWED"), new SetColor(m_leds, "off")));
-    topGridArmCube.onTrue(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCUBE")).onFalse(new ParallelCommandGroup(new ArmCommand(m_shoulder, m_wrist, "STOWED"), new SetColor(m_leds, "off")));
-    midGridArmCube.onTrue(new ArmCommand(m_shoulder, m_wrist, "MIDGRIDCUBE")).onFalse(new ParallelCommandGroup(new ArmCommand(m_shoulder, m_wrist, "STOWED"), new SetColor(m_leds, "off")));
-    substationArm.onTrue(new ArmCommand(m_shoulder, m_wrist, "SUBSTATION")).onFalse(new ParallelCommandGroup(new ArmCommand(m_shoulder, m_wrist, "STOWED"), new SetColor(m_leds, "off")));
-    floorArm.onTrue(new ArmCommand(m_shoulder, m_wrist, "FLOOR")).onFalse(new ParallelCommandGroup(new ArmCommand(m_shoulder, m_wrist, "STOWED"), new SetColor(m_leds, "off")));
+    //topGridArmCone.onTrue(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE")).onFalse(new ParallelDeadlineGroup(new ArmCommand(m_shoulder, m_wrist, "STOWED"), new SetColor(m_leds, "off")));
+    //midGridArmCone.onTrue(new ArmCommand(m_shoulder, m_wrist, "MIDGRIDCONE")).onFalse(new ParallelDeadlineGroup(new ArmCommand(m_shoulder, m_wrist, "STOWED"), new SetColor(m_leds, "off")));
+    //topGridArmCube.onTrue(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCUBE")).onFalse(new ParallelDeadlineGroup(new ArmCommand(m_shoulder, m_wrist, "STOWED"), new SetColor(m_leds, "off")));
+    //midGridArmCube.onTrue(new ArmCommand(m_shoulder, m_wrist, "MIDGRIDCUBE")).onFalse(new ParallelDeadlineGroup(new ArmCommand(m_shoulder, m_wrist, "STOWED"), new SetColor(m_leds, "off")));
+    //substationArm.onTrue(new ArmCommand(m_shoulder, m_wrist, "SUBSTATION")).onFalse(new ParallelDeadlineGroup(new ArmCommand(m_shoulder, m_wrist, "STOWED"), new SetColor(m_leds, "off")));
+    //floorArm.onTrue(new ArmCommand(m_shoulder, m_wrist, "FLOOR")).onFalse(new ParallelDeadlineGroup(new ArmCommand(m_shoulder, m_wrist, "STOWED"), new SetColor(m_leds, "off")));
+    
+    topGridArmCone.onTrue(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCONE")).onFalse(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
+    midGridArmCone.onTrue(new ArmCommand(m_shoulder, m_wrist, "MIDGRIDCONE")).onFalse(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
+    topGridArmCube.onTrue(new ArmCommand(m_shoulder, m_wrist, "TOPGRIDCUBE")).onFalse(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
+    midGridArmCube.onTrue(new ArmCommand(m_shoulder, m_wrist, "MIDGRIDCUBE")).onFalse(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
+    substationArm.onTrue(new ArmCommand(m_shoulder, m_wrist, "SUBSTATION")).onFalse(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
+    floorArm.onTrue(new ArmCommand(m_shoulder, m_wrist, "FLOOR")).onFalse(new ArmCommand(m_shoulder, m_wrist, "STOWED"));
     clawIn.whileTrue(new RunClawCommand(m_claw, "FORWARD"));
     clawOut.whileTrue(new RunClawCommand(m_claw, "BACKWARD"));
 

@@ -43,43 +43,43 @@ public class ArmCommand extends CommandBase
   {
       if (m_position == "STOWED")
       {
-        SmartDashboard.putString("Arm Position", "STOWED");
+        //SmartDashboard.putString("Arm Position", "STOWED");
         m_shoulderSetPoint = ArmPositionConstants.shoulderStowed;
         m_wristSetPoint = ArmPositionConstants.wristStowed;
       }
       else if (m_position == "TOPGRIDCONE")
       {
-        SmartDashboard.putString("Arm Position", "TOPGRIDCONE");
+        //SmartDashboard.putString("Arm Position", "TOPGRIDCONE");
         m_shoulderSetPoint = ArmPositionConstants.shoulderTopGridCone;
         m_wristSetPoint = ArmPositionConstants.wristTopGridCone;
       }
       else if (m_position == "MIDGRIDCONE")
       {
-        SmartDashboard.putString("Arm Position", "MIDGRIDCONE");
+        //SmartDashboard.putString("Arm Position", "MIDGRIDCONE");
         m_shoulderSetPoint = ArmPositionConstants.shoulderMidGridCone;
         m_wristSetPoint = ArmPositionConstants.wristMidGridCone;
       }
       else if (m_position == "TOPGRIDCUBE")
       {
-        SmartDashboard.putString("Arm Position", "TOPGRIDCUBE");
+        //SmartDashboard.putString("Arm Position", "TOPGRIDCUBE");
         m_shoulderSetPoint = ArmPositionConstants.shoulderTopGridCube;
         m_wristSetPoint = ArmPositionConstants.wristTopGridCube;
       }
       else if (m_position == "MIDGRIDCUBE")
       {
-        SmartDashboard.putString("Arm Position", "MIDGRIDCUBE");
+        //SmartDashboard.putString("Arm Position", "MIDGRIDCUBE");
         m_shoulderSetPoint = ArmPositionConstants.shoulderMidGridCube;
         m_wristSetPoint = ArmPositionConstants.wristMidGridCube;
       }
       else if (m_position == "FLOOR")
       {
-        SmartDashboard.putString("Arm Position", "FLOOR");
+        //SmartDashboard.putString("Arm Position", "FLOOR");
         m_shoulderSetPoint = ArmPositionConstants.shoulderFloor;
         m_wristSetPoint = ArmPositionConstants.wristFloor;
       }
       else if (m_position == "SUBSTATION")
       {
-        SmartDashboard.putString("Arm Position", "SUBSTATION");
+        //SmartDashboard.putString("Arm Position", "SUBSTATION");
         m_shoulderSetPoint = ArmPositionConstants.shoulderSubstation;
         m_wristSetPoint = ArmPositionConstants.wristSubstation;
       }
