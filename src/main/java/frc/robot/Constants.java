@@ -243,7 +243,7 @@ public final class Constants
         public static final double wristMidGridCone = ((0.682 + 0.043) - wristOffset) * 2 * Math.PI; //radians
         public static final double shoulderFloor = (0.548 - shoulderOffset) * 2 * Math.PI; //radians
         public static final double wristFloor = (0.600 - wristOffset) * 2 * Math.PI; //radians
-        public static final double shoulderSubstation = (0.373 - .007 - shoulderOffset) * 2 * Math.PI;
+        public static final double shoulderSubstation = (0.36 - shoulderOffset) * 2 * Math.PI;//(0.373 - .007 - shoulderOffset) * 2 * Math.PI;
         public static final double wristSubstation = (0.453 + .03 - wristOffset) * 2 * Math.PI;
 
         public static final double shoulderTopGridCube = (0.340 - shoulderOffset)  * 2 * Math.PI; //radians
