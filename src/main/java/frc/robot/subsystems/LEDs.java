@@ -56,6 +56,22 @@ public class LEDs extends SubsystemBase
     m_led.setData(m_ledBuffer);
   }
 
+  public void setRGBDualColor(LEDColor color1, LEDColor color2)
+  {
+    for(int i = 0; i < m_ledBuffer.getLength(); i++)
+    {
+      if( i % 2 == 0)
+      {
+        m_ledBuffer.setRGB(i, color1.getR(), color1.getG(), color1.getB()); 
+      }
+      else
+      {
+        m_ledBuffer.setRGB(i, color2.getR(), color2.getG(), color2.getB()); 
+      }
+    }
+    m_led.setData(m_ledBuffer);
+  }
+
   public void pulse(LEDColor color, double interval)
   {
     double timestamp = Timer.getFPGATimestamp();
