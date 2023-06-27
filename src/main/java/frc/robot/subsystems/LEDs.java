@@ -56,6 +56,15 @@ public class LEDs extends SubsystemBase
     m_led.setData(m_ledBuffer);
   }
 
+  public void setHSVColor(int hue)
+  {
+    for(int i = 0; i < m_ledBuffer.getLength(); i++)
+    {
+      m_ledBuffer.setHSV(i, hue, 127, 127); 
+    }
+    m_led.setData(m_ledBuffer);
+  }
+
   public void setRGBDualColor(LEDColor color1, LEDColor color2)
   {
     for(int i = 0; i < m_ledBuffer.getLength(); i++)
