@@ -226,6 +226,7 @@ public final class Constants
 
     public static class LEDsSubsystemConstants
     {
+        public static final boolean k_competitionMode = false;
         public static final int k_port = 7;
         public static final int k_numLeds = 32;//76;
     }
