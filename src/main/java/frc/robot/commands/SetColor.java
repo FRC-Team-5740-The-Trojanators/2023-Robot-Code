@@ -41,9 +41,7 @@ public class SetColor extends CommandBase
     if(m_color.contentEquals("purple"))
     {
       //SmartDashboard.putString("PURPLE", "ON");
-      //m_leds.setRGBColor(new LEDColor(255,  0, 0));
-     //m_leds.setRGBDualColor(new LEDColor(255,  0, 0), new LEDColor(0,  255, 0));
-     //m_leds.setHSVColor();
+      m_leds.setRGBColor(new LEDColor(255,  0, 255));
     } 
     else
     { //SmartDashboard.putString("PURPLE", "Off");
@@ -79,14 +77,14 @@ public class SetColor extends CommandBase
   @Override
   public void execute() 
   {
-    if(m_color.contentEquals("purple"))
-    {
-     m_leds.setHSVColor(i++);
-     if(i > 180)
-     {
-        i = 0;
-     }
-    } 
+    // if(m_color.contentEquals("purple"))
+    // {
+    //  m_leds.setHSVColor(i++);
+    //  if(i > 180)
+    //  {
+    //     i = 0;
+    //  }
+    // } 
   }
 
   // Called once the command ends or is interrupted.
