@@ -228,7 +228,7 @@ public final class Constants
     {
         public static final boolean k_competitionMode = false;
         public static final int k_port = 7;
-        public static final int k_numLeds = 32;//76;
+        public static final int k_numLeds = 74;
     }
 
     public static class ArmPositionConstants
