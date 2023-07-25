@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -20,6 +21,7 @@ public class SetColor extends CommandBase
   private static int i = 0;
   private static int j = 0;
   private static int k = 0;
+  private double lastTime = 0;
   /* private SetColorValues kPurple; 
   private SetColorValues kYellow; */
   /** Creates a new LEDs. */
@@ -82,24 +84,32 @@ public class SetColor extends CommandBase
   @Override
   public void execute() 
   {
+    // if(DriverStation.Alliance.valueOf(new String color) == "Red")
+    // {
+
+    // }
     if(!Constants.LEDsSubsystemConstants.k_competitionMode)
     {
       if(m_color.contentEquals("purple"))
       {
-        m_leds.setHSVColor(i, j, k+=10);
-        if(k > 255)
+        if((m_timer.get() + .5) > lastTime)
         {
-            k = 0;
-            j+=10;
-        }
-        if(j > 255)
-        {
-            j = 0;
-            i+=10;
-        }
+          m_leds.setHSVColor(i, 255, 255);
+          lastTime = m_timer.get();
+        // if(k > 255)
+        // {
+        //     k = 0;
+            //j+=8;
+       // }
+        // if(j > 255)
+        // {
+        //     j = 0;
+            i++;
+        //}
         if(i > 180)
         {
             i = 0;
+        }
         }
       } 
     }
