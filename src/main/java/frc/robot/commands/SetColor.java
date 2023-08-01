@@ -22,6 +22,7 @@ public class SetColor extends CommandBase
   private static int j = 0;
   private static int k = 0;
   private double lastTime = 0;
+  DriverStation.Alliance allianceColor = DriverStation.getAlliance();
   /* private SetColorValues kPurple; 
   private SetColorValues kYellow; */
   /** Creates a new LEDs. */
@@ -41,6 +42,15 @@ public class SetColor extends CommandBase
   {
     m_timer.reset();
     m_timer.start();
+    if(allianceColor == DriverStation.Alliance.Blue)
+    {
+      m_leds.setRGBColor(new LEDColor(0,  0, 255));
+    }
+    if(allianceColor == DriverStation.Alliance.Red)
+    {
+      m_leds.setRGBColor(new LEDColor(255,  0, 0));
+    }
+
     if(Constants.LEDsSubsystemConstants.k_competitionMode)
     {
       if(m_color.contentEquals("purple"))
@@ -58,7 +68,7 @@ public class SetColor extends CommandBase
       //SmartDashboard.putString("YELLOW", "ON");
       //for(int i = 0; i < Constants.LEDsSubsystemConstants.k_numLeds; i++)
        //{
-        m_leds.setRGBColor(new LEDColor(255, 255, 0));
+        //m_leds.setRGBColor(new LEDColor(255, 255, 0));
         //}
     } 
     else
